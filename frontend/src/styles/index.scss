@@ -1,5 +1,4 @@
-$test-c: #a10c0c;
-
-@mixin test2{
-  background: blueviolet;
-}
+@import 'fonts';
+@import 'variables';
+@import 'special';
+@import 'global';

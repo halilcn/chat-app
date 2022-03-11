@@ -1,3 +1,76 @@
-@mixin test{
-  background: blueviolet;
+@mixin user-action-container {
+  .user-action-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: #f3f4f6;
+
+    .form {
+      @include bottom-md-box-shadow;
+      width: 400px;
+      padding: 30px;
+      border-radius: 10px;
+
+      .title {
+        font-weight: 600;
+        font-size: 2rem;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .content {
+        .item {
+          margin-top: 8px;
+
+          input {
+            color: $blue-light-dark;
+            width: 100%;
+            margin-top: 5px;
+            padding: 9px 10px;
+            font-size: 15px;
+            border: 2px solid $blue-very-light-dark;
+            border-radius: 4px;
+
+            &:focus{
+              border-color: #bec9de;
+            }
+          }
+
+          input::placeholder {
+            color: #aeb2bb;
+          }
+        }
+
+        .action-button {
+          background-color: $default-purple;
+          padding: 10px;
+          text-align: center;
+          color: white;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: 0.2s;
+          margin-top: 20px;
+
+          &:hover {
+            background-color: $default-purple-hover-light;
+          }
+        }
+
+        .error {
+          margin-top: 10px;
+          color: #ff4949;
+          padding: 10px;
+          text-align: center;
+        }
+
+        .link {
+          color: #585858;
+          text-decoration: underline;
+          font-weight: 300;
+        }
+      }
+    }
+  }
 }

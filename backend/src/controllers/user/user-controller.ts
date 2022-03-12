@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 
-const index: RequestHandler = (req, res, nex) => {
+const index: RequestHandler = (req, res, next) => {
   res.send('ok');
 };
 

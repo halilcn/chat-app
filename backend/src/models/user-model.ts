@@ -1,43 +1,26 @@
+import { Schema, model } from 'mongoose';
 
-// User schema
-export interface IUser {
-    id: number;
-    name: string;
-    email: string;
-}
-
-
-/**
- * Get a new User object.
- * 
- * @returns 
- */
-function getNew(name: string, email: string): IUser {
-    return {
-        id: -1,
-        email,
-        name,
-    };
-}
-
-
-/**
- * Copy a user object.
- * 
- * @param user 
- * @returns 
- */
-function copy(user: IUser): IUser {
-    return {
-        id: user.id,
-        email: user.email,
-        name: user.name,
+const User = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true
+    },
+    nameSurname: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    password: {
+      type: String,
+      required: true
     }
-}
+  },
+  {
+    timestamps: true
+  }
+);
 
-
-// Export default
-export default {
-    new: getNew,
-    copy,
-}
+export default model('User', User);

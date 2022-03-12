@@ -11,12 +11,11 @@
   },
   "_moduleAliases": {
     "@services": "dist/services",
-    "@repos": "dist/repos",
-    "@entities": "dist/entities",
+    "@middlewares": "src/middlewares",
     "@shared": "dist/shared",
     "@server": "dist/server",
     "@routes": "dist/routes",
-    "@controller": "dist/controllers"
+    "@controllers": "dist/controllers"
   },
   "dependencies": {
     "command-line-args": "^5.2.1",

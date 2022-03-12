@@ -13,10 +13,8 @@
           <input type="password" placeholder="password" />
         </div>
         <div v-if="false" class="error">yanlı alsdsakd aslda da</div>
-        <div class="action-button">register</div>
-        <router-link :to="{ name: 'Login' }" class="link">
-          login
-        </router-link>
+        <div class="action-button loading">register</div>
+        <router-link :to="{ name: 'Login' }" class="link"> login </router-link>
       </div>
     </div>
   </div>
@@ -28,6 +26,6 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @include user-action-container;
 </style>

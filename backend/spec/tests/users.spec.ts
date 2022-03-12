@@ -6,7 +6,7 @@ import app from '@server';
 import userRepo from '@repos/user-repo';
 import User, { IUser } from '@models/user-model';
 import { pErr } from '@shared/functions';
-import { p as userPaths } from '@routes/user-router';
+import { p as userPaths } from '@routes/user/user-router';
 import { ParamMissingError, UserNotFoundError } from '@shared/errors';
 
 type TReqBody = string | object | undefined;

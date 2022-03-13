@@ -1,7 +1,15 @@
 import { RequestHandler } from 'express';
 
+import handle from '@shared/handle';
+import { TestError } from '@shared/errors';
+
 const index: RequestHandler = (req, res, next) => {
-  res.send('ok');
+  // eslint-disable-next-line @typescript-eslint/require-await
+  handle(async () => {
+    res.send('aaasda');
+
+    throw new TestError();
+  }, next);
 };
 
 export default { index };

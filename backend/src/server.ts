@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
 
-import { CustomError } from '@shared/errors';
+import { CustomError } from '@shared/silinecek';
 import routes from '@routes/index';
 
 const app = express();
@@ -14,12 +14,19 @@ app.use('/api', routes);
 //todo:!
 app.use(
   (err: Error | CustomError, _: Request, res: Response, __: NextFunction) => {
-    console.error(err, true);
-    const status =
-      err instanceof CustomError ? err.HttpStatus : StatusCodes.BAD_REQUEST;
-    return res.status(status).json({
-      error: err.message
-    });
+    //todo: http code !
+
+    res.locals.message = err.message;
+    res.locals.error = process.env.APP_ENVIRONMENT === 'development' ? err : {};
+
+    // Write a log if there is an error
+   // if (String(err.status).split('')[0] != '2') logger.warn({ ...err });
+
+    if (process.env.APP_ENVIRONMENT !== 'development') delete err['stack'];
+
+    //res.status(err.status || 500).send({ ...err });
+    res.status(400).send({ ...err });
+
   }
 );
 

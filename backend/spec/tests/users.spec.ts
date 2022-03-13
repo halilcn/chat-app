@@ -7,7 +7,7 @@ import userRepo from '@repos/user-repo';
 import User, { IUser } from '@models/user-model';
 import { pErr } from '@shared/functions';
 import { p as userPaths } from '@routes/user/user-router';
-import { ParamMissingError, UserNotFoundError } from '@shared/errors';
+import { ParamMissingError, UserNotFoundError } from '@shared/silinecek';
 
 type TReqBody = string | object | undefined;
 

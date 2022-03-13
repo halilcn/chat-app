@@ -17,13 +17,13 @@ response.success = (message: messageType = 'Success'): Index => {
 
   return typeof message !== 'string'
     ? {
-      data: message,
-      status,
-    }
+        data: message,
+        status
+      }
     : {
-      message,
-      status
-    };
+        message,
+        status
+      };
 };
 
 response.created = (message: messageType = 'Created'): Index => {
@@ -45,15 +45,15 @@ response.noContent = (message: messageType = 'No Content'): Index => {
   };
 };
 
-response.error = (message: messageType = 'Error'): Index => {
-  const status = 400;
-
+response.error = (message: messageType = 'Error', status: number | undefined = 400): Index => {
   return {
     message,
     status
   };
 };
 
+/*
+*
 response.authenticationError = (message: messageType = 'Authentication Error'): Index => {
   const status = 401;
 
@@ -93,6 +93,6 @@ response.invalidInput = (message: messageType = 'Invalid Input'): Index => {
       message,
       status
     };
-};
+};*/
 
 export default response;

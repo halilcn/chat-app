@@ -6,8 +6,7 @@ require('dotenv').config();
 
 console.log('okye');
 
-/*
-* mongoose
+mongoose
   .connect(process.env.MONGO_DB_URI as string)
   .then(() => {
     logger.info('Connected to mongoDB');
@@ -15,4 +14,4 @@ console.log('okye');
   .catch(err => {
     logger.error('Mongoose connect error:' + err);
     process.exit(1);
-  });*/
+  });

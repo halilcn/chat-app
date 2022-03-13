@@ -24,9 +24,7 @@ app.use(
 
     if (process.env.APP_ENVIRONMENT !== 'development') delete err['stack'];
 
-    //res.status(err.status || 500).send({ ...err });
-    res.status(400).send({ ...err });
-
+    res.status(err.status).send({ ...err });
   }
 );
 

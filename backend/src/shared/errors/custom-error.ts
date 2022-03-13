@@ -1,7 +1,11 @@
+import httpStatusCode from 'http-status-codes';
+
 class CustomError extends Error {
-  constructor(message: string) {
+  private code: number;
+
+  constructor(message: string, code: number | undefined = httpStatusCode.BAD_REQUEST) {
     super(message);
-    this.name = 'CustomError';
+    this.code = code;
   }
 }
 

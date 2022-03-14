@@ -1,3 +1,5 @@
+require('../types/index')
+
 import mongoose from 'mongoose';
 
 import logger from '@shared/logger';

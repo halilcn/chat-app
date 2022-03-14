@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express';
+import { Request, RequestHandler, Response } from 'express';
 
 import handler from '@shared/handler';
 import { TestError } from '@shared/errors';
@@ -21,9 +21,8 @@ const index = handler(async (req: any, res: any, next: any) => {
   res.send('okey!');
 });
 
-const test = handler(async (req: any, res: any, next: any) => {
-  res.send('hata yok')
+const test = handler(async (req: Request, res: Response, next: any) => {
+  throw new TestError();
 });
-
 
 export default { index, test };

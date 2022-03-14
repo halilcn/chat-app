@@ -1,9 +1,7 @@
-import httpStatusCode from 'http-status-codes';
-
 class CustomError extends Error {
-  private code: number;
+  public code: number;
 
-  constructor(message: string, code: number | undefined = httpStatusCode.BAD_REQUEST) {
+  constructor(message: string, code: number) {
     super(message);
     this.code = code;
   }

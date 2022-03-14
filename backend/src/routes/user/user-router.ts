@@ -5,6 +5,7 @@ import userController from '@controllers/user/user-controller';
 
 const router = Router();
 
-router.get('/',userController.index)
+//todo:!
+router.get('/',userController.test)
 
 export default router;

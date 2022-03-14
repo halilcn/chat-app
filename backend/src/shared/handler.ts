@@ -1,26 +1,17 @@
-import { NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
 import response from '@shared/response';
 import CustomError from '@shared/errors/custom-error';
 
-interface IHandle {
-  (handle: () => Promise<void>, next: NextFunction, customCatch?: (err: object | unknown) => boolean): Promise<void>;
+
+interface IProcessFunction {
+  (req: Request, res: Response, next: NextFunction): Promise<void>;
 }
 
-const handler: IHandle = async (
-  handle,
-  next,
-  customCatch = () => {
-    return false;
-  }
-) => {
+const handler = (processFunction: IProcessFunction) => async (req: Request, res: Response, next: NextFunction):Promise<void> => {
   try {
-    await handle();
-  } catch (err: any) {
-    if (err && customCatch(err)) return;
-
-    console.log(err.code);
-
+    await processFunction(req, res, next);
+  } catch (err) {
     err instanceof CustomError ? next(response.error(err.message)) : next(response.error());
   }
 };

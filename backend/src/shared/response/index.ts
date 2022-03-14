@@ -1,20 +1,18 @@
-type messageType = string | object;
+import httpStatusCode from 'http-status-codes';
 
-interface ResponseList {
-  [key: string]: Function;
-}
-
-interface Index {
+interface IResponse {
   status: number;
   message?: string | object;
   data?: any;
 }
 
-let response: ResponseList = {};
+interface ResponseList {
+  [key: string]: (message?: string | object, status?: number) => IResponse;
+}
 
-response.success = (message: messageType = 'Success'): Index => {
-  const status = 200;
+const response: ResponseList = {};
 
+response.success = (message = 'Success', status = httpStatusCode.OK) => {
   return typeof message !== 'string'
     ? {
         data: message,
@@ -26,73 +24,37 @@ response.success = (message: messageType = 'Success'): Index => {
       };
 };
 
-response.created = (message: messageType = 'Created'): Index => {
-  const status = 201;
-
-  console.log(message);
+response.created = (message = 'Created', status = httpStatusCode.CREATED) => {
   return {
     message,
     status
   };
 };
 
-response.noContent = (message: messageType = 'No Content'): Index => {
-  const status = 204;
-
+response.noContent = (message = 'No Content', status = httpStatusCode.NO_CONTENT) => {
   return {
     message,
     status
   };
 };
 
-response.error = (message: messageType = 'Error', status: number | undefined = 400): Index => {
+response.error = (message = 'Error', status = httpStatusCode.BAD_REQUEST) => {
   return {
     message,
     status
   };
 };
 
-/*
-*
-response.authenticationError = (message: messageType = 'Authentication Error'): Index => {
-  const status = 401;
-
-  return {
-    message,
-    status
-  };
-};
-
-response.forbiddenError = (message: messageType = 'Forbidden Error'): Index => {
-  const status = 403;
-
-  return {
-    message,
-    status
-  };
-};
-
-response.notFound = (message: messageType = 'Not Found'): Index => {
-  const status = 404;
-
-  return {
-    message,
-    status
-  };
-};
-
-response.invalidInput = (message: messageType = 'Invalid Input'): Index => {
-  const status = 422;
-
+response.invalidInput = (message = 'Invalid Error', status = httpStatusCode.UNPROCESSABLE_ENTITY) => {
   return typeof message !== 'string'
     ? {
-      data: message,
-      status,
-    }
+        data: message,
+        status
+      }
     : {
-      message,
-      status
-    };
-};*/
+        message,
+        status
+      };
+};
 
 export default response;

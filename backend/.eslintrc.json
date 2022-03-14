@@ -15,6 +15,12 @@
   },
   "rules": {
     "no-unexpected-multiline": "warn",
-    "no-extra-boolean-cast": 0
+    "no-extra-boolean-cast": 0,
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ]
   }
 }

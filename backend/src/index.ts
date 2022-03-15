@@ -1,9 +1,10 @@
-import './pre-start'; // Must be the first import
+import './pre-start';
 
 import server from './server';
+import logger from '@shared/logger';
 
-const port = (process.env.PORT || 3000);
+const port = process.env.PORT || 3000;
 
 server.listen(port, () => {
-    console.info('Express server started on port: ' + port);
+  logger.info(`Express server started on port ${port}`);
 });

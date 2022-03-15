@@ -6,7 +6,7 @@ import expressErrorHandling from '@shared/errors/express-error-handling';
 const app = express();
 
 //Middlewares
-require('@middlewares/index.ts')(app);
+require('@middlewares/index.ts')(app); //todo:!
 
 //Routes
 app.use('/api', routes);

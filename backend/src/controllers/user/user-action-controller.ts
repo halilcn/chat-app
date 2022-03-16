@@ -5,8 +5,10 @@ import { TestError } from '@shared/errors';
 import User from '@models/user-model';
 import response from '@shared/response';
 
-const index = handler(async (req, res, next) => {
-  next(response.invalidInput());
+const register = handler(async (req, res, next) => {
+  res.send('okey')
 });
 
-export default { index };
+export default {
+  register
+};

@@ -3,8 +3,8 @@ export {};
 declare global {
   export namespace Express {
     export interface Request {
-      validated: object;
-      user: object;
+      validated: { [key: string]: any };
+      user: { [key: string]: any };
       currentToken: string;
     }
   }

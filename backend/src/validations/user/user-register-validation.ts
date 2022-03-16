@@ -1,15 +1,12 @@
-import joi from 'joi'
+import joi from 'joi';
 
 import validateMiddleware from '@shared/validate-middleware';
 
-const schema = joi.object()
-  .keys({
-    name: joi.string()
-      .min(3)
-      .max(40)
-      .required(),
-    test:joi.required()
-  })
+//todo:unique
+const schema = joi.object().keys({
+  username: joi.string().required(),
+  nameSurname: joi.string().required(),
+  password: joi.string().required()
+});
 
-
-export default validateMiddleware(schema)
+export default validateMiddleware(schema);

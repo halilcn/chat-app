@@ -16,6 +16,7 @@
   "rules": {
     "no-unexpected-multiline": "warn",
     "no-extra-boolean-cast": 0,
+    "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-misused-promises": [
       "error",
       {

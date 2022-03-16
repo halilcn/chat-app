@@ -1,21 +1,24 @@
-import { NextFunction, Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import { ObjectSchema } from 'joi';
 
 import response from '@shared/response';
 
-export default (schema: ObjectSchema) => (req: Request, res: Response, next: NextFunction) => {
-  const { error } = schema.validate(req.body, { abortEarly: false });
+export default (schema: ObjectSchema): RequestHandler =>
+  (req, res, next) => {
+    const validate = schema.validate(req.body, { abortEarly: false });
 
-  if (error) {
-    const processedErrors = error?.details.map(error => {
-      return {
-        message: error.message,
-        context: error.context
-      };
-    });
+    if (validate.error) {
+      const processedErrors = validate.error?.details.map(error => {
+        return {
+          message: error.message,
+          context: error.context
+        };
+      });
 
-    next(response.invalidInput(processedErrors));
-  }
+      next(response.invalidInput(processedErrors));
+    }
 
-  next();
-};
+    req.validated = validate.value;
+
+    next();
+  };

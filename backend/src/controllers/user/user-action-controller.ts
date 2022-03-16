@@ -6,7 +6,7 @@ import User from '@models/user-model';
 import response from '@shared/response';
 
 const register = handler(async (req, res, next) => {
-  res.send('okey')
+  res.json(req.validated)
 });
 
 export default {

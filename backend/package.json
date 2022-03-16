@@ -14,7 +14,8 @@
     "@middlewares": "src/middlewares",
     "@shared": "dist/shared",
     "@routes": "dist/routes",
-    "@controllers": "dist/controllers"
+    "@controllers": "dist/controllers",
+    "@validations": "dist/validations"
   },
   "dependencies": {
     "command-line-args": "^5.2.1",

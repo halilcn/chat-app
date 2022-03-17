@@ -1,11 +1,11 @@
-import { Request, RequestHandler, Response } from 'express';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 import handler from '@shared/handler';
-import { TestError } from '@shared/errors';
-import User from '@models/user-model';
 import response from '@shared/response';
 import UserService from '@services/user-service';
+import User from '@models/user-model';
+import { AuthenticationError } from '@shared/errors';
 
 const register = handler(async (req, res, next) => {
   const { validated } = req;
@@ -16,6 +16,18 @@ const register = handler(async (req, res, next) => {
   next(response.created());
 });
 
+const login = handler(async (req, res, next) => {
+  const { username, password } = req.validated;
+
+  const user = await User.findOne({ username });
+  if (!user || !(await bcrypt.compare(password, user.password))) throw new AuthenticationError();
+
+  const token = await UserService.createToken(username);
+
+  next(response.created({ token }));
+});
+
 export default {
-  register
+  register,
+  login
 };

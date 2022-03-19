@@ -25,3 +25,9 @@ export class ForbiddenError extends CustomError {
     super(message, code);
   }
 }
+
+export class UsernameAlreadyExistsError extends CustomError {
+  constructor(message = 'Username Already Exists Error', code = httpStatusCode.CONFLICT) {
+    super(message, code);
+  }
+}

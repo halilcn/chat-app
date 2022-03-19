@@ -5,11 +5,13 @@ import handler from '@shared/handler';
 import response from '@shared/response';
 import UserService from '@services/user-service';
 import User from '@models/user-model';
-import { AuthenticationError } from '@shared/errors';
+import { AuthenticationError, UsernameAlreadyExistsError } from '@shared/errors';
 
 const register = handler(async (req, res, next) => {
   const { validated } = req;
   validated.password = await bcrypt.hash(validated.password, 10);
+
+  if (await User.exists({ username: validated.username })) throw new UsernameAlreadyExistsError();
 
   await UserService.createUser(validated);
 

@@ -13,7 +13,7 @@
           <input type="password" placeholder="password" />
         </div>
         <div v-if="false" class="error">yanlı alsdsakd aslda da</div>
-        <div class="action-button loading">register</div>
+        <div @click="postRegisterAction" class="action-button">register</div>
         <router-link :to="{ name: 'Login' }" class="link"> login </router-link>
       </div>
     </div>
@@ -21,8 +21,28 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
+import handler from '@/shared/handler';
+
 export default {
-  name: 'UserRegister'
+  name: 'UserRegister',
+  methods: {
+    ...mapActions('auth', ['postRegister']),
+    async postRegisterAction() {
+      await handler(
+        async () => {
+          await this.postRegister({ username: 'tesasddat', nameSurname: 'ha', password: 'test' });
+        },
+        err => {
+          if (err.response.status === 409) {
+            alert('Kullanıcı adı zaten var');
+            return true;
+          }
+        }
+      );
+    }
+  }
 };
 </script>
 

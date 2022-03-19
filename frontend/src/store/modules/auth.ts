@@ -28,13 +28,10 @@ export default {
       const { username, password } = payload;
       await dispatch('postLogin', { username, password });
     },
-    async postLogin({ commit, dispatch }: { commit: Commit; dispatch: Dispatch }, payload: object): Promise<void> {
-      await axios.post('/user-action/login', payload);
-      console.log('okey');
-      // await window.location.reload();
-      //  commit('setUser', data);
-      //  await dispatch('updateUserLanguage', helpers.getLanguage());
-      //  await window.location.reload();
+    async postLogin({ commit }: { commit: Commit }, payload: object): Promise<void> {
+      const { data } = (await axios.post('/user-action/login', payload)).data;
+      commit('setUser', data);
+      window.location.reload();
     }
   },
   namespaced: true

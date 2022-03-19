@@ -4,24 +4,64 @@
       <div class="title">Login</div>
       <div class="content">
         <div class="item">
-          <input type="text" placeholder="username" />
+          <input v-model="user.username" type="text" placeholder="username" />
         </div>
         <div class="item">
-          <input type="password" placeholder="password" />
+          <input v-model="user.password" type="password" placeholder="password" />
         </div>
-        <div v-if="false" class="error">yanlı alsdsakd aslda da</div>
-        <div class="action-button">login</div>
-        <router-link :to="{ name: 'Register' }" class="link">
-          register
-        </router-link>
+        <div v-if="usernameOrPasswordWrong" class="error">Username or password wrong.</div>
+        <div class="action-button" :class="{ disable: isLoading || v$.user.$invalid }" @click="postLoginAction">login</div>
+        <router-link :to="{ name: 'Register' }" class="link"> register </router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import useVuelidate from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+
+import handler from '@/shared/handler';
+
 export default {
-  name: 'UserLogin'
+  name: 'UserLogin',
+  data() {
+    return {
+      v$: useVuelidate(),
+      isLoading: false,
+      usernameOrPasswordWrong: false,
+      user: {
+        username: '',
+        password: ''
+      }
+    };
+  },
+  validations: {
+    user: {
+      username: { required },
+      password: { required }
+    }
+  },
+  methods: {
+    ...mapActions('auth', ['postLogin']),
+    postLoginAction() {
+      handler(
+        async () => {
+          this.isLoading = true;
+          await this.postLogin(this.user);
+        },
+        err => {
+          if (err.response.status === 401) {
+            this.usernameOrPasswordWrong = true;
+            return true;
+          }
+        }
+      ).finally(() => {
+        this.isLoading = false;
+      });
+    }
+  }
 };
 </script>
 

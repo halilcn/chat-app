@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import('../views/user-actions/UserRegister.vue'),
+    component: () => import('../views/UserDashboard.vue'),
     beforeEnter: auth,
     children: []
   }

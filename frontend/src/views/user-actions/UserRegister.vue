@@ -23,7 +23,7 @@
 <script>
 import { mapActions } from 'vuex';
 import useVuelidate from '@vuelidate/core';
-import { required, email } from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 
 import handler from '@/shared/handler';
 
@@ -57,11 +57,11 @@ export default {
         },
         err => {
           if (err.response.status === 409) {
-            alert('Kullanıcı adı zaten var');
+            alert('Username already exists');
             return true;
           }
         }
-      ).then(() => {
+      ).finally(() => {
         this.isLoading = false;
       });
     }

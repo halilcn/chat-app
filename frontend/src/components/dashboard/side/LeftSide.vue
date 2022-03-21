@@ -1,16 +1,19 @@
 <template>
   <div class="left-side-container">
-    <top-side />
+    <top-side  class="content"/>
+    <user-list class="content"/>
   </div>
 </template>
 
 <script>
 import TopSide from '@/components/dashboard/side/TopSide';
+import UserList from '@/components/dashboard/side/UserList';
 
 export default {
   name: 'LeftContent',
   components: {
-    TopSide
+    TopSide,
+    UserList
   }
 };
 </script>
@@ -19,5 +22,9 @@ export default {
 .left-side-container {
   width: 600px;
   background-color: white;
+
+  .content{
+    padding: 20px;
+  }
 }
 </style>

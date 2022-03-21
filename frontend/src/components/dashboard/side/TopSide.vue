@@ -21,9 +21,7 @@ export default {
 .top-side-container {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
   border-bottom: 1px solid #e0e0e0;
-
 
   .user {
     display: flex;

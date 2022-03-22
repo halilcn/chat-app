@@ -14,9 +14,8 @@ const auth = handler(async (req, res, next) => {
     const reqToken = req.header('Authorization') as string;
 
     const decodedUser = jwt.verify(reqToken, process.env.JWT_TOKEN_KEY as string) as IDecodedUser;
-    const user = await User.findById(decodedUser.user_id);
 
-    req.user = user;
+    req.user = (await User.findById(decodedUser.user_id)) as object;
     req.currentToken = reqToken;
 
     next();

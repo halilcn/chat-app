@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 import handler from '@shared/handler';
 import response from '@shared/response';

@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongoose';
 
 import Friend from '@models/friend-model';
-import { FriendAlreadyExistsError } from '@shared/errors';
+import { FriendAlreadyExistsError, NoFriendError } from '@shared/errors';
 
 const getAll = async (userId: ObjectId): Promise<Array<object>> => {
   return Friend.find().or([{ requester: userId }, { recipient: userId }]);
@@ -19,8 +19,22 @@ const addOne = async (requester: ObjectId, recipient: ObjectId): Promise<void> =
   await Friend.create({ requester, recipient });
 };
 
+const deleteOne = async (userId: ObjectId, friendId: ObjectId): Promise<void> => {
+  //todo: mesajlarda silinsin
+
+  const friend = await Friend.findOne().or([
+    { requester: userId, recipient: friendId },
+    { requester: friendId, recipient: userId }
+  ]);
+
+  if (!friend) throw new NoFriendError();
+
+  await Friend.findOneAndDelete({ _id: friend._id });
+};
+
 export default {
   getAll,
   exists,
-  addOne
+  addOne,
+  deleteOne
 };

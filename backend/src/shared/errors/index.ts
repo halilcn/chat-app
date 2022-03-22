@@ -37,3 +37,9 @@ export class FriendAlreadyExistsError extends CustomError {
     super(message, code);
   }
 }
+
+export class NoFriendError extends CustomError {
+  constructor(message = 'No Friend Error', code = httpStatusCode.BAD_REQUEST) {
+    super(message, code);
+  }
+}

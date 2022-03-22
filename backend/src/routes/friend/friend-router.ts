@@ -7,5 +7,6 @@ const router = Router();
 
 router.get('/', friendController.index);
 router.post('/', friendStoreValidation, friendController.store);
+router.delete('/:friendId', friendController.destroy);
 
 export default router;

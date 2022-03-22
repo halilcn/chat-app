@@ -21,7 +21,14 @@ const store = handler(async (req, res, next) => {
   next(response.created());
 });
 
+const destroy = handler(async (req, res, next) => {
+  await FriendService.deleteOne(req.user._id, req.params.friendId as unknown as ObjectId);
+
+  next(response.success());
+});
+
 export default {
   index,
-  store
+  store,
+  destroy
 };

@@ -1,15 +1,24 @@
 import handler from '@shared/handler';
+import Friend from '@models/friend-model';
+import FriendService from '@services/friend-service';
+import response from '@shared/response';
 
-const test = handler(async (req, res, next) => {
-  res.send('okey')
+//todo:service names ?
+
+const index = handler(async (req, res, next) => {
+  res.send('okey');
 });
 
 const store = handler(async (req, res, next) => {
-  res.send('okey store')
+  const friendId = req.validated.recipient;
+  const userId = req.user._id;
+
+  await FriendService.addOne(userId, friendId);
+
+  next(response.created());
 });
 
-
 export default {
-  test,
+  index,
   store
 };

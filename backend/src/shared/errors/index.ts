@@ -31,3 +31,9 @@ export class UsernameAlreadyExistsError extends CustomError {
     super(message, code);
   }
 }
+
+export class FriendAlreadyExistsError extends CustomError {
+  constructor(message = 'Friend Already Exists Error', code = httpStatusCode.CONFLICT) {
+    super(message, code);
+  }
+}

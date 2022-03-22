@@ -8,6 +8,11 @@ const User = new Schema(
       trim: true,
       unique: true
     },
+    image: {
+      type: String,
+      required: true,
+      default: 'https://www.fakepersongenerator.com/Face/female/female20151024152487152.jpg'
+    },
     nameSurname: {
       type: String,
       required: true,

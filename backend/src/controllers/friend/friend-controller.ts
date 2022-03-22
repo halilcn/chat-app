@@ -8,7 +8,8 @@ import response from '@shared/response';
 //todo:service names ?
 
 const index = handler(async (req, res, next) => {
-  res.send('okey');
+  const test = await FriendService.getAll(req.user._id);
+  next(response.success(test));
 });
 
 const store = handler(async (req, res, next) => {

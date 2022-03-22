@@ -7,6 +7,6 @@ import auth from '@middlewares/auth';
 const router = Router();
 
 router.use('/v1/user-action/', userActionsRouter);
-router.use('/v1/test/', auth,friendRouter);
+router.use('/v1/friends/', auth,friendRouter);
 
 export default router;

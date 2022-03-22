@@ -3,6 +3,7 @@ import friendController from '@controllers/friend/friend-controller';
 
 const router = Router();
 
-router.get('/test', friendController.test);
+router.get('/', friendController.test);
+router.post('/', friendController.store);
 
 export default router;

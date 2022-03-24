@@ -4,15 +4,19 @@ import Friend from '@models/friend-model';
 import { FriendAlreadyExistsError, NoFriendError } from '@shared/errors';
 import Message from '@models/message-model';
 
+const getOne = async (userId: ObjectId, friendUserId: ObjectId): Promise<{ [key: string]: any }> => {
+  return Friend.findOne().or([
+    { requester: userId, recipient: friendUserId },
+    { requester: friendUserId, recipient: userId }
+  ]);
+};
+
 const getAll = async (userId: ObjectId): Promise<Array<object>> => {
   return Friend.find().or([{ requester: userId }, { recipient: userId }]);
 };
 
-const exists = async (userId: ObjectId, friendId: ObjectId): Promise<boolean> => {
-  return !!(await Friend.findOne().or([
-    { requester: userId, recipient: friendId },
-    { requester: friendId, recipient: userId }
-  ]));
+const exists = async (userId: ObjectId, friendUserId: ObjectId): Promise<boolean> => {
+  return !!(await getOne(userId, friendUserId));
 };
 
 const addOne = async (requester: ObjectId, recipient: ObjectId): Promise<void> => {
@@ -20,11 +24,8 @@ const addOne = async (requester: ObjectId, recipient: ObjectId): Promise<void> =
   await Friend.create({ requester, recipient });
 };
 
-const deleteOne = async (userId: ObjectId, friendId: ObjectId): Promise<void> => {
-  const friend = await Friend.findOne().or([
-    { requester: userId, recipient: friendId },
-    { requester: friendId, recipient: userId }
-  ]);
+const deleteOne = async (userId: ObjectId, friendUserId: ObjectId): Promise<void> => {
+  const friend = await getOne(userId, friendUserId);
 
   if (!friend) throw new NoFriendError();
 
@@ -33,6 +34,7 @@ const deleteOne = async (userId: ObjectId, friendId: ObjectId): Promise<void> =>
 };
 
 export default {
+  getOne,
   getAll,
   exists,
   addOne,

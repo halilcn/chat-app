@@ -8,10 +8,6 @@ const Message = new Schema(
       type: Schema.Types.ObjectId,
       required: true
     },
-    authorId: {
-      type: Schema.Types.ObjectId,
-      required: true
-    },
     messages: [messages]
   },
   {

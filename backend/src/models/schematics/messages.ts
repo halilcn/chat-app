@@ -1,7 +1,12 @@
-import { Schema, model } from 'mongoose';
+import { Schema } from 'mongoose';
+import dayjs from 'dayjs';
 
 export default new Schema(
   {
+    authorId: {
+      type: Schema.Types.ObjectId,
+      required: true
+    },
     content: {
       type: String,
       required: true
@@ -13,7 +18,8 @@ export default new Schema(
     ],
     createdAt: {
       type: Date,
-      required: true
+      required: true,
+      default: dayjs()
     }
   },
   {

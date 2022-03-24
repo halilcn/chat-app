@@ -8,6 +8,11 @@ const getAll = async (friendId: ObjectId): Promise<Array<object>> => {
   return Message.find({ friendId });
 };
 
+const addOne = async (friendId: ObjectId, messageInfo: object): Promise<void> => {
+  await Message.create(messageInfo);
+};
+
 export default {
-  getAll
+  getAll,
+  addOne
 };

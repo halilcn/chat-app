@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 
+import messages from '@models/schematics/messages';
+
 const Message = new Schema(
   {
     friendId: {
@@ -10,18 +12,7 @@ const Message = new Schema(
       type: Schema.Types.ObjectId,
       required: true
     },
-    messages: [
-      {
-        content: {
-          type: String,
-          required: true
-        },
-        createdAt: {
-          type: Date,
-          required: true
-        }
-      }
-    ]
+    messages: [messages]
   },
   {
     timestamps: true

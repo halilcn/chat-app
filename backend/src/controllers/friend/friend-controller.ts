@@ -5,8 +5,6 @@ import Friend from '@models/friend-model';
 import FriendService from '@services/friend-service';
 import response from '@shared/response';
 
-//todo:service names ?
-
 const index = handler(async (req, res, next) => {
   const test = await FriendService.getAll(req.user._id);
   next(response.success(test));

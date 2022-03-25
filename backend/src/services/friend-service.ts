@@ -3,6 +3,7 @@ import { ObjectId } from 'mongoose';
 import Friend from '@models/friend-model';
 import { FriendAlreadyExistsError, NoFriendError } from '@shared/errors';
 import Message from '@models/message-model';
+import MessageService from '@services/message-service';
 
 const getOne = async (userId: ObjectId, friendUserId: ObjectId): Promise<{ [key: string]: any }> => {
   return Friend.findOne().or([
@@ -21,7 +22,8 @@ const exists = async (userId: ObjectId, friendUserId: ObjectId): Promise<boolean
 
 const addOne = async (requester: ObjectId, recipient: ObjectId): Promise<void> => {
   if (await exists(requester, recipient)) throw new FriendAlreadyExistsError();
-  await Friend.create({ requester, recipient });
+  const friend = await Friend.create({ requester, recipient });
+  await MessageService.addOneEmpty(friend._id);
 };
 
 const deleteOne = async (userId: ObjectId, friendUserId: ObjectId): Promise<void> => {

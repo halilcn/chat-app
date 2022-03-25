@@ -13,12 +13,14 @@ const store = handler(async (req, res, next) => {
   //todo:readers nasıl update edilmeli ?
   //:todo: arkadaşlık kurulduğunda otomatik oluşsun.
 
-  const test={
+  const messageInfos={
     authorId:req.user._id,
-    content:req.validated.content,
+    content:req.validated.message,
   }
 
-  await MessageService.addOne(req.params.friendId as unknown as ObjectId,test);
+  console.log(messageInfos);
+
+ // await MessageService.addOne(req.params.friendId as unknown as ObjectId,test);
 
   next(response.created());
 });

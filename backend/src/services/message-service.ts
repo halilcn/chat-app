@@ -8,11 +8,17 @@ const getAll = async (friendId: ObjectId): Promise<Array<object>> => {
   return Message.find({ friendId });
 };
 
-const addOne = async (friendId: ObjectId, messageInfo: object): Promise<void> => {
-  await Message.create(messageInfo);
+const addOneEmpty = async (friendId: ObjectId): Promise<void> => {
+  const notExistsMessageList = !(await Message.exists({ friendId }));
+  if (notExistsMessageList) await Message.create({ friendId });
+};
+
+const addOne = async (friendId: ObjectId, messageInfos: object): Promise<void> => {
+  await Message.create(messageInfos);
 };
 
 export default {
   getAll,
+  addOneEmpty,
   addOne
 };

@@ -14,7 +14,10 @@ const addOneEmpty = async (friendId: ObjectId): Promise<void> => {
 };
 
 const addOne = async (friendId: ObjectId, messageInfos: object): Promise<void> => {
-  await Message.create(messageInfos);
+  const messageModel = await Message.findOne({ friendId });
+  messageModel.messages.push(messageInfos);
+
+  await messageModel.save();
 };
 
 export default {

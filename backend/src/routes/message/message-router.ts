@@ -3,7 +3,7 @@ import { Router } from 'express';
 import messageController from '@controllers/message/message-controller';
 import messageStoreValidation from '@validations/message/message-store-validation';
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
 //todo: permissions_
 

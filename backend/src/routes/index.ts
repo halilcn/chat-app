@@ -5,7 +5,7 @@ import friendRouter from '@routes/friend/friend-router';
 import messageRouter from '@routes/message/message-router';
 import auth from '@middlewares/auth';
 
-const router = Router({ mergeParams: true });
+const router = Router();
 
 router.use('/v1/user-action/', userActionsRouter);
 router.use('/v1/friends/', auth, friendRouter);

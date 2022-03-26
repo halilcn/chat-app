@@ -5,7 +5,7 @@
       <div class="name">Test Soyadı</div>
     </div>
     <div class="actions">
-      <i class="fa-solid fa-plus item icon"></i>
+      <i @click="toggleFriends" class="fa-solid fa-user-group item icon"></i>
       <i class="fa-solid fa-magnifying-glass item icon"></i>
     </div>
   </div>
@@ -17,7 +17,8 @@ import { mapMutations } from 'vuex';
 export default {
   name: 'TopSide',
   methods: {
-    ...mapMutations('userSetting', ['toggleUserSettings'])
+    ...mapMutations('userSetting', ['toggleUserSettings']),
+    ...mapMutations('friend', ['toggleFriends'])
   }
 };
 </script>
@@ -56,8 +57,8 @@ export default {
       padding: 5px;
       margin-left: 10px;
 
-      &.fa-plus {
-        padding: 11px 13px 12px 13px;
+      &.fa-user-group {
+        padding: 11px 11px 14px 12px;
       }
 
       &.fa-magnifying-glass {

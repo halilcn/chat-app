@@ -1,6 +1,7 @@
 <template>
   <div class="left-side-container">
     <user-settings />
+    <user-friends />
     <top-side class="content" />
     <user-list class="content" />
   </div>
@@ -8,6 +9,7 @@
 
 <script>
 import UserSettings from '@/components/dashboard/side/user/UserSettings';
+import UserFriends from '@/components/dashboard/side/user/UserFriends';
 import TopSide from '@/components/dashboard/side/TopSide';
 import UserList from '@/components/dashboard/side/UserList';
 
@@ -16,7 +18,8 @@ export default {
   components: {
     TopSide,
     UserList,
-    UserSettings
+    UserSettings,
+    UserFriends
   }
 };
 </script>

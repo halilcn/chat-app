@@ -1,6 +1,6 @@
 <template>
   <div class="top-side-container">
-    <div class="user">
+    <div @click="toggleUserSettings" class="user">
       <img class="image" src="https://randomuser.me/api/portraits/men/40.jpg" />
       <div class="name">Test Soyadı</div>
     </div>
@@ -12,8 +12,13 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
-  name: 'TopSide'
+  name: 'TopSide',
+  methods: {
+    ...mapMutations('userSetting', ['toggleUserSettings'])
+  }
 };
 </script>
 
@@ -50,6 +55,14 @@ export default {
     .item {
       padding: 5px;
       margin-left: 10px;
+
+      &.fa-plus {
+        padding: 11px 13px 12px 13px;
+      }
+
+      &.fa-magnifying-glass {
+        padding: 12px 12px 12px 12px;
+      }
     }
   }
 }

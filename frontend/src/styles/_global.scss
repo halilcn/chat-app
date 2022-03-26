@@ -86,8 +86,13 @@
 }
 
 .icon {
+  cursor: pointer;
   background-color: $light-grey-color;
   color: $blue-light-dark;
   border-radius: 100%;
   font-size: 17px;
+
+  &:hover {
+    background-color: #f2f8ff;
+  }
 }

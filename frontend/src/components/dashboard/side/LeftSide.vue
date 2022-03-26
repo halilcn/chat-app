@@ -1,7 +1,7 @@
 <template>
   <div class="left-side-container">
-    <top-side  class="content"/>
-    <user-list class="content"/>
+    <top-side class="content" />
+    <user-list class="content" />
   </div>
 </template>
 
@@ -20,10 +20,10 @@ export default {
 
 <style lang="scss" scoped>
 .left-side-container {
-  width: 600px;
+  width: 650px;
   background-color: white;
 
-  .content{
+  .content {
     padding: 20px;
   }
 }

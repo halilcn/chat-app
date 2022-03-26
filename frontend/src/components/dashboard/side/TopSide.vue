@@ -5,8 +5,8 @@
       <div class="name">Test Soyadı</div>
     </div>
     <div class="actions">
-      <i class="fa-solid fa-plus icon"></i>
-     <i class="fa-solid fa-magnifying-glass icon"></i>
+      <i class="fa-solid fa-plus item icon"></i>
+      <i class="fa-solid fa-magnifying-glass item icon"></i>
     </div>
   </div>
 </template>
@@ -26,21 +26,31 @@ export default {
   .user {
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     img {
+      @include center-md-box-shadow;
       border-radius: 100%;
       width: 40px;
       height: 40px;
     }
 
-    .name{
+    .name {
+      font-size: 18px;
       margin-left: 20px;
+      color: $blue-dark;
+      font-weight: 500;
     }
   }
 
-  .actions{
+  .actions {
     display: flex;
     align-items: center;
+
+    .item {
+      padding: 5px;
+      margin-left: 10px;
+    }
   }
 }
 </style>

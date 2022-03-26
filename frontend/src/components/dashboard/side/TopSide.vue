@@ -26,7 +26,7 @@ export default {
 .top-side-container {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid $blue-very-light-dark;
 
   .user {
     display: flex;

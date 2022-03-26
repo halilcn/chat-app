@@ -1,19 +1,19 @@
 <template>
-  <transition name="slide">
-    <div v-if="enableUserSettings" class="user-settings-container">
-      <span @click="toggleUserSettings">geri</span>
-      {{ enableUserSettings }}
-    </div>
-  </transition>
+  <left-side-with-animation :enable="enableUserSettings" :toggle="toggleUserSettings" title="User Settings">
+    <div>burası içerik</div>
+  </left-side-with-animation>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex';
 
-//todo: bunu global yap arkadaş eklemede bu kullanılacak
+import LeftSideWithAnimation from '@/components/dashboard/side/shared/LeftSideWithAnimation';
 
 export default {
   name: 'UserSettings',
+  components: {
+    LeftSideWithAnimation
+  },
   methods: {
     ...mapMutations('userSetting', ['toggleUserSettings'])
   },
@@ -23,39 +23,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.user-settings-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  top: 0;
-  transition: 0.2s;
-}
-
-.slide-enter-active {
-  animation: enter-active 0.4s;
-}
-
-.slide-leave-active {
-  animation: leave-active 0.4s;
-}
-
-@keyframes enter-active {
-  from {
-    left: -700px;
-  }
-  to {
-    left: 0;
-  }
-}
-
-@keyframes leave-active {
-  from {
-    left: 0;
-  }
-  to {
-    left: -700px;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -28,6 +28,7 @@ export default {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid $blue-very-light-dark;
+  height: 90px;
 
   .user {
     display: flex;

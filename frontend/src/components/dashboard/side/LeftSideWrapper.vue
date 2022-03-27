@@ -29,6 +29,7 @@ export default {
   position: relative;
   width: 650px;
   background-color: white;
+  border-right: 1px solid $blue-very-light-dark;
 
   .content {
     padding: 20px;

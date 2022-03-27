@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import LeftSide from '@/components/dashboard/side/LeftSide.vue';
-import MainContent from '@/components/dashboard/main/MainContent.vue';
+import LeftSide from '@/components/dashboard/side/LeftSideWrapper.vue';
+import MainContent from '@/components/dashboard/main/MainContentWrapper.vue';
 
 export default {
   name: 'UserDashboard',

@@ -1,9 +1,9 @@
 <template>
   <div class="send-message-content-container">
-    <input class="message" type="text"  placeholder="Your message..."/>
+    <input v-model="message" class="message" type="text" placeholder="Your message..." />
     <div class="actions">
-      <i class="fa-solid fa-face-smile item icons"></i>
-      <i class="fa-solid fa-paperclip item file"></i>
+      <discord-picker class="item" @emoji="selectEmoji" />
+      <img class="item file" src="../../../../public/icons/attachment.png" />
       <div class="send-message-button item">
         <i class="fa-solid fa-paper-plane"></i>
       </div>
@@ -12,8 +12,23 @@
 </template>
 
 <script>
+import DiscordPicker from 'vue3-discordpicker';
+
 export default {
-  name: 'SendMessageContent'
+  name: 'SendMessageContent',
+  data() {
+    return {
+      message: ''
+    };
+  },
+  components: {
+    DiscordPicker
+  },
+  methods: {
+    selectEmoji(emoji) {
+      this.message += emoji;
+    }
+  }
 };
 </script>
 
@@ -33,7 +48,7 @@ export default {
     overflow-y: auto;
     color: $blue-dark;
 
-    &::placeholder{
+    &::placeholder {
       color: $blue-light-dark;
     }
   }
@@ -44,10 +59,27 @@ export default {
     font-size: 20px;
 
     .item {
-      margin-left: 15px;
+      margin-right: 20px;
 
-      &.send-message-button{
+      &.send-message-button {
         color: $default-purple;
+        cursor: pointer;
+
+        &:hover {
+          color: $default-purple-hover-light;
+        }
+      }
+
+      &.file {
+        filter: grayscale(100%);
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+          filter: grayscale(0%);
+        }
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="main-content-container">
     <top-content class="content" />
-    <message-content class="content" />
+    <message-content />
     <send-message-content />
   </div>
 </template>

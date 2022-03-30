@@ -28,10 +28,20 @@ export default {
       const { username, password } = payload;
       await dispatch('postLogin', { username, password });
     },
-    async postLogin({ commit }: { commit: Commit }, payload: object): Promise<void> {
+    async postLogin({ commit, dispatch }: { commit: Commit; dispatch: Dispatch }, payload: object): Promise<void> {
       const { data } = (await axios.post('/user-action/login', payload)).data;
-      commit('setUser', data);
+      const { token } = data;
+
+      const user = await dispatch('getUserInfo', token);
+
+      commit('setUser', { token, ...user });
       window.location.reload();
+    },
+    async getUserInfo(_: any, Authorization: string): Promise<object> {
+      console.log(await axios.get('/user-settings', { headers: { Authorization, Accept: 'application/json' } })); //todo: !hata var
+      const test = (await axios.get('/user-settings', { headers: { Authorization, Accept: 'application/json' } })).data;
+      console.log(test);
+      return {};
     }
   },
   namespaced: true

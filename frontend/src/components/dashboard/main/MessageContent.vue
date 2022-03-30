@@ -2,7 +2,7 @@
   <div class="message-content-container">
     <div class="message-list">
       <div class=""></div>
-      <div tabindex="1" class="message image receiver">
+      <div @click="setPathForFullScreenImage('https://randomuser.me/api/portraits/men/40.jpg')" tabindex="1" class="message image receiver">
         <span><img src="https://randomuser.me/api/portraits/men/40.jpg" /></span>
         <div class="time">12:51</div>
       </div>
@@ -81,11 +81,27 @@
       </div>
     </div>
   </div>
+  <message-show-image @disable-screen="disableFullScreenImage" :path="fullScreenImagePath" />
 </template>
 
 <script>
+import MessageShowImage from '@/components/dashboard/main/MessageImageFullScreen';
 export default {
-  name: 'MessageContent'
+  name: 'MessageContent',
+  data() {
+    return {
+      fullScreenImagePath: null
+    };
+  },
+  components: { MessageShowImage },
+  methods: {
+    setPathForFullScreenImage(path) {
+      this.fullScreenImagePath = path;
+    },
+    disableFullScreenImage() {
+      this.fullScreenImagePath = null;
+    }
+  }
 };
 </script>
 

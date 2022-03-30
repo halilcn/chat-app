@@ -8,8 +8,8 @@
 
 <script>
 import TopContent from '@/components/dashboard/main/TopContent';
-import MessageContent from '@/components/dashboard/main/MessageContent';
-import SendMessageContent from '@/components/dashboard/main/SendMessageContent';
+import MessageContent from '@/components/dashboard/main/message/MessageContent';
+import SendMessageContent from '@/components/dashboard/main/message/MessageSendContent';
 
 export default {
   name: 'MainContent',

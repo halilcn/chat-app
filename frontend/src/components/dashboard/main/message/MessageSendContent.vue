@@ -3,7 +3,7 @@
     <input v-model="message" class="message" type="text" placeholder="Your message..." />
     <div class="actions">
       <discord-picker class="item" @emoji="selectEmoji" />
-      <img class="item file" src="../../../../public/icons/attachment.png" />
+      <img class="item file" src="../../../../../public/icons/attachment.png" />
       <div class="send-message-button item">
         <i class="fa-solid fa-paper-plane"></i>
       </div>

@@ -20,13 +20,13 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/user-actions/UserLogin.vue'),
+    component: () => import('../views/UserLogin.vue'),
     beforeEnter: guest
   },
   {
     path: '/register',
     name: 'Register',
-    component: () => import('../views/user-actions/UserRegister.vue'),
+    component: () => import('../views/UserRegister.vue'),
     beforeEnter: guest
   },
   {

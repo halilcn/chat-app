@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import MessageShowImage from '@/components/dashboard/main/MessageImageFullScreen';
+import MessageShowImage from '@/components/dashboard/main/message/MessageImageFullScreen';
 export default {
   name: 'MessageContent',
   data() {

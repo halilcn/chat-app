@@ -72,7 +72,7 @@ export default {
     }
   }
 
-  .save-button{
+  .save-button {
     margin-top: 30px;
     margin-left: auto;
     padding: 9px 20px;
@@ -81,8 +81,8 @@ export default {
     background-color: $blue-very-light-dark;
     cursor: pointer;
 
-    &:hover{
-      background-color: #dce0e8;;
+    &:hover {
+      background-color: #dce0e8;
     }
   }
 }

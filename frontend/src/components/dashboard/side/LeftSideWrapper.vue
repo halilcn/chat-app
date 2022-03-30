@@ -11,7 +11,7 @@
 import UserSettings from '@/components/dashboard/side/user/UserSettings';
 import UserFriends from '@/components/dashboard/side/user/UserFriends';
 import TopSide from '@/components/dashboard/side/TopSide';
-import UserList from '@/components/dashboard/side/UserList';
+import UserList from '@/components/dashboard/side/user/UserList';
 
 export default {
   name: 'LeftContent',

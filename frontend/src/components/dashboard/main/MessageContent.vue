@@ -92,14 +92,19 @@ export default {
 <style lang="scss" scoped>
 .message-content-container {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 
   .message-list {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    overflow-y: auto;
     padding: 20px;
-    height: 500px; //todo:!
+    position: relative;
+    overflow: auto;
+    min-height: 100%;
+    height: 100px;
 
     .message {
       padding: 13px;

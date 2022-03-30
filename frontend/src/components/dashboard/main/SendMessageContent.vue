@@ -34,7 +34,7 @@ export default {
 
 <style lang="scss" scoped>
 .send-message-content-container {
-  margin: auto 20px 20px 20px;
+  margin: 10px 20px 10px 20px;
   background-color: white;
   padding: 20px;
   border-radius: 100px;

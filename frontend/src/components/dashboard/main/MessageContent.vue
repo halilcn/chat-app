@@ -3,19 +3,17 @@
     <div class="message-list">
       <div class=""></div>
       <div tabindex="1" class="message image receiver">
-        <span><img src="https://randomuser.me/api/portraits/men/40.jpg"></span>
+        <span><img src="https://randomuser.me/api/portraits/men/40.jpg" /></span>
         <div class="time">12:51</div>
       </div>
       <div tabindex="1" class="message image receiver">
-        <span><img src="https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg"></span>
+        <span><img src="https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg" /></span>
         <div class="time">12:51</div>
       </div>
       <div tabindex="1" class="message image receiver">
-        <span><img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Eiffel_Tower_Vertical.JPG"></span>
+        <span><img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Eiffel_Tower_Vertical.JPG" /></span>
         <div class="time">12:51</div>
       </div>
-
-
 
       <div tabindex="1" class="message text receiver">
         <span>testa sda sdas das dasd asda sa sd</span>
@@ -106,19 +104,27 @@ export default {
     .message {
       padding: 13px;
       margin: 7px 0;
-      width: 80%;
+      max-width: 80%;
 
       &:focus .time {
         display: block;
       }
 
-      &.text{
+      &.text {
         font-size: 14px;
         background-color: white;
       }
 
-      &.image{
-        background-size: cover;
+      &.image {
+        padding: 0;
+        cursor: pointer;
+
+        img {
+          aspect-ratio: 2/1;
+          object-fit: cover;
+          max-height: 200px;
+          border-radius: 20px;
+        }
       }
 
       .time {

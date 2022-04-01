@@ -33,15 +33,13 @@ export default {
       const { token } = data;
 
       const user = await dispatch('getUserInfo', token);
-
-      commit('setUser', { token, ...user });
+      commit('setUser', { ...user, token });
       window.location.reload();
     },
     async getUserInfo(_: any, Authorization: string): Promise<object> {
-      console.log(await axios.get('/user-settings', { headers: { Authorization, Accept: 'application/json' } })); //todo: !hata var
-      const test = (await axios.get('/user-settings', { headers: { Authorization, Accept: 'application/json' } })).data;
-      console.log(test);
-      return {};
+      const { data } = (await axios.get('/user-settings/', { headers: { Authorization } })).data;
+
+      return data.user;
     }
   },
   namespaced: true

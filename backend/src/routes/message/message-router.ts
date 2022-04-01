@@ -5,8 +5,6 @@ import messageStoreValidation from '@validations/message/message-store-validatio
 
 const router = Router({ mergeParams: true });
 
-//todo: permissions_
-
 router.get('/', messageController.index);
 router.post('/', messageStoreValidation, messageController.store);
 

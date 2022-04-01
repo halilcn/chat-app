@@ -1,8 +1,8 @@
 <template>
   <div class="top-side-container">
     <div @click="toggleUserSettings" class="user">
-      <img class="image" src="https://randomuser.me/api/portraits/men/40.jpg" />
-      <div class="name">Test Soyadı</div>
+      <img class="image" :src="user.image" />
+      <div class="name">{{ user.nameSurname }}</div>
     </div>
     <div class="actions">
       <i @click="toggleFriends" class="fa-solid fa-user-group item icon"></i>
@@ -12,13 +12,16 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'TopSide',
   methods: {
     ...mapMutations('userSetting', ['toggleUserSettings']),
     ...mapMutations('friend', ['toggleFriends'])
+  },
+  computed: {
+    ...mapState('auth', ['user'])
   }
 };
 </script>

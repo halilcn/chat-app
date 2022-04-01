@@ -5,7 +5,9 @@
         <i @click="toggle" class="fa-solid fa-angle-left icon"></i>
         <div class="title">{{ title }}</div>
       </div>
-      <slot />
+      <div class="content">
+        <slot />
+      </div>
     </div>
   </transition>
 </template>
@@ -45,6 +47,8 @@ export default {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
+    padding: 20px;
+    border-bottom: 1px solid $blue-very-light-dark;
 
     i {
       font-size: 20px;
@@ -60,22 +64,21 @@ export default {
   }
 
   .content {
-    margin-top: 10px;
-    background-color: red;
+    margin-top: 30px;
   }
 }
 
 .slide-enter-active {
-  animation: enter-active 0.3s linear;
+  animation: enter-active 0.4s ease;
 }
 
 .slide-leave-active {
-  animation: leave-active 0.3s linear;
+  animation: leave-active 0.4s ease;
 }
 
 @keyframes enter-active {
   from {
-    left: -700px;
+    left: -100%;
   }
   to {
     left: 0;
@@ -87,7 +90,7 @@ export default {
     left: 0;
   }
   to {
-    left: -700px;
+    left: -100%;
   }
 }
 </style>

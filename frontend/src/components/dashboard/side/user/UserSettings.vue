@@ -2,11 +2,16 @@
   <left-side-with-animation :enable="enableUserSettings" :toggle="toggleUserSettings" title="User Settings">
     <div class="user-settings-container">
       <div class="top-info">
-        <img class="profile-image" src="https://randomuser.me/api/portraits/men/40.jpg" />
-        <div class="username">halilcn</div>
+        <div class="profile-image-wrapper">
+          <input type="file" id="profile_image" />
+          <label class='change-profile-image' for="profile_image">
+          </label>
+          <img class="profile-image" :src="user.image" />
+        </div>
+        <div class="username">{{ user.username }}</div>
       </div>
       <div class="others-info">
-        <input class="item" type="text" placeholder="Name Surname" />
+        <input class="item" type="text" placeholder="Name Surname" value="" />
       </div>
       <div class="save-button">Save</div>
     </div>
@@ -27,6 +32,7 @@ export default {
     ...mapMutations('userSetting', ['toggleUserSettings'])
   },
   computed: {
+    ...mapState('auth', ['user']),
     ...mapState('userSetting', ['enableUserSettings'])
   }
 };
@@ -42,10 +48,34 @@ export default {
     flex-direction: column;
     align-items: center;
 
-    .profile-image {
+    .profile-image-wrapper {
+      position: relative;
       border-radius: 100%;
-      width: 100px;
-      height: 100px;
+
+      &:hover .change-profile-image{
+        opacity: .3;
+      }
+
+      input{
+        display: none;
+      }
+
+      .change-profile-image{
+        position: absolute;
+        border-radius: 100%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 0;
+        transition: .2s;
+        cursor: pointer;
+      }
+
+      .profile-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 100%;
+      }
     }
 
     .username {

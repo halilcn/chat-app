@@ -33,7 +33,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-//todo:animation
 .left-side-animation-container {
   position: absolute;
   width: 100%;

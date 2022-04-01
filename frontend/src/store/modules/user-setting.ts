@@ -15,6 +15,10 @@ export default {
       state.enableUserSettings = !state.enableUserSettings;
     }
   },
-  actions: {},
+  actions: {
+    async postUserSettings() {
+      alert();
+    }
+  },
   namespaced: true
 };

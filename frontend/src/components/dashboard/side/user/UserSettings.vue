@@ -57,7 +57,10 @@ export default {
     },
     postUserSettingsAction() {
       handler(async () => {
-        await this.postUserSettings();
+        this.isLoading = true;
+        await this.postUserSettings(this.userSettings);
+      }).finally(() => {
+        this.isLoading = false;
       });
     }
   },

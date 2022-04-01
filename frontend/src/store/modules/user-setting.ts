@@ -16,8 +16,9 @@ export default {
     }
   },
   actions: {
-    async postUserSettings() {
-      alert();
+    async postUserSettings(_: any, payload: object) {
+      console.log(payload);
+      alert('post user settings');
     }
   },
   namespaced: true

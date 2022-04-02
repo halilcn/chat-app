@@ -5,8 +5,11 @@ import expressErrorHandling from '@shared/errors/express-error-handling';
 
 const app = express();
 
+//Render image
+app.use('/public', express.static('public'));
+
 //Middlewares
-require('@middlewares/index.ts')(app); //todo:!
+require('@middlewares/index.ts')(app);
 
 //Routes
 app.use('/api', routes);

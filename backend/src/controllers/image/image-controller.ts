@@ -9,6 +9,12 @@ const store = handler(async (req, res, next) => {
   next(response.success({ test: file?.path }));
 });
 
+const test = handler(async (req, res, next) => {
+  res.sendFile(__dirname+'/public/uploads/user-images/test.jpeg');
+
+});
+
 export default {
-  store
+  store,
+  test
 };

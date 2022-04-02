@@ -8,5 +8,6 @@ import multer from '@shared/multer';
 const router = Router();
 
 router.post('/', auth, imageStoreValidation, multer.single('image'), imageController.store);
+router.get('/test',  imageStoreValidation, multer.single('image'), imageController.test);
 
 export default router;

@@ -13,9 +13,10 @@
     "jsx-a11y/alt-text": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "import/no-webpack-loader-syntax": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-var-requires": "off",
     "no-unexpected-multiline": "warn",
     "no-extra-boolean-cast": 0,
-    "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-misused-promises": [
       "error",
       {

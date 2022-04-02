@@ -42,7 +42,10 @@ export default {
   },
   watch: {
     enableUserSettings(val) {
-      if (val) this.userSettings = { ...this.user };
+      if (val) {
+        const { image, nameSurname } = this.user;
+        this.userSettings = { image, nameSurname };
+      }
     }
   },
   components: {

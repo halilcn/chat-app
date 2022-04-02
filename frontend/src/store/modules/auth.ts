@@ -17,6 +17,9 @@ export default {
       localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(payload));
       state.user = payload;
     },
+    updateUser(state: CustomObject, payload: object) {
+      //this.setUser(state, { ...state.user, ...payload }); //todo
+    },
     removeUser(state: CustomObject): void {
       localStorage.removeItem(LOCAL_STORAGE_USER);
       state.user = null;
@@ -36,8 +39,8 @@ export default {
       commit('setUser', { ...user, token });
       window.location.reload();
     },
-    async getUserInfo(_: any, Authorization: string): Promise<object> {
-      const { data } = (await axios.get('/user-settings/', { headers: { Authorization } })).data;
+    async getUserInfo(_: any, payload: string): Promise<object> {
+      const { data } = (await axios.get('/user-settings/', { headers: { Authorization: payload } })).data;
 
       return data.user;
     }

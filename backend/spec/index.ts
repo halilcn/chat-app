@@ -39,7 +39,7 @@ if (options.testFile) {
             jasmine.specFiles = [files[0]];
             jasmine.execute();
         } else {
-            logger.err('Test file not found!');
+            logger.err('Test image not found!');
         }
     });
 } else {

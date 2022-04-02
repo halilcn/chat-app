@@ -1,4 +1,4 @@
-// Set the env file, must be first
+// Set the env image, must be first
 import dotenv from 'dotenv';
 
 const result2 = dotenv.config({

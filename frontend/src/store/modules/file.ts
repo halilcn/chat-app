@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import { Commit, Dispatch } from 'vuex';
-
 interface CustomObject {
   [key: string]: any;
 }
@@ -12,6 +10,7 @@ export default {
   actions: {
     async postImage(_: any, payload: CustomObject): Promise<string> {
       const form = new FormData();
+
       form.append('image', payload.image);
 
       const { data } = (

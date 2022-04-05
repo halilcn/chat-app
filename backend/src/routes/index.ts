@@ -13,7 +13,7 @@ router.use('/v1/user-settings', userSettingsRouter);
 router.use('/v1/user-action', userActionsRouter);
 router.use('/v1/friends', friendRouter);
 router.use('/v1/image', imageRouter);
-router.use('/v1/friends/:friendId/messages', messageRouter); //auth, friendMessagePermission middlewares
+router.use('/v1/friends/:friendId/messages', messageRouter);
 router.use('/v1/user-messages', userMessageRouter);
 
 export default router;

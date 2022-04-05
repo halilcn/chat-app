@@ -7,12 +7,13 @@
           <label class="change-profile-image" for="profile_image"> </label>
           <img class="profile-image" :src="userImage" />
         </div>
-        <div class="username">{{ userSettings.username }}</div>
+        <div class="username">{{ user.username }}</div>
       </div>
       <div class="others-info">
         <input class="item" type="text" placeholder="Name Surname" v-model="userSettings.nameSurname" />
       </div>
       <div class="save-button" :class="{ disable: isLoading || v$.userSettings.$invalid }" @click="postUserSettingsAction">Save</div>
+      <div v-if="isSuccess" class="success-alert">Updated information</div>
     </div>
   </left-side-with-animation>
 </template>
@@ -32,6 +33,7 @@ export default {
       v$: useVuelidate(),
       userSettings: {},
       isLoading: false,
+      isSuccess: false,
       temporaryUserImageUrl: null
     };
   },
@@ -43,8 +45,14 @@ export default {
   watch: {
     enableUserSettings(val) {
       if (val) {
-        const { image, nameSurname } = this.user;
-        this.userSettings = { image, nameSurname };
+        this.setDefaultConfigAfterFirstCreate();
+      }
+    },
+    isSuccess(val) {
+      if (val) {
+        setTimeout(() => {
+          this.isSuccess = false;
+        }, 2000);
       }
     }
   },
@@ -54,6 +62,11 @@ export default {
   methods: {
     ...mapMutations('userSetting', ['toggleUserSettings']),
     ...mapActions('userSetting', ['postUserSettings']),
+    setDefaultConfigAfterFirstCreate() {
+      const { image, nameSurname } = this.user;
+      this.userSettings = { image, nameSurname };
+      this.isSuccess = false;
+    },
     onChangeUserImageFile(event) {
       this.userSettings.image = event.target.files[0];
       this.temporaryUserImageUrl = URL.createObjectURL(this.userSettings.image);
@@ -62,9 +75,13 @@ export default {
       handler(async () => {
         this.isLoading = true;
         await this.postUserSettings(this.userSettings);
-      }).finally(() => {
-        this.isLoading = false;
-      });
+      })
+        .then(() => {
+          this.isSuccess = true;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     }
   },
   computed: {
@@ -159,6 +176,15 @@ export default {
       color: #adadad;
       pointer-events: none;
     }
+  }
+
+  .success-alert {
+    text-align: center;
+    background-color: #f0fff0;
+    color: #11ac11;
+    padding: 10px;
+    margin-top: 30px;
+    border-radius: 10px;
   }
 }
 </style>

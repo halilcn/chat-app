@@ -18,7 +18,9 @@ export default {
       state.user = payload;
     },
     updateUser(state: CustomObject, payload: object) {
-      //this.setUser(state, { ...state.user, ...payload }); //todo
+      const newUser = { ...state.user, ...payload };
+      localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(newUser));
+      state.user = newUser;
     },
     removeUser(state: CustomObject): void {
       localStorage.removeItem(LOCAL_STORAGE_USER);

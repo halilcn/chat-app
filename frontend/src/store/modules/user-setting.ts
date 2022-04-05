@@ -19,13 +19,15 @@ export default {
   actions: {
     async postUserSettings({ dispatch, commit }: { dispatch: Dispatch; commit: Commit }, payload: CustomObject) {
       if (typeof payload.image == 'object') {
-        payload.image = await dispatch(
+        const imagePath = await dispatch(
           'file/postImage',
           {
             image: payload.image
           },
           { root: true }
         );
+
+        payload.image = process.env.VUE_APP_BACKEND_URL + imagePath;
       }
 
       await axios.put('/user-settings', payload);

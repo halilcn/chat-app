@@ -4,6 +4,7 @@ import Friend from '@models/friend-model';
 import { FriendAlreadyExistsError, NoFriendError } from '@shared/errors';
 import Message from '@models/message-model';
 import MessageService from '@services/message-service';
+import User from '@models/user-model';
 
 const getOne = async (userId: ObjectId, friendUserId: ObjectId): Promise<{ [key: string]: any }> => {
   return Friend.findOne().or([

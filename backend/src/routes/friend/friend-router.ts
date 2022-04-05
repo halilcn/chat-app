@@ -9,5 +9,6 @@ const router = Router();
 router.get('/', auth, friendController.index);
 router.post('/', auth, friendStoreValidation, friendController.store);
 router.delete('/:friendId', auth, friendController.destroy);
+router.get('/search', auth, friendController.search);
 
 export default router;

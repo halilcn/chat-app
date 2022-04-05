@@ -4,6 +4,7 @@ import handler from '@shared/handler';
 import Friend from '@models/friend-model';
 import FriendService from '@services/friend-service';
 import response from '@shared/response';
+import UserService from '@services/user-service';
 
 const index = handler(async (req, res, next) => {
   const test = await FriendService.getAll(req.user._id);
@@ -25,8 +26,21 @@ const destroy = handler(async (req, res, next) => {
   next(response.success());
 });
 
+const search = handler(async (req, res, next) => {
+  const users = await UserService.search(req.user._id, req.query.value as string);
+  const friendIds = (await FriendService.getAll(req.user._id)).map((friend: any) => [friend.requester, friend.recipient]).flat();
+
+  users.map((user: any) => {
+    user.isFriend = friendIds.some((friend: any) => String(friend._id) == String(user._id));
+    return user;
+  });
+
+  next(response.success({ users }));
+});
+
 export default {
   index,
   store,
-  destroy
+  destroy,
+  search
 };

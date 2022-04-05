@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 import User from '@models/user-model';
+import { ObjectId } from 'mongoose';
 
 const createUser = async (user: object): Promise<void> => {
   await User.create(user);
@@ -16,7 +17,14 @@ const createToken = async (username: string): Promise<string> => {
   return token;
 };
 
+const search = async (userId: ObjectId, search: string): Promise<Array<object>> => {
+  return User.find({ username: { $regex: '.*' + search + '.*' }, _id: { $nin: userId } })
+    .select('_id username image nameSurname')
+    .lean();
+};
+
 export default {
   createUser,
-  createToken
+  createToken,
+  search
 };

@@ -1,7 +1,7 @@
 <template>
   <div class="message-content-container">
     <div class="message-list">
-      <div class=""></div>
+      <div @click="test">test tıkla</div>
       <div @click="setPathForFullScreenImage('https://randomuser.me/api/portraits/men/40.jpg')" tabindex="1" class="message image receiver">
         <span><img src="https://randomuser.me/api/portraits/men/40.jpg" /></span>
         <div class="time">12:51</div>
@@ -85,12 +85,16 @@
 </template>
 
 <script>
+import { io } from 'socket.io-client';
+
+
 import MessageShowImage from '@/components/dashboard/main/message/MessageImageFullScreen';
 export default {
   name: 'MessageContent',
   data() {
     return {
-      fullScreenImagePath: null
+      fullScreenImagePath: null,
+      socket: io(' http://localhost:3000')
     };
   },
   components: { MessageShowImage },
@@ -100,7 +104,19 @@ export default {
     },
     disableFullScreenImage() {
       this.fullScreenImagePath = null;
+    },
+    test() {
+      this.socket.emit('SEND_MESSAGE', {
+        user: 'test',
+        message: 'asdsads'
+      });
     }
+  },
+  mounted() {
+    this.socket.on('MESSAGE', data => {
+      console.log('socket geldi !!!');
+      console.log(data);
+    });
   }
 };
 </script>

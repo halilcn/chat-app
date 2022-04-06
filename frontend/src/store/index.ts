@@ -5,6 +5,7 @@ import auth from '@/store/modules/auth';
 import userSetting from '@/store/modules/user-setting';
 import friend from '@/store/modules/friend';
 import file from '@/store/modules/file';
+import message from '@/store/modules/message';
 
 axios.defaults.baseURL = process.env.VUE_APP_BACKEND_BASE_URL;
 axios.defaults.headers.common['Authorization'] = auth.state.user ? auth.state.user.token : '';
@@ -14,6 +15,7 @@ export default createStore({
     auth,
     userSetting,
     friend,
+    message,
     file
   }
 });

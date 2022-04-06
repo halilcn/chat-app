@@ -23,8 +23,13 @@ const search = async (userId: ObjectId, search: string): Promise<Array<object>> 
     .lean();
 };
 
+const getOne = async (userId: ObjectId): Promise<object> => {
+  return User.findOne({ _id: userId }).select('_id username image nameSurname').lean();
+};
+
 export default {
   createUser,
   createToken,
-  search
+  search,
+  getOne
 };

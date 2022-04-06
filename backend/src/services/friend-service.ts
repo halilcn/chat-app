@@ -4,7 +4,6 @@ import Friend from '@models/friend-model';
 import { FriendAlreadyExistsError, NoFriendError } from '@shared/errors';
 import Message from '@models/message-model';
 import MessageService from '@services/message-service';
-import User from '@models/user-model';
 
 const getOne = async (userId: ObjectId, friendUserId: ObjectId): Promise<{ [key: string]: any }> => {
   return Friend.findOne().or([
@@ -14,7 +13,9 @@ const getOne = async (userId: ObjectId, friendUserId: ObjectId): Promise<{ [key:
 };
 
 const getAll = async (userId: ObjectId): Promise<Array<object>> => {
-  return Friend.find().or([{ requester: userId }, { recipient: userId }]);
+  return Friend.find()
+    .or([{ requester: userId }, { recipient: userId }])
+    .lean();
 };
 
 const exists = async (userId: ObjectId, friendUserId: ObjectId): Promise<boolean> => {

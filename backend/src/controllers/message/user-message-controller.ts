@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 import handler from '@shared/handler';
 import response from '@shared/response';
 import FriendService from '@services/friend-service';
@@ -17,22 +15,26 @@ const index = handler(async (req, res, next) => {
   });
 
   for (const friend of friends) {
+    let unReadMessagesCount = 0;
     const user = await UserService.getOne(friend.userId);
     const messages = await MessageService.getAll(friend._id);
 
-    const unReadMessagesCount = messages.sort((a: any, b: any) => {
-      return dayjs(a.creaatedAt).isAfter(b.createdAt);
-    });
+    if (messages.length === 0) continue;
 
-    console.log(unReadMessagesCount);
+    for (const message of messages) {
+      if (message.readers.includes(userId)) break;
+      unReadMessagesCount++;
+    }
 
     userMessages.push({
-      user
+      user,
+      unReadMessagesCount,
+      lastMessage: {
+        content: messages[0].content,
+        createdAt: messages[0].createdAt
+      }
     });
   }
-
-  //
-  //profil,adı,son mesaj,
 
   next(response.success({ messages: userMessages }));
 });

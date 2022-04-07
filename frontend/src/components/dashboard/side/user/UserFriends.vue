@@ -1,5 +1,28 @@
 <template>
-  <left-side-with-animation title="Friends" :toggle="toggleFriends" :enable="enableFriends"> test </left-side-with-animation>
+  <left-side-with-animation class="user-friends-container" title="Friends" :toggle="toggleFriends" :enable="enableFriends">
+    <div class="search">
+      <input placeholder="Search..." type="text" />
+    </div>
+    <div class="user-list">
+      <div class="item not-friend">
+        <img class="profile-image" src="https://www.fakepersongenerator.com/Face/female/female20151024152487152.jpg" />
+        <div class="username">halilcn</div>
+        <div class="add-btn">add</div>
+      </div>
+      <div class="item friend">
+        <img class="profile-image" src="https://www.fakepersongenerator.com/Face/female/female20151024152487152.jpg" />
+        <div class="username">halilcn</div>
+        <div class='settings'>
+          <div class='btn'>
+            <i class="fa-solid fa-ellipsis"></i>
+          </div>
+          <div class='dropdown'>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </left-side-with-animation>
 </template>
 
 <script>
@@ -21,4 +44,67 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.user-friends-container {
+  .search input {
+    width: 100%;
+    border: 1px solid #eaeaea;
+    background-color: #fafafa;
+    border-radius: 5px;
+    padding: 8px 11px;
+    color: #4e4e4e;
+  }
+
+  .user-list {
+    margin-top: 30px;
+
+    .item {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      border-radius: 10px;
+      padding: 16px;
+
+      &.friend{
+        background-color: #f8f8f8;
+        cursor: pointer;
+
+        &:hover{
+          background-color: #efefef;
+        }
+      }
+
+      &.not-friend{
+        background-color: #f4f4ff;
+
+        .add-btn {
+          margin-left: auto;
+          padding: 5px 15px;
+          border-radius: 100px;
+          background-color: $default-purple;
+          color: white;
+          cursor: pointer;
+        }
+      }
+
+      .profile-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+      }
+
+      .username {
+        margin-left: 25px;
+        font-size: 17px;
+        color: #313131;
+      }
+
+
+      .settings{
+        margin-left: auto;
+        margin-bottom: auto;
+      }
+    }
+  }
+}
+</style>

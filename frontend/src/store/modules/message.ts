@@ -10,11 +10,11 @@ export default {
   state: {
     messages: [],
     userListMessages: [],
-    selectedUserId: null
+    selectedChatFriendId: null
   },
   mutations: {
-    setSelectedUserId(state: CustomObject, payload: string) {
-      state.selectedUserId = payload;
+    setSelectedChatFriendId(state: CustomObject, payload: string) {
+      state.selectedChatFriendId = payload;
     },
     setUserListMessages(state: CustomObject, payload: Array<object>) {
       state.userListMessages = payload;

@@ -1,11 +1,16 @@
 <template>
   <div class="user-list-container">
     <div v-if="userListMessages.length > 0" class="list">
-      <div v-for="(message, index) in userListMessages" :key="index" class="item selected not-readed">
+      <div
+        v-for="(message, index) in userListMessages"
+        :key="index"
+        @click="selectUserChat(message.friendId)"
+        class="item not-readed"
+        :class="{ selected: isSelectedUserChat(message.friendId) }">
         <img class="image" :src="message.user.image" />
         <div class="chat-info">
           <div class="name">{{ message.user.nameSurname }}</div>
-          <div class="last-message" :class="{ 'not-readed': userHasUnreadMessages(message.unReadMessagesCount) }">
+          <div class="last-message">
             {{ message.lastMessage.content }}
           </div>
         </div>
@@ -22,22 +27,28 @@
 </template>
 
 <script>
-import * as dayjs from 'dayjs';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'UserList',
   methods: {
     ...mapActions('message', ['getUserListMessages']),
+    ...mapMutations('message', ['setSelectedChatFriendId']),
     userHasUnreadMessages(count) {
       return count > 0;
+    },
+    selectUserChat(friendId) {
+      this.setSelectedChatFriendId(friendId);
+    },
+    isSelectedUserChat(friendId) {
+      return this.selectedChatFriendId === friendId;
     }
   },
   created() {
     this.getUserListMessages();
   },
   computed: {
-    ...mapState('message', ['userListMessages'])
+    ...mapState('message', ['userListMessages', 'selectedChatFriendId'])
   }
 };
 </script>

@@ -29,6 +29,7 @@ const index = handler(async (req, res, next) => {
     userMessages.push({
       user,
       unReadMessagesCount,
+      friendId: friend._id,
       lastMessage: {
         content: messages[0].content,
         createdAt: messages[0].createdAt

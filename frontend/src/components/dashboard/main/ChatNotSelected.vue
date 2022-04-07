@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-not-selected">
+  <div class="chat-not-selected-container">
     <lottie-player
       src="https://assets9.lottiefiles.com/packages/lf20_6mtrurjh.json"
       background="transparent"
@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.chat-not-selected {
+.chat-not-selected-container {
   height: 100%;
   display: flex;
   flex-direction: column;

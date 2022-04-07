@@ -1,12 +1,14 @@
 <template>
-  <transition-group name="effect">
-    <div v-if="selectedChatFriendId" class="main-content-container">
-      <top-content class="content" />
-      <message-content />
-      <send-message-content />
-    </div>
-    <chat-not-selected v-if="!selectedChatFriendId" class="main-content-container" />
-  </transition-group>
+  <div class="main-content-wrapper-container">
+    <transition-group name="effect">
+      <div v-if="selectedChatFriendId" class="main-content-container">
+        <top-content class="content" />
+        <message-content />
+        <send-message-content />
+      </div>
+      <chat-not-selected v-if="!selectedChatFriendId" class="main-content-container" />
+    </transition-group>
+  </div>
 </template>
 
 <script>
@@ -32,40 +34,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main-content-container {
+.main-content-wrapper-container {
   width: 100%;
+  height: 100%;
   background-color: $default-bg-blue-color;
-  display: flex;
-  flex-direction: column;
 
-  .content {
-    padding: 20px;
+  .main-content-container {
+    width: 100%;
+    height: 100%;
+    background-color: $default-bg-blue-color;
+    display: flex;
+    flex-direction: column;
+
+    .content {
+      padding: 20px;
+    }
   }
-}
 
-.effect-enter-active {
-  animation: enter-active 0.4s;
-}
-
-.effect-leave-active {
-  animation: leave-active 0.4s;
-}
-
-@keyframes enter-active {
-  from {
-    opacity: 0;
+  .effect-enter-active {
+    animation: enter-active 0.4s;
   }
-  to {
-    opacity: 1;
-  }
-}
 
-@keyframes leave-active {
-  from {
-    opacity: 1;
+  .effect-leave-active {
+    animation: leave-active 0.4s;
   }
-  to {
-    opacity: 0;
+
+  @keyframes enter-active {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes leave-active {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
   }
 }
 </style>

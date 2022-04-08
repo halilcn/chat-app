@@ -4,6 +4,7 @@
       <input placeholder="Search..." type="text" />
     </div>
     <div class="user-list">
+      {{friendsList}}
       <div class="item not-friend">
         <img class="profile-image" src="https://www.fakepersongenerator.com/Face/female/female20151024152487152.jpg" />
         <div class="username">halilcn</div>
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 import LeftSideWithAnimation from '@/components/dashboard/side/shared/LeftSideWithAnimation';
 
@@ -33,11 +34,17 @@ export default {
   components: {
     LeftSideWithAnimation
   },
+  watch: {
+    enableFriends(val) {
+      if (val) this.getFriends();
+    }
+  },
   methods: {
-    ...mapMutations('friend', ['toggleFriends'])
+    ...mapMutations('friend', ['toggleFriends']),
+    ...mapActions('friend', ['getFriends'])
   },
   computed: {
-    ...mapState('friend', ['enableFriends'])
+    ...mapState('friend', ['enableFriends','friendsList'])
   }
 };
 </script>

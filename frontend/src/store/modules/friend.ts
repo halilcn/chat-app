@@ -3,18 +3,29 @@ import axios from 'axios';
 import { Commit, Dispatch } from 'vuex';
 
 interface CustomObject {
-    [key: string]: any;
+  [key: string]: any;
 }
 
 export default {
-    state: {
-        enableFriends: false
+  state: {
+    enableFriends: false,
+    userList: []
+  },
+  mutations: {
+    toggleFriends(state: CustomObject) {
+      state.enableFriends = !state.enableFriends;
     },
-    mutations: {
-        toggleFriends(state: CustomObject): void {
-            state.enableFriends = !state.enableFriends;
-        }
-    },
-    actions: {},
-    namespaced: true
+    setFriend(state: CustomObject, payload: Array<object> | object) {
+      if (!(payload instanceof Array)) payload = [payload];
+      state.friendsList = payload;
+      //for (const item in payload) state.friendsList.prepend(item);
+    }
+  },
+  actions: {
+    async getFriends({ commit }: { commit: Commit }) {
+      const { data } = (await axios.get('/friends')).data;
+      commit('setFriend', data);
+    }
+  },
+  namespaced: true
 };

@@ -7,8 +7,20 @@ import response from '@shared/response';
 import UserService from '@services/user-service';
 
 const index = handler(async (req, res, next) => {
-  const test = await FriendService.getAll(req.user._id);
-  next(response.success(test));
+  const friends = (await FriendService.getAll(req.user._id)).map((friend: any) => {
+    return {
+      _id: friend._id,
+      userId: String(req.user._id) == String(friend.requester) ? friend.recipient : friend.requester
+    };
+  });
+  const users = await UserService.getMany(friends.map(friend => friend.userId));
+
+  friends.map((friend: any) => {
+    friend.user = users.find((user: any) => String(user._id) == String(friend.userId));
+    delete friend.userId;
+  });
+
+  next(response.success(friends));
 });
 
 const store = handler(async (req, res, next) => {

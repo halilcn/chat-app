@@ -12,13 +12,11 @@
       <div class="item friend">
         <img class="profile-image" src="https://www.fakepersongenerator.com/Face/female/female20151024152487152.jpg" />
         <div class="username">halilcn</div>
-        <div class='settings'>
-          <div class='btn'>
+        <div class="settings">
+          <div class="btn">
             <i class="fa-solid fa-ellipsis"></i>
           </div>
-          <div class='dropdown'>
-
-          </div>
+          <div class="dropdown"></div>
         </div>
       </div>
     </div>
@@ -53,6 +51,11 @@ export default {
     border-radius: 5px;
     padding: 8px 11px;
     color: #4e4e4e;
+    transition: 0.2s;
+
+    &:focus {
+      transform: scale(1.02);
+    }
   }
 
   .user-list {
@@ -61,20 +64,21 @@ export default {
     .item {
       display: flex;
       align-items: center;
-      margin: 20px 0;
+      margin: 18px 0;
       border-radius: 10px;
-      padding: 16px;
+      padding: 12px;
+      transition: 0.2s;
 
-      &.friend{
+      &.friend {
         background-color: #f8f8f8;
         cursor: pointer;
 
-        &:hover{
+        &:hover {
           background-color: #efefef;
         }
       }
 
-      &.not-friend{
+      &.not-friend {
         background-color: #f4f4ff;
 
         .add-btn {
@@ -84,23 +88,26 @@ export default {
           background-color: $default-purple;
           color: white;
           cursor: pointer;
+
+          &:hover {
+            background-color: $default-purple-hover-light;
+          }
         }
       }
 
       .profile-image {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border-radius: 100%;
       }
 
       .username {
         margin-left: 25px;
-        font-size: 17px;
+        font-size: 16px;
         color: #313131;
       }
 
-
-      .settings{
+      .settings {
         margin-left: auto;
         margin-bottom: auto;
       }

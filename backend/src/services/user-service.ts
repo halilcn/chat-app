@@ -27,9 +27,14 @@ const getOne = async (userId: ObjectId): Promise<object> => {
   return User.findOne({ _id: userId }).select('_id username image nameSurname').lean();
 };
 
+const getMany = async (userIds: Array<ObjectId>): Promise<Array<any>> => {
+  return User.find({ _id: {$in:userIds} }).select('_id username image nameSurname').lean();
+};
+
 export default {
   createUser,
   createToken,
   search,
-  getOne
+  getOne,
+  getMany
 };

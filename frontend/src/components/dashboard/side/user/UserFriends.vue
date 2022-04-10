@@ -4,20 +4,18 @@
       <input placeholder="Search..." type="text" />
     </div>
     <div class="user-list">
-      {{friendsList}}
       <div class="item not-friend">
         <img class="profile-image" src="https://www.fakepersongenerator.com/Face/female/female20151024152487152.jpg" />
         <div class="username">halilcn</div>
         <div class="add-btn">add</div>
       </div>
-      <div class="item friend">
-        <img class="profile-image" src="https://www.fakepersongenerator.com/Face/female/female20151024152487152.jpg" />
-        <div class="username">halilcn</div>
-        <div class="settings">
-          <div class="btn">
-            <i class="fa-solid fa-ellipsis"></i>
-          </div>
-          <div class="dropdown"></div>
+      <div v-for="(friend, key) in friendsList" :key="key" class="friend-item-wrapper">
+        <div @click="selectUserChat(friend._id)" class="item friend">
+          <img class="profile-image" :src="friend.user.image" />
+          <div class="username">{{ friend.user.username }}</div>
+        </div>
+        <div @click="deleteUserAction(friend._id)" class="delete-btn">
+          <i class="fa-solid fa-minus"></i>
         </div>
       </div>
     </div>
@@ -41,10 +39,16 @@ export default {
   },
   methods: {
     ...mapMutations('friend', ['toggleFriends']),
-    ...mapActions('friend', ['getFriends'])
+    ...mapActions('friend', ['getFriends']),
+    selectUserChat(friendId) {
+      alert('selec chat');
+    },
+    deleteUserAction(friendId) {
+      alert('delet user');
+    }
   },
   computed: {
-    ...mapState('friend', ['enableFriends','friendsList'])
+    ...mapState('friend', ['enableFriends', 'friendsList', 'searchFriendList'])
   }
 };
 </script>
@@ -68,10 +72,25 @@ export default {
   .user-list {
     margin-top: 30px;
 
-    .item {
+    .friend-item-wrapper {
       display: flex;
       align-items: center;
-      margin: 18px 0;
+      width: 100%;
+
+      .delete-btn {
+        margin-left: 30px;
+        margin-right: 10px;
+        border-radius: 100%;
+        color: #e01d1d;
+        cursor: pointer;
+      }
+    }
+
+    .item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin: 12px 0;
       border-radius: 10px;
       padding: 12px;
       transition: 0.2s;
@@ -112,11 +131,6 @@ export default {
         margin-left: 25px;
         font-size: 16px;
         color: #313131;
-      }
-
-      .settings {
-        margin-left: auto;
-        margin-bottom: auto;
       }
     }
   }

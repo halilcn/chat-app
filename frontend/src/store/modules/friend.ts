@@ -9,22 +9,21 @@ interface CustomObject {
 export default {
   state: {
     enableFriends: false,
-    userList: []
+    friendsList: [],
+    searchFriendList: []
   },
   mutations: {
     toggleFriends(state: CustomObject) {
       state.enableFriends = !state.enableFriends;
     },
-    setFriend(state: CustomObject, payload: Array<object> | object) {
-      if (!(payload instanceof Array)) payload = [payload];
+    setFriends(state: CustomObject, payload: Array<object>) {
       state.friendsList = payload;
-      //for (const item in payload) state.friendsList.prepend(item);
     }
   },
   actions: {
     async getFriends({ commit }: { commit: Commit }) {
       const { data } = (await axios.get('/friends')).data;
-      commit('setFriend', data);
+      commit('setFriends', data);
     }
   },
   namespaced: true

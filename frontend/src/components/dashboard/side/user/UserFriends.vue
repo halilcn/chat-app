@@ -3,20 +3,15 @@
     <div class="search">
       <input v-model="searchUsername" placeholder="Search..." type="text" />
     </div>
-    <div v-if="searchFriendList.length > 0" class="user-list">
-      <div class="item not-friend">
-        <img class="profile-image" src="https://www.fakepersongenerator.com/Face/female/female20151024152487152.jpg" />
-        <div class="username">halilcn</div>
-        <div class="add-btn">add</div>
-      </div>
-    </div>
-    <div v-else class="user-list">
-      <div v-for="(friend, key) in friendsList" :key="key" class="friend-item-wrapper">
-        <div @click="selectUserChat(friend._id)" class="item friend">
-          <img class="profile-image" :src="friend.user.image" />
-          <div class="username">{{ friend.user.username }}</div>
+    <div class="user-list">
+      {{ userList }}
+      <div v-for="(friendUser, key) in userList" :key="key" :class="{ 'friend-item-wrapper': friendUser.isFriend }">
+        <div @click="selectUserChat(friendUser.friendId)" :class="[friendUser.isFriend ? 'friend' : 'not-friend']" class="item">
+          <img class="profile-image" :src="friendUser.user.image" />
+          <div class="username">{{ friendUser.user.username }}</div>
+          <div v-if="!friendUser.isFriend" class="add-btn">add</div>
         </div>
-        <div @click="deleteUserAction(friend._id)" class="delete-btn">
+        <div v-if="friendUser.isFriend" @click="deleteUserAction(friendUser.friendId)" class="delete-btn">
           <i class="fa-solid fa-minus"></i>
         </div>
       </div>
@@ -63,7 +58,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('friend', ['enableFriends', 'friendsList', 'searchFriendList'])
+    ...mapState('friend', ['enableFriends', 'friendsList', 'searchFriendList', 'userList'])
   }
 };
 </script>

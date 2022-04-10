@@ -1,14 +1,16 @@
 <template>
   <left-side-with-animation class="user-friends-container" title="Friends" :toggle="toggleFriends" :enable="enableFriends">
     <div class="search">
-      <input placeholder="Search..." type="text" />
+      <input v-model="searchUsername" placeholder="Search..." type="text" />
     </div>
-    <div class="user-list">
+    <div v-if="searchFriendList.length > 0" class="user-list">
       <div class="item not-friend">
         <img class="profile-image" src="https://www.fakepersongenerator.com/Face/female/female20151024152487152.jpg" />
         <div class="username">halilcn</div>
         <div class="add-btn">add</div>
       </div>
+    </div>
+    <div v-else class="user-list">
       <div v-for="(friend, key) in friendsList" :key="key" class="friend-item-wrapper">
         <div @click="selectUserChat(friend._id)" class="item friend">
           <img class="profile-image" :src="friend.user.image" />
@@ -29,17 +31,30 @@ import LeftSideWithAnimation from '@/components/dashboard/side/shared/LeftSideWi
 
 export default {
   name: 'UserFriends',
-  components: {
-    LeftSideWithAnimation
+  data() {
+    return {
+      searchUsername: ''
+    };
   },
   watch: {
     enableFriends(val) {
       if (val) this.getFriends();
+    },
+    searchUsername(val) {
+      if (val === '') {
+        this.searchFriend(val);
+        return;
+      }
+
+      this.searchFriend();
     }
   },
+  components: {
+    LeftSideWithAnimation
+  },
   methods: {
-    ...mapMutations('friend', ['toggleFriends']),
-    ...mapActions('friend', ['getFriends']),
+    ...mapMutations('friend', ['toggleFriends', 'cleanSearchFriendList']),
+    ...mapActions('friend', ['getFriends', 'searchFriend']),
     selectUserChat(friendId) {
       alert('selec chat');
     },

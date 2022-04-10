@@ -3,8 +3,7 @@
     <div class="search">
       <input v-model="searchUsername" placeholder="Search..." type="text" />
     </div>
-    <div class="user-list">
-      {{ userList }}
+    <div v-if="userList.length > 0" class="user-list">
       <div v-for="(friendUser, key) in userList" :key="key" :class="{ 'friend-item-wrapper': friendUser.isFriend }">
         <div @click="selectUserChat(friendUser.friendId)" :class="[friendUser.isFriend ? 'friend' : 'not-friend']" class="item">
           <img class="profile-image" :src="friendUser.user.image" />
@@ -16,6 +15,7 @@
         </div>
       </div>
     </div>
+    <div v-else class="user-not-found">User not found</div>
   </left-side-with-animation>
 </template>
 
@@ -37,18 +37,18 @@ export default {
     },
     searchUsername(val) {
       if (val === '') {
-        this.searchFriend(val);
+        this.copyFriendsListToUserList();
         return;
       }
 
-      this.searchFriend();
+      this.searchFriend(val);
     }
   },
   components: {
     LeftSideWithAnimation
   },
   methods: {
-    ...mapMutations('friend', ['toggleFriends', 'cleanSearchFriendList']),
+    ...mapMutations('friend', ['toggleFriends', 'copyFriendsListToUserList']),
     ...mapActions('friend', ['getFriends', 'searchFriend']),
     selectUserChat(friendId) {
       alert('selec chat');
@@ -58,7 +58,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('friend', ['enableFriends', 'friendsList', 'searchFriendList', 'userList'])
+    ...mapState('friend', ['enableFriends', 'userList'])
   }
 };
 </script>
@@ -100,7 +100,7 @@ export default {
       width: 100%;
       display: flex;
       align-items: center;
-      margin: 12px 0;
+      margin: 7px 0;
       border-radius: 10px;
       padding: 12px;
       transition: 0.2s;
@@ -143,6 +143,13 @@ export default {
         color: #313131;
       }
     }
+  }
+
+  .user-not-found {
+    text-align: center;
+    margin-top: 30px;
+    color: #828282;
+    font-weight: 500;
   }
 }
 </style>

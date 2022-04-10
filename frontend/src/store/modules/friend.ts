@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Commit, Dispatch } from 'vuex';
+import { Commit } from 'vuex';
 
 interface CustomObject {
   [key: string]: any;
@@ -10,7 +10,6 @@ export default {
   state: {
     enableFriends: false,
     friendsList: [],
-    searchFriendList: [],
     userList: []
   },
   mutations: {
@@ -27,21 +26,21 @@ export default {
 
       state.friendsList = payload;
     },
-    setSearchFriendList(state: CustomObject, payload: Array<any>) {
-      payload = payload.map((friend: any) => {
-        if (friend.isFriend) {
-          friend.friendId = state.friendsList.find((friend: any) => friend.user._id == friend._id).friendId;
+    setUserList(state: CustomObject, payload: Array<any>) {
+      payload = payload.map((friendUser: any) => {
+        if (friendUser.isFriend) {
+          friendUser.friendId = state.friendsList.find((friend: any) => friend.user._id == friendUser._id).friendId;
         }
 
-        friend.user = {
-          username: friend.username,
-          image: friend.username
+        friendUser.user = {
+          username: friendUser.username,
+          image: friendUser.image
         };
 
-        return friend;
+        return friendUser;
       });
 
-      state.searchFriendList = payload;
+      state.userList = payload;
     },
     cleanSearchFriendList(state: CustomObject) {
       state.searchFriendList = [];
@@ -58,7 +57,7 @@ export default {
     },
     async searchFriend({ commit }: { commit: Commit }, payload: string) {
       const { data } = (await axios.get(`/friends/search?value=${payload}`)).data;
-      commit('setSearchFriendList', data.users);
+      commit('setUserList', data.users);
     }
   },
   namespaced: true

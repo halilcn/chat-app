@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import { Commit } from 'vuex';
 
 interface CustomObject {
@@ -28,11 +27,10 @@ export default {
     },
     setUserList(state: CustomObject, payload: Array<any>) {
       payload = payload.map((friendUser: any) => {
-        if (friendUser.isFriend) {
-          friendUser.friendId = state.friendsList.find((friend: any) => friend.user._id == friendUser._id).friendId;
-        }
+        if (friendUser.isFriend) friendUser.friendId = state.friendsList.find((friend: any) => friend.user._id == friendUser._id).friendId;
 
         friendUser.user = {
+          _id: friendUser._id,
           username: friendUser.username,
           image: friendUser.image
         };
@@ -57,6 +55,9 @@ export default {
       const { data } = (await axios.get('/friends')).data;
       commit('setFriends', data);
       commit('copyFriendsListToUserList');
+    },
+    async postFriend(_: any, payload: string) {
+      await axios.post('/friends', { recipient: payload });
     },
     async searchFriend({ commit }: { commit: Commit }, payload: string) {
       const { data } = (await axios.get(`/friends/search?value=${payload}`)).data;

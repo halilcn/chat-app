@@ -8,9 +8,9 @@
         <div @click="selectUserChat(friendUser.friendId)" :class="[friendUser.isFriend ? 'friend' : 'not-friend']" class="item">
           <img class="profile-image" :src="friendUser.user.image" />
           <div class="username">{{ friendUser.user.username }}</div>
-          <div v-if="!friendUser.isFriend" class="add-btn">add</div>
+          <div v-if="!friendUser.isFriend" @click="postFriendAction(friendUser.user._id)" class="add-btn">add</div>
         </div>
-        <div v-if="friendUser.isFriend" @click="deleteFriend(friendUser.friendId)" class="delete-btn">
+        <div v-if="friendUser.isFriend" @click="deleteFriendAction(friendUser.friendId)" class="delete-btn">
           <i class="fa-solid fa-minus"></i>
         </div>
       </div>
@@ -23,6 +23,7 @@
 import { mapState, mapMutations, mapActions } from 'vuex';
 
 import LeftSideWithAnimation from '@/components/dashboard/side/shared/LeftSideWithAnimation';
+import handler from '@/shared/handler';
 
 export default {
   name: 'UserFriends',
@@ -33,7 +34,7 @@ export default {
   },
   watch: {
     enableFriends(val) {
-      if (val) this.getFriends();
+      if (val) this.getFriendsAction();
     },
     searchUsername(val) {
       if (val === '') {
@@ -41,7 +42,7 @@ export default {
         return;
       }
 
-      this.searchFriend(val);
+      this.searchFriendAction(val);
     }
   },
   components: {
@@ -49,9 +50,31 @@ export default {
   },
   methods: {
     ...mapMutations('friend', ['toggleFriends', 'copyFriendsListToUserList']),
-    ...mapActions('friend', ['getFriends', 'searchFriend', 'deleteFriend']),
+    ...mapActions('friend', ['getFriends', 'postFriend', 'searchFriend', 'deleteFriend']),
+    getFriendsAction() {
+      handler(async () => {
+        await this.getFriends();
+      });
+    },
+    postFriendAction(userId) {
+      handler(async () => {
+        await this.postFriend(userId);
+        this.searchUsername = '';
+        this.getFriendsAction();
+      });
+    },
+    searchFriendAction(text) {
+      handler(async () => {
+        await this.searchFriend(text);
+      });
+    },
+    deleteFriendAction(friendId) {
+      handler(async () => {
+        await this.deleteFriend(friendId);
+      });
+    },
     selectUserChat(friendId) {
-      alert('selec chat');
+      console.log('select chat');
     }
   },
   computed: {

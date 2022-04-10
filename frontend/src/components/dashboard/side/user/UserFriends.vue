@@ -10,7 +10,7 @@
           <div class="username">{{ friendUser.user.username }}</div>
           <div v-if="!friendUser.isFriend" class="add-btn">add</div>
         </div>
-        <div v-if="friendUser.isFriend" @click="deleteUserAction(friendUser.friendId)" class="delete-btn">
+        <div v-if="friendUser.isFriend" @click="deleteFriend(friendUser.friendId)" class="delete-btn">
           <i class="fa-solid fa-minus"></i>
         </div>
       </div>
@@ -49,12 +49,9 @@ export default {
   },
   methods: {
     ...mapMutations('friend', ['toggleFriends', 'copyFriendsListToUserList']),
-    ...mapActions('friend', ['getFriends', 'searchFriend']),
+    ...mapActions('friend', ['getFriends', 'searchFriend', 'deleteFriend']),
     selectUserChat(friendId) {
       alert('selec chat');
-    },
-    deleteUserAction(friendId) {
-      alert('delet user');
     }
   },
   computed: {

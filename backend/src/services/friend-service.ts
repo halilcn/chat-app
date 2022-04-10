@@ -28,8 +28,8 @@ const addOne = async (requester: ObjectId, recipient: ObjectId): Promise<void> =
   await MessageService.addOneEmpty(friend._id);
 };
 
-const deleteOne = async (userId: ObjectId, friendUserId: ObjectId): Promise<void> => {
-  const friend = await getOne(userId, friendUserId);
+const deleteOne = async (userId: ObjectId, friendId: ObjectId): Promise<void> => {
+  const friend = await Friend.findOne({ _id: friendId });
 
   if (!friend) throw new NoFriendError();
 

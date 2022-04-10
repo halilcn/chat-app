@@ -47,6 +47,9 @@ export default {
     },
     copyFriendsListToUserList(state: CustomObject) {
       state.userList = state.friendsList;
+    },
+    removeFriend(state: CustomObject, payload: string) {
+      state.friendsList = state.friendsList.filter((friend: any) => friend.friendId != payload);
     }
   },
   actions: {
@@ -58,6 +61,11 @@ export default {
     async searchFriend({ commit }: { commit: Commit }, payload: string) {
       const { data } = (await axios.get(`/friends/search?value=${payload}`)).data;
       commit('setUserList', data.users);
+    },
+    async deleteFriend({ commit }: { commit: Commit }, payload: string) {
+      await axios.delete(`/friends/${payload}`);
+      commit('removeFriend', payload);
+      commit('copyFriendsListToUserList');
     }
   },
   namespaced: true

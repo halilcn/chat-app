@@ -1,4 +1,5 @@
 <template>
+  {{ messages }}
   <div class="message-content-container">
     <div class="message-list">
       <div @click="test">test tıkla</div>
@@ -86,9 +87,10 @@
 
 <script>
 import { io } from 'socket.io-client';
-
+import { mapState } from 'vuex';
 
 import MessageShowImage from '@/components/dashboard/main/message/MessageImageFullScreen';
+
 export default {
   name: 'MessageContent',
   data() {
@@ -117,6 +119,9 @@ export default {
       console.log('socket geldi !!!');
       console.log(data);
     });
+  },
+  computed: {
+    ...mapState('message', ['messages'])
   }
 };
 </script>

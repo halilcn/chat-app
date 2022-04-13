@@ -9,6 +9,7 @@ interface CustomObject {
 export default {
   state: {
     messages: [],
+    messageUser: {},
     userListMessages: [],
     selectedChatFriendId: null
   },
@@ -18,12 +19,21 @@ export default {
     },
     setUserListMessages(state: CustomObject, payload: Array<object>) {
       state.userListMessages = payload;
+    },
+    setMessages(state: CustomObject, payload: Array<object>) {
+      state.messages = payload;
     }
   },
   actions: {
     async getUserListMessages({ commit }: { commit: Commit }) {
       const { data } = (await axios.get('/user-messages')).data;
+
       commit('setUserListMessages', data.messages);
+    },
+    async getMessages({ commit, state }: { commit: Commit; state: CustomObject }) {
+      const { data } = (await axios.get(`/friends/${state.selectedChatFriendId}/messages`)).data;
+
+      commit('setMessages', data.messages);
     }
   },
   getters: {},

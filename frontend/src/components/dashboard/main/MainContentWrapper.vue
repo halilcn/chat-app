@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import TopContent from '@/components/dashboard/main/TopContent';
 import MessageContent from '@/components/dashboard/main/message/MessageContent';
@@ -27,8 +27,16 @@ export default {
     MessageContent,
     SendMessageContent
   },
+  methods: {
+    ...mapActions('message', ['getMessages'])
+  },
   computed: {
     ...mapState('message', ['selectedChatFriendId'])
+  },
+  watch: {
+    selectedChatFriendId() {
+      this.getMessages();
+    }
   }
 };
 </script>

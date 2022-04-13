@@ -50,6 +50,7 @@ export default {
   },
   methods: {
     ...mapMutations('friend', ['toggleFriends', 'copyFriendsListToUserList']),
+    ...mapMutations('message', ['setSelectedChatFriendId']),
     ...mapActions('friend', ['getFriends', 'postFriend', 'searchFriend', 'deleteFriend']),
     getFriendsAction() {
       handler(async () => {
@@ -74,7 +75,7 @@ export default {
       });
     },
     selectUserChat(friendId) {
-      console.log('select chat');
+      this.setSelectedChatFriendId(friendId);
     }
   },
   computed: {

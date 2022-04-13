@@ -7,6 +7,11 @@ export default new Schema(
       type: Schema.Types.ObjectId,
       required: true
     },
+    type: {
+      required: true,
+      type: String,
+      enum: ['text', 'image']
+    },
     content: {
       type: String,
       required: true

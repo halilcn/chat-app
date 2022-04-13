@@ -1,8 +1,9 @@
 <template>
-  {{ messages }}
+  {{ messages[0] }}
   <div class="message-content-container">
-    <div class="message-list">
+    <div v-if="messages.length > 0" class="message-list">
       <div @click="test">test tıkla</div>
+
       <div @click="setPathForFullScreenImage('https://randomuser.me/api/portraits/men/40.jpg')" tabindex="1" class="message image receiver">
         <span><img src="https://randomuser.me/api/portraits/men/40.jpg" /></span>
         <div class="time">12:51</div>
@@ -81,6 +82,10 @@
         <div class="time">12:51</div>
       </div>
     </div>
+    <div v-else class="no-message">
+      <i class="fa-solid fa-hand"></i>
+      Say hi
+    </div>
   </div>
   <message-show-image @disable-screen="disableFullScreenImage" :path="fullScreenImagePath" />
 </template>
@@ -91,6 +96,7 @@ import { mapState } from 'vuex';
 
 import MessageShowImage from '@/components/dashboard/main/message/MessageImageFullScreen';
 
+//todo:message type !
 export default {
   name: 'MessageContent',
   data() {
@@ -192,6 +198,17 @@ export default {
         }
       }
     }
+  }
+
+  .no-message {
+    cursor: pointer;
+    margin: auto 30px 30px 30px;
+    align-self: flex-start;
+    background-color: $blue-very-light-dark;
+    color: $blue-dark;
+    padding: 12px 30px;
+    border-radius: 100px;
+    font-size: 14px;
   }
 }
 </style>

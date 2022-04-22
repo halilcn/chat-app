@@ -23,6 +23,8 @@ export default {
         return user;
       });
 
+      console.log(payload);
+
       state.friendsList = payload;
     },
     setUserList(state: CustomObject, payload: Array<any>) {

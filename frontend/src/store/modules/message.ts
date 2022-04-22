@@ -22,6 +22,9 @@ export default {
     },
     setMessages(state: CustomObject, payload: Array<object>) {
       state.messages = payload;
+    },
+    deleteUserFromUserList(state: CustomObject, payload: string) {
+      state.userListMessages = state.userListMessages.filter((user: any) => user.friendId != payload);
     }
   },
   actions: {
@@ -36,7 +39,7 @@ export default {
       commit('setMessages', data.messages);
     },
     async postMessage({ commit, state }: { commit: Commit; state: CustomObject }, payload: object) {
-      alert()
+      alert();
     }
   },
   getters: {},

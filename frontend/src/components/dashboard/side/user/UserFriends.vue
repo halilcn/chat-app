@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     ...mapMutations('friend', ['toggleFriends', 'copyFriendsListToUserList']),
-    ...mapMutations('message', ['setSelectedChatFriendId']),
+    ...mapMutations('message', ['setSelectedChatFriendId', 'deleteUserFromUserList']),
     ...mapActions('friend', ['getFriends', 'postFriend', 'searchFriend', 'deleteFriend']),
     getFriendsAction() {
       handler(async () => {
@@ -72,6 +72,7 @@ export default {
     deleteFriendAction(friendId) {
       handler(async () => {
         await this.deleteFriend(friendId);
+        this.deleteUserFromUserList(friendId);
       });
     },
     selectUserChat(friendId) {

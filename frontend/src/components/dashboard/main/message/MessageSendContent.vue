@@ -1,10 +1,19 @@
 <template>
   <div class="send-message-content-container">
-    <input v-model="message" class="message" type="text" placeholder="Your message..." />
+    <div class="message-wrapper">
+      <input v-model="message" class="message" type="text" placeholder="Your message..." />
+      <div class="files">
+        <div class="">
+
+        </div>
+      </div>
+    </div>
     <div class="actions">
       <discord-picker class="item" @emoji="selectEmoji" />
+
       <img class="item file" src="../../../../../public/icons/attachment.png" />
-      <div class="send-message-button item">
+
+      <div @click="sendMessage" class="send-message-button item">
         <i class="fa-solid fa-paper-plane"></i>
       </div>
     </div>
@@ -12,21 +21,34 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import DiscordPicker from 'vue3-discordpicker';
+import handler from '@/shared/handler';
 
 export default {
   name: 'SendMessageContent',
   data() {
     return {
-      message: ''
+      message: {
+        type: '',
+        content: ''
+      }
     };
   },
   components: {
     DiscordPicker
   },
   methods: {
+    ...mapActions('file', ['postImage']),
     selectEmoji(emoji) {
       this.message += emoji;
+    },
+    sendMessage() {
+      handler(async () => {
+        alert();
+        //await this.postImage({ image: 'ad' });
+      });
     }
   }
 };
@@ -40,16 +62,21 @@ export default {
   border-radius: 100px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
-  .message {
+  .message-wrapper {
     width: 100%;
     max-height: 300px;
-    border: 0;
-    overflow-y: auto;
-    color: $blue-dark;
 
-    &::placeholder {
-      color: $blue-light-dark;
+    .message {
+      width: 100%;
+      border: 0;
+      overflow-y: auto;
+      color: $blue-dark;
+
+      &::placeholder {
+        color: $blue-light-dark;
+      }
     }
   }
 

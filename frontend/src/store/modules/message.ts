@@ -34,6 +34,9 @@ export default {
       const { data } = (await axios.get(`/friends/${state.selectedChatFriendId}/messages`)).data;
 
       commit('setMessages', data.messages);
+    },
+    async postMessage({ commit, state }: { commit: Commit; state: CustomObject }, payload: object) {
+      alert()
     }
   },
   getters: {},

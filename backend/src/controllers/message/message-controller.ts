@@ -14,7 +14,7 @@ const index = handler(async (req, res, next) => {
 const store = handler(async (req, res, next) => {
   const messageInfos = {
     authorId: req.user._id,
-    content: req.validated.message,
+    content: req.validated.content,
     type: req.validated.type
   };
 

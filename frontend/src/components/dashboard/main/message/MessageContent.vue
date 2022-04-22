@@ -2,7 +2,7 @@
   {{ messages }}
   <div class="message-content-container">
     <div v-if="messages.length > 0" class="message-list">
-    <!--   <div @click="test">test tıkla</div>
+      <!--   <div @click="test">test tıkla</div>
 
       <div @click="setPathForFullScreenImage('https://randomuser.me/api/portraits/men/40.jpg')" tabindex="1" class="message image receiver">
         <span><img src="https://randomuser.me/api/portraits/men/40.jpg" /></span>
@@ -81,6 +81,24 @@
         <span>testa sda </span>
         <div class="time">12:51</div>
       </div>-->
+      <!--<div tabindex="1" class="message file receiver">
+        <span><img src="https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg" /></span>
+        <div class="time">12:51</div>
+      </div>
+
+      <div tabindex="1" class="message file receiver">
+        <span><img src="https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg" /></span>
+        <div class="time">12:51</div>
+      </div>
+
+      <div tabindex="1" class="message file receiver">
+        <span>
+          <video width="320" height="240" controls>
+            <source src="../../../../../public/test_video.mp4" type="video/mp4" />
+          </video>
+        </span>
+        <div class="time">12:51</div>
+      </div> -->
     </div>
     <div v-else class="no-message">
       <i class="fa-solid fa-hand"></i>
@@ -91,7 +109,7 @@
 </template>
 
 <script>
-import { io } from 'socket.io-client';
+//import { io } from 'socket.io-client';
 import { mapState } from 'vuex';
 
 import MessageShowImage from '@/components/dashboard/main/message/MessageImageFullScreen';
@@ -101,8 +119,8 @@ export default {
   name: 'MessageContent',
   data() {
     return {
-      fullScreenImagePath: null,
-      socket: io(' http://localhost:3000')
+      fullScreenImagePath: null
+      /* socket: io(' http://localhost:3000')*/
     };
   },
   components: { MessageShowImage },
@@ -114,17 +132,17 @@ export default {
       this.fullScreenImagePath = null;
     },
     test() {
-      this.socket.emit('SEND_MESSAGE', {
+      /*  this.socket.emit('SEND_MESSAGE', {
         user: 'test',
         message: 'asdsads'
-      });
+      });*/
     }
   },
   mounted() {
-    this.socket.on('MESSAGE', data => {
+    /*   this.socket.on('MESSAGE', data => {
       console.log('socket geldi !!!');
       console.log(data);
-    });
+    });*/
   },
   computed: {
     ...mapState('message', ['messages'])
@@ -163,11 +181,12 @@ export default {
         background-color: white;
       }
 
-      &.image {
+      &.file {
         padding: 0;
         cursor: pointer;
 
-        img {
+        img,
+        video {
           aspect-ratio: 2/1;
           object-fit: cover;
           max-height: 200px;

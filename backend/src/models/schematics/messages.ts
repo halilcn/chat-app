@@ -1,6 +1,8 @@
 import { Schema } from 'mongoose';
 import dayjs from 'dayjs';
 
+import { MESSAGE_TYPES } from '../../constants';
+
 export default new Schema(
   {
     authorId: {
@@ -10,7 +12,7 @@ export default new Schema(
     type: {
       required: true,
       type: String,
-      enum: ['text', 'image']
+      enum: Object.values(MESSAGE_TYPES)
     },
     content: {
       type: String,

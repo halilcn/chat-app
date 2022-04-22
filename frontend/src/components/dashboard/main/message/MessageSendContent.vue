@@ -1,7 +1,7 @@
 <template>
   <div class="send-message-content-container">
     <div class="message-wrapper">
-        <input class="message" type="text" placeholder="Your message..." />
+      <input @keyup="setTextTypeMessage" class="message" type="text" placeholder="Your message..." />
       <!--<div class="files">
         <div class="file">asdsaasdadsa.png</div>
         <div class="file">asdsaasdadsa.png</div>
@@ -13,9 +13,12 @@
     </div>
     <div class="actions">
       <discord-picker class="item" @emoji="selectEmoji" />
-
-      <img class="item file" src="../../../../../public/icons/attachment.png" />
-
+      <div v-if="message.type === MESSAGE_TYPES.FILE" class="item message-file">
+        <input @change="uploadImage" type="file" id="message_file" multiple />
+        <label for="message_file">
+          <img class="item file" src="../../../../../public/icons/attachment.png" />
+        </label>
+      </div>
       <div @click="sendMessage" class="send-message-button item">
         <i class="fa-solid fa-paper-plane"></i>
       </div>
@@ -25,9 +28,13 @@
 
 <script>
 import { mapActions } from 'vuex';
-
 import DiscordPicker from 'vue3-discordpicker';
+
 import handler from '@/shared/handler';
+import { MESSAGE_TYPES } from '@/store/constants';
+
+//todo:message array ile çoklu gönderildiğinde store etmek
+//todo:video store için api
 
 export default {
   name: 'SendMessageContent',
@@ -42,6 +49,14 @@ export default {
   components: {
     DiscordPicker
   },
+  watch: {
+    message: {
+      deep: true,
+      handler(message) {
+        console.log(message);
+      }
+    }
+  },
   methods: {
     ...mapActions('file', ['postImage']),
     selectEmoji(emoji) {
@@ -49,9 +64,17 @@ export default {
     },
     sendMessage() {
       handler(async () => {
-        alert();
+        console.log(this.message);
         //await this.postImage({ image: 'ad' });
       });
+    },
+    setTextTypeMessage(e) {
+      this.message.content = e.target.value;
+      this.message.type = MESSAGE_TYPES.TEXT;
+    },
+    uploadImage(e) {
+      this.message.content = e.target.files;
+      this.message.type = MESSAGE_TYPES.FILE;
     }
   }
 };
@@ -110,6 +133,12 @@ export default {
 
     .item {
       margin-right: 20px;
+
+      &.message-file {
+        input {
+          display: none;
+        }
+      }
 
       &.send-message-button {
         color: $default-purple;

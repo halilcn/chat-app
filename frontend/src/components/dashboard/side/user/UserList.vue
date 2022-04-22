@@ -120,6 +120,12 @@ export default {
           font-size: 13px;
           color: $blue-light-dark;
         }
+
+        .total-unread-message {
+          font-size: 12px;
+          font-weight: 600;
+          color: $blue-dark;
+        }
       }
     }
   }

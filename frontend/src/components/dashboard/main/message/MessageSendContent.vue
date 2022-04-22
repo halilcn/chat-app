@@ -1,12 +1,15 @@
 <template>
   <div class="send-message-content-container">
     <div class="message-wrapper">
-      <input v-model="message" class="message" type="text" placeholder="Your message..." />
-      <div class="files">
-        <div class="">
-
-        </div>
-      </div>
+        <input class="message" type="text" placeholder="Your message..." />
+      <!--<div class="files">
+        <div class="file">asdsaasdadsa.png</div>
+        <div class="file">asdsaasdadsa.png</div>
+        <div class="file">asdsaasdadsa.png</div>
+        <div class="file">adsa.png</div>
+        <div class="file">adsa.png</div>
+        <div class="file">asdsaasdadsa_asdada2_ads.png</div>
+      </div> -->
     </div>
     <div class="actions">
       <discord-picker class="item" @emoji="selectEmoji" />
@@ -66,16 +69,36 @@ export default {
 
   .message-wrapper {
     width: 100%;
-    max-height: 300px;
+    max-height: 90px;
+    overflow-y: auto;
 
     .message {
       width: 100%;
       border: 0;
-      overflow-y: auto;
       color: $blue-dark;
 
       &::placeholder {
         color: $blue-light-dark;
+      }
+    }
+
+    .files {
+      display: flex;
+      flex-wrap: wrap;
+
+      .file {
+        @include text-max-length(200);
+        cursor: pointer;
+        padding: 5px 15px;
+        border-radius: 10px;
+        background-color: #f1f1f1;
+        font-weight: 300;
+        font-size: 14px;
+        margin: 7px;
+
+        &:hover {
+          background-color: #fff3f3;
+        }
       }
     }
   }

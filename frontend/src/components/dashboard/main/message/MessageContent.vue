@@ -1,8 +1,8 @@
 <template>
-  {{ messages[0] }}
+  {{ messages }}
   <div class="message-content-container">
     <div v-if="messages.length > 0" class="message-list">
-      <div @click="test">test tıkla</div>
+    <!--   <div @click="test">test tıkla</div>
 
       <div @click="setPathForFullScreenImage('https://randomuser.me/api/portraits/men/40.jpg')" tabindex="1" class="message image receiver">
         <span><img src="https://randomuser.me/api/portraits/men/40.jpg" /></span>
@@ -80,7 +80,7 @@
       <div tabindex="1" class="message text giver">
         <span>testa sda </span>
         <div class="time">12:51</div>
-      </div>
+      </div>-->
     </div>
     <div v-else class="no-message">
       <i class="fa-solid fa-hand"></i>

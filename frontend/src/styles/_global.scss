@@ -85,6 +85,13 @@
   }
 }
 
+@mixin text-max-length($max-width) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: $max-width;
+}
+
 .icon {
   cursor: pointer;
   background-color: $light-grey-color;

@@ -5,10 +5,10 @@
       <div v-if="isMessageFileType(message.type)" class="files">
         <div v-for="(file, index) in message.content" :key="index" @click="deleteFile(index)" class="file">{{ file.name }}</div>
       </div>
-      <input v-else @keyup="setTextTypeMessage" class="message" type="text" placeholder="Your message..." />
+      <input v-else @keyup="setTextTypeMessage" :value="message.content" class="message" type="text" placeholder="Your message..." />
     </div>
     <div class="actions">
-      <discord-picker v-if="!isMessageFileType(message.type)" class="item" @emoji="selectEmoji" />
+      <discord-picker v-if="!isMessageFileType(message.type)" class="item icons" @emoji="selectEmoji" />
       <div class="item message-file">
         <input @change="uploadImage" type="file" id="message_file" multiple />
         <label for="message_file">
@@ -45,23 +45,14 @@ export default {
   components: {
     DiscordPicker
   },
-  watch: {
-    message: {
-      deep: true,
-      handler(message) {
-        console.log(message);
-      }
-    }
-  },
   methods: {
     ...mapActions('file', ['postImage']),
     selectEmoji(emoji) {
       this.message.content += emoji;
-
-      console.log(this.message.content);
     },
     sendMessage() {
       handler(async () => {
+        if (!this.message.content) return;
         console.log(this.message);
         //await this.postImage({ image: 'ad' });
       });
@@ -87,7 +78,10 @@ export default {
     },
     deleteFile(fileIndex) {
       this.message.content = this.message.content.filter((file, index) => index !== fileIndex);
-      if (this.message.content.length === 0) this.selectTextMessageType();
+      if (this.message.content.length === 0) {
+        this.selectTextMessageType();
+        this.message.content = '';
+      }
     }
   }
 };
@@ -97,7 +91,7 @@ export default {
 .send-message-content-container {
   margin: 10px 20px 10px 20px;
   background-color: white;
-  padding: 20px;
+  padding: 10px 20px;
   border-radius: 100px;
   display: flex;
   justify-content: space-between;
@@ -107,9 +101,9 @@ export default {
     display: flex;
     align-items: center;
     width: 100%;
-    max-height: 90px;
-    height: 45px;
     overflow-y: auto;
+    height: 60px;
+    max-height: 90px;
 
     .message {
       width: 100%;
@@ -175,6 +169,10 @@ export default {
         &:hover {
           filter: grayscale(0%);
         }
+      }
+
+      &.icons {
+        margin-bottom: 1rem;
       }
     }
   }

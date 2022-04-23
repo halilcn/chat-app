@@ -11,10 +11,10 @@ export default {
     async postImage(_: any, payload: CustomObject): Promise<string> {
       const form = new FormData();
 
-      form.append('image', payload.image);
+      form.append('file', payload.image);
 
       const { data } = (
-        await axios.post('/image', form, {
+        await axios.post('/file/image', form, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }

@@ -1,11 +1,13 @@
 import multer from 'multer';
 
-const types = ['image/png', 'image/jpg', 'image/jpeg'];
+import { FILE_TYPES, FILE_IMAGE_TYPES, FILE_VIDEO_TYPES } from '../../constants';
 
 const storage = multer.diskStorage({
-  destination: 'public/uploads/user-images',
+  destination: 'public/uploads/file',
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '.png');
+    const fileType = req.params.fileType == FILE_TYPES.IMAGE ? '.png' : '.mp4';
+
+    cb(null, Date.now() + fileType);
   }
 });
 
@@ -15,10 +17,16 @@ export default multer({
     fileSize: 1024 * 1024 * 2
   },
   fileFilter: (req, file, cb) => {
-    if (!types.includes(file.mimetype)) {
+    if (req.params.fileType == FILE_TYPES.IMAGE && !FILE_IMAGE_TYPES.includes(file.mimetype)) {
       cb(null, false);
-      return cb(new Error('Image upload error'));
+      return cb(new Error('File image type error'));
     }
+
+    if (req.params.fileType == FILE_TYPES.VIDEO && !FILE_VIDEO_TYPES.includes(file.mimetype)) {
+      cb(null, false);
+      return cb(new Error('File video type error'));
+    }
+
     cb(null, true);
   }
 });

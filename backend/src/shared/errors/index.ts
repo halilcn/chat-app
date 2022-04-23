@@ -43,3 +43,9 @@ export class NoFriendError extends CustomError {
     super(message, code);
   }
 }
+
+export class FileTypeError extends CustomError {
+  constructor(message = 'File Type Error', code = httpStatusCode.BAD_REQUEST) {
+    super(message, code);
+  }
+}

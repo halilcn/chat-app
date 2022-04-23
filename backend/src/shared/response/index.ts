@@ -27,13 +27,13 @@ response.success = (message = 'Success', status = httpStatusCode.OK) => {
 response.created = (message = 'Created', status = httpStatusCode.CREATED) => {
   return typeof message !== 'string'
     ? {
-      data: message,
-      status
-    }
+        data: message,
+        status
+      }
     : {
-      message,
-      status
-    };
+        message,
+        status
+      };
 };
 
 response.noContent = (message = 'No Content', status = httpStatusCode.NO_CONTENT) => {

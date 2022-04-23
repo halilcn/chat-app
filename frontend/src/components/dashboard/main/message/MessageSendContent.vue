@@ -1,19 +1,15 @@
 <template>
   <div class="send-message-content-container">
+    {{ fileTypeMessageNames }}
     <div class="message-wrapper">
-      <input @keyup="setTextTypeMessage" class="message" type="text" placeholder="Your message..." />
-      <!--<div class="files">
-        <div class="file">asdsaasdadsa.png</div>
-        <div class="file">asdsaasdadsa.png</div>
-        <div class="file">asdsaasdadsa.png</div>
-        <div class="file">adsa.png</div>
-        <div class="file">adsa.png</div>
-        <div class="file">asdsaasdadsa_asdada2_ads.png</div>
-      </div> -->
+      <div v-if="isMessageFileType(message.type)" class="files">
+        <div v-for="(file, index) in message.content" :key="index" @click="deleteFile(index)" class="file">{{ file.name }}</div>
+      </div>
+      <input v-else @keyup="setTextTypeMessage" class="message" type="text" placeholder="Your message..." />
     </div>
     <div class="actions">
-      <discord-picker class="item" @emoji="selectEmoji" />
-      <div v-if="message.type === MESSAGE_TYPES.FILE" class="item message-file">
+      <discord-picker v-if="!isMessageFileType(message.type)" class="item" @emoji="selectEmoji" />
+      <div class="item message-file">
         <input @change="uploadImage" type="file" id="message_file" multiple />
         <label for="message_file">
           <img class="item file" src="../../../../../public/icons/attachment.png" />
@@ -31,7 +27,7 @@ import { mapActions } from 'vuex';
 import DiscordPicker from 'vue3-discordpicker';
 
 import handler from '@/shared/handler';
-import { MESSAGE_TYPES } from '@/store/constants';
+import { MESSAGE_TYPES, FILE_MESSAGE_TYPES } from '@/store/constants';
 
 //todo:message array ile çoklu gönderildiğinde store etmek
 //todo:video store için api
@@ -60,7 +56,9 @@ export default {
   methods: {
     ...mapActions('file', ['postImage']),
     selectEmoji(emoji) {
-      this.message += emoji;
+      this.message.content += emoji;
+
+      console.log(this.message.content);
     },
     sendMessage() {
       handler(async () => {
@@ -68,13 +66,28 @@ export default {
         //await this.postImage({ image: 'ad' });
       });
     },
-    setTextTypeMessage(e) {
-      this.message.content = e.target.value;
+    selectFileMessageType() {
+      this.message.type = MESSAGE_TYPES.FILE;
+    },
+    selectTextMessageType() {
       this.message.type = MESSAGE_TYPES.TEXT;
     },
+    setTextTypeMessage(e) {
+      this.message.content = e.target.value;
+      this.selectTextMessageType();
+    },
     uploadImage(e) {
-      this.message.content = e.target.files;
-      this.message.type = MESSAGE_TYPES.FILE;
+      const messageFileContents = Object.values(e.target.files).filter(file => FILE_MESSAGE_TYPES.includes(file.type));
+      if (messageFileContents.length === 0) return;
+      this.message.content = messageFileContents;
+      this.selectFileMessageType();
+    },
+    isMessageFileType(type) {
+      return MESSAGE_TYPES.FILE === type;
+    },
+    deleteFile(fileIndex) {
+      this.message.content = this.message.content.filter((file, index) => index !== fileIndex);
+      if (this.message.content.length === 0) this.selectTextMessageType();
     }
   }
 };
@@ -91,8 +104,11 @@ export default {
   align-items: center;
 
   .message-wrapper {
+    display: flex;
+    align-items: center;
     width: 100%;
     max-height: 90px;
+    height: 45px;
     overflow-y: auto;
 
     .message {

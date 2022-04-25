@@ -8,13 +8,14 @@ export default {
   state: {},
   mutations: {},
   actions: {
-    async postImage(_: any, payload: CustomObject): Promise<string> {
+    async postFile(_: any, payload: CustomObject): Promise<string> {
+      const fileType = payload.file.type.split('/')[0];
       const form = new FormData();
 
-      form.append('file', payload.image);
+      form.append('file', payload.file);
 
       const { data } = (
-        await axios.post('/file/image', form, {
+        await axios.post(`/file/${fileType}`, form, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }

@@ -46,7 +46,7 @@ export default {
     DiscordPicker
   },
   methods: {
-    ...mapActions('file', ['postImage']),
+    ...mapActions('file', ['postFile']),
     selectEmoji(emoji) {
       this.message.content += emoji;
     },

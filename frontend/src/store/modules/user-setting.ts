@@ -20,9 +20,9 @@ export default {
     async postUserSettings({ dispatch, commit }: { dispatch: Dispatch; commit: Commit }, payload: CustomObject) {
       if (typeof payload.image == 'object') {
         const imagePath = await dispatch(
-          'file/postImage',
+          'file/postFile',
           {
-            image: payload.image
+            file: payload.image
           },
           { root: true }
         );

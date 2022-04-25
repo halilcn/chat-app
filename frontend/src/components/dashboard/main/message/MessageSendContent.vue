@@ -1,6 +1,5 @@
 <template>
   <div class="send-message-content-container">
-    {{ fileTypeMessageNames }}
     <div class="message-wrapper">
       <div v-if="isMessageFileType(message.type)" class="files">
         <div v-for="(file, index) in message.content" :key="index" @click="deleteFile(index)" class="file">{{ file.name }}</div>
@@ -27,10 +26,7 @@ import { mapActions } from 'vuex';
 import DiscordPicker from 'vue3-discordpicker';
 
 import handler from '@/shared/handler';
-import { MESSAGE_TYPES, FILE_MESSAGE_TYPES } from '@/store/constants';
-
-//todo:message array ile çoklu gönderildiğinde store etmek
-//todo:video store için api
+import { MESSAGE_TYPES, FILE_VIDEO_TYPES, FILE_IMAGE_TYPES } from '@/store/constants';
 
 export default {
   name: 'SendMessageContent',
@@ -90,7 +86,9 @@ export default {
       this.selectTextMessageType();
     },
     uploadImage(e) {
-      const messageFileContents = Object.values(e.target.files).filter(file => FILE_MESSAGE_TYPES.includes(file.type));
+      const messageFileContents = Object.values(e.target.files).filter(file =>
+        [...FILE_VIDEO_TYPES, ...FILE_IMAGE_TYPES].includes(file.type)
+      );
       if (messageFileContents.length === 0) return;
       this.message.content = messageFileContents;
       this.selectFileMessageType();
@@ -101,8 +99,7 @@ export default {
     deleteFile(fileIndex) {
       this.message.content = this.message.content.filter((file, index) => index !== fileIndex);
       if (this.message.content.length === 0) {
-        this.selectTextMessageType();
-        this.message.content = '';
+        this.clearMessage();
       }
     }
   }

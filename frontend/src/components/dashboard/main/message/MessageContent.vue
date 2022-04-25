@@ -1,9 +1,25 @@
 <template>
-  {{ messages }}
   <div class="message-content-container">
     <div v-if="messages.length > 0" class="message-list">
-      <!--   <div @click="test">test tıkla</div>
-
+      <div
+        v-for="(message, index) in messages"
+        :key="index"
+        tabindex="1"
+        class="message file"
+        :class="[isYourMessage(message.authorId) ? 'giver' : 'receiver']">
+        <span v-if="isTextMessageType(message.type)">{{ message.content }}</span>
+        <span v-else>
+          <img
+            v-if="isImageOfMessageFileType(message.content)"
+            :src="convertToFullBackendPath(message.content)"
+            @click="setPathForFullScreenImage(convertToFullBackendPath(message.content))" />
+          <video v-else width="320" height="240" controls>
+            <source :src="convertToFullBackendPath(message.content)" type="video/mp4" />
+          </video>
+        </span>
+        <div class="time">{{ message.createdAt }}</div>
+      </div>
+      <!--
       <div @click="setPathForFullScreenImage('https://randomuser.me/api/portraits/men/40.jpg')" tabindex="1" class="message image receiver">
         <span><img src="https://randomuser.me/api/portraits/men/40.jpg" /></span>
         <div class="time">12:51</div>
@@ -112,7 +128,9 @@
 //import { io } from 'socket.io-client';
 import { mapState } from 'vuex';
 
+import helpers from '@/helpers';
 import MessageShowImage from '@/components/dashboard/main/message/MessageImageFullScreen';
+import { MESSAGE_TYPES, FILE_IMAGE_TYPES } from '@/store/constants';
 
 //todo:message type !
 export default {
@@ -131,6 +149,23 @@ export default {
     disableFullScreenImage() {
       this.fullScreenImagePath = null;
     },
+    isYourMessage(authorId) {
+      return this.user._id === authorId;
+    },
+    isTextMessageType(type) {
+      return MESSAGE_TYPES.TEXT === type;
+    },
+    isImageOfMessageFileType(content) {
+      const arrayContent = content.split('.');
+      const fileExtension = arrayContent[arrayContent.length - 1];
+      const fileImageTypeExtensions = FILE_IMAGE_TYPES.map(file => file.split('/')[1]);
+
+      return fileImageTypeExtensions.includes(fileExtension);
+    },
+    convertToFullBackendPath(st) {
+      //todo:!!!
+      return helpers.convertToFullBackendPath(st);
+    },
     test() {
       /*  this.socket.emit('SEND_MESSAGE', {
         user: 'test',
@@ -145,7 +180,8 @@ export default {
     });*/
   },
   computed: {
-    ...mapState('message', ['messages'])
+    ...mapState('message', ['messages']),
+    ...mapState('auth', ['user'])
   }
 };
 </script>

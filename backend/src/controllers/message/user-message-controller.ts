@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 import handler from '@shared/handler';
 import response from '@shared/response';
 import FriendService from '@services/friend-service';
@@ -17,7 +19,9 @@ const index = handler(async (req, res, next) => {
   for (const friend of friends) {
     let unReadMessagesCount = 0;
     const user = await UserService.getOne(friend.userId);
-    const messages = await MessageService.getAll(friend._id);
+    const messages = (await MessageService.getAll(friend._id)).sort((prevMessage, nextMessage) =>
+      dayjs(nextMessage.creaatedAt).isAfter(prevMessage.createdAt) ? -1 : 1
+    );
 
     if (messages.length === 0) continue;
 

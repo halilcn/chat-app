@@ -3,9 +3,9 @@ import response from '@shared/response';
 import UserSettingService from '@services/user-setting-service';
 
 const index = handler(async (req, res, next) => {
-  const { username, image, nameSurname } = req.user;
+  const { _id, username, image, nameSurname } = req.user;
 
-  next(response.success({ user: { username, image, nameSurname } }));
+  next(response.success({ user: { _id, username, image, nameSurname } }));
 });
 
 const update = handler(async (req, res, next) => {

@@ -12,13 +12,17 @@ const index = handler(async (req, res, next) => {
 });
 
 const store = handler(async (req, res, next) => {
-  const messageInfos = {
-    authorId: req.user._id,
-    content: req.validated.content,
-    type: req.validated.type
-  };
+  const { messages } = req.validated;
 
-  await MessageService.addOne(req.params.friendId as unknown as ObjectId, messageInfos);
+  for (const message of messages) {
+    const messageInfos = {
+      authorId: req.user._id,
+      content: message.content,
+      type: message.type
+    };
+
+    await MessageService.addOne(req.params.friendId as unknown as ObjectId, messageInfos);
+  }
 
   next(response.created());
 });

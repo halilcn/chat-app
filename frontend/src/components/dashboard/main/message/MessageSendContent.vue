@@ -47,15 +47,37 @@ export default {
   },
   methods: {
     ...mapActions('file', ['postFile']),
+    ...mapActions('message', ['postMessage']),
     selectEmoji(emoji) {
       this.message.content += emoji;
     },
     sendMessage() {
       handler(async () => {
         if (!this.message.content) return;
-        console.log(this.message);
-        //await this.postImage({ image: 'ad' });
+        if (this.message.type === MESSAGE_TYPES.FILE) await this.postFileForMessageFileType();
+
+        await this.postMessage(this.message);
+
+        this.clearMessage();
       });
+    },
+    async postFileForMessageFileType() {
+      await handler(async () => {
+        const newMessage = [];
+
+        for (const file of this.message.content) {
+          const filePath = await this.postFile({ file });
+          newMessage.push({ type: 'file', content: filePath });
+        }
+
+        this.message = newMessage;
+      });
+    },
+    clearMessage() {
+      this.message = {
+        type: MESSAGE_TYPES.TEXT,
+        content: ''
+      };
     },
     selectFileMessageType() {
       this.message.type = MESSAGE_TYPES.FILE;

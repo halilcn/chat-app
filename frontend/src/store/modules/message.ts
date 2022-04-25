@@ -38,8 +38,10 @@ export default {
 
       commit('setMessages', data.messages);
     },
-    async postMessage({ commit, state }: { commit: Commit; state: CustomObject }, payload: object) {
-      alert();
+    async postMessage({ state }: { state: CustomObject }, payload: object | object[]) {
+      if (!Array.isArray(payload)) payload = [payload];
+
+      await axios.post(`/friends/${state.selectedChatFriendId}/messages`, { messages: payload });
     }
   },
   getters: {},

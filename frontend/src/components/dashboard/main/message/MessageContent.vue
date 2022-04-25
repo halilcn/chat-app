@@ -19,102 +19,6 @@
         </span>
         <div class="time">{{ message.createdAt }}</div>
       </div>
-      <!--
-      <div @click="setPathForFullScreenImage('https://randomuser.me/api/portraits/men/40.jpg')" tabindex="1" class="message image receiver">
-        <span><img src="https://randomuser.me/api/portraits/men/40.jpg" /></span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message image receiver">
-        <span><img src="https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg" /></span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message image receiver">
-        <span><img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Eiffel_Tower_Vertical.JPG" /></span>
-        <div class="time">12:51</div>
-      </div>
-
-      <div tabindex="1" class="message text receiver">
-        <span>testa sda sdas das dasd asda sa sd</span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text receiver">
-        <span>testa sda sdas das dasd asda sasd ada d asda sd</span>
-        <div class="time">12:51</div>
-      </div>
-      <div class="message text receiver">
-        <span>testa sda </span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text giver">
-        <span>testa sda </span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text receiver">
-        <span>testa sda sdas das dasd asda sa sd</span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text receiver">
-        <span>testa sda sdas das dasd asda sasd ada d asda sd</span>
-        <div class="time">12:51</div>
-      </div>
-      <div class="message text receiver">
-        <span>testa sda </span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text giver">
-        <span>testa sda </span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text receiver">
-        <span>testa sda sdas das dasd asda sa sd</span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text receiver">
-        <span>testa sda sdas das dasd asda sasd ada d asda sd</span>
-        <div class="time">12:51</div>
-      </div>
-      <div class="message text receiver">
-        <span>testa sda </span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text giver">
-        <span>testa sda </span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text receiver">
-        <span>testa sda sdas das dasd asda sa sd</span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text receiver">
-        <span>testa sda sdas das dasd asda sasd ada d asda sd</span>
-        <div class="time">12:51</div>
-      </div>
-      <div class="message text receiver">
-        <span>testa sda </span>
-        <div class="time">12:51</div>
-      </div>
-      <div tabindex="1" class="message text giver">
-        <span>testa sda </span>
-        <div class="time">12:51</div>
-      </div>-->
-      <!--<div tabindex="1" class="message file receiver">
-        <span><img src="https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg" /></span>
-        <div class="time">12:51</div>
-      </div>
-
-      <div tabindex="1" class="message file receiver">
-        <span><img src="https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg" /></span>
-        <div class="time">12:51</div>
-      </div>
-
-      <div tabindex="1" class="message file receiver">
-        <span>
-          <video width="320" height="240" controls>
-            <source src="../../../../../public/test_video.mp4" type="video/mp4" />
-          </video>
-        </span>
-        <div class="time">12:51</div>
-      </div> -->
     </div>
     <div v-else class="no-message">
       <i class="fa-solid fa-hand"></i>
@@ -212,9 +116,19 @@ export default {
         display: block;
       }
 
-      &.text {
-        font-size: 14px;
-        background-color: white;
+      &.receiver {
+        border-radius: 0 20px 20px 20px;
+      }
+
+      &.giver {
+        border-radius: 20px 0 20px 20px;
+        align-self: flex-end;
+        background-color: $default-purple;
+        color: white;
+
+        .time {
+          color: white;
+        }
       }
 
       &.file {
@@ -238,19 +152,9 @@ export default {
         display: none;
       }
 
-      &.receiver {
-        border-radius: 0 20px 20px 20px;
-      }
-
-      &.giver {
-        border-radius: 20px 0 20px 20px;
-        align-self: flex-end;
-        background-color: $default-purple;
-        color: white;
-
-        .time {
-          color: white;
-        }
+      .text {
+        font-size: 14px;
+        background-color: white;
       }
     }
   }

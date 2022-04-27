@@ -9,14 +9,15 @@
         :class="[isYourMessage(message.authorId) ? 'giver' : 'receiver']">
         <div class="text" v-if="isTextMessageType(message.type)">{{ message.content }}</div>
         <img
-          class="file"
           v-else-if="isImageOfMessageFileType(message.content)"
+          class="file"
+          alt='message-image'
           :src="convertToFullBackendPath(message.content)"
           @click="setPathForFullScreenImage(convertToFullBackendPath(message.content))" />
-        <video class="file" v-else controls>
+        <video v-else class="file" controls>
           <source :src="convertToFullBackendPath(message.content)" type="video/mp4" />
         </video>
-        <div class="time">{{ message.createdAt }}</div>
+        <div class="time">{{ dayjs(message.createdAt).format('DD MMM') }}</div>
       </div>
     </div>
     <div v-else class="no-message">
@@ -30,6 +31,7 @@
 <script>
 //import { io } from 'socket.io-client';
 import { mapState } from 'vuex';
+import dayjs from 'dayjs';
 
 import helpers from '@/helpers';
 import MessageShowImage from '@/components/dashboard/main/message/MessageImageFullScreen';
@@ -40,7 +42,8 @@ export default {
   name: 'MessageContent',
   data() {
     return {
-      fullScreenImagePath: null
+      fullScreenImagePath: null,
+      dayjs: dayjs
       /* socket: io(' http://localhost:3000')*/
     };
   },
@@ -142,6 +145,7 @@ export default {
       }
 
       .file {
+        cursor: pointer;
         aspect-ratio: 2/1;
         object-fit: cover;
         max-height: 200px;
@@ -153,9 +157,10 @@ export default {
       }
 
       .time {
-        padding: 0px 13px;
+        padding: 3px 13px;
         text-align: right;
         font-size: 11px;
+        font-style: italic;
         color: #5e5e5e;
         display: none;
       }

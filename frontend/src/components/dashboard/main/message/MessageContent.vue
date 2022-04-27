@@ -5,18 +5,17 @@
         v-for="(message, index) in messages"
         :key="index"
         tabindex="1"
-        class="message file"
+        class="message"
         :class="[isYourMessage(message.authorId) ? 'giver' : 'receiver']">
-        <span v-if="isTextMessageType(message.type)">{{ message.content }}</span>
-        <span v-else>
-          <img
-            v-if="isImageOfMessageFileType(message.content)"
-            :src="convertToFullBackendPath(message.content)"
-            @click="setPathForFullScreenImage(convertToFullBackendPath(message.content))" />
-          <video v-else width="320" height="240" controls>
-            <source :src="convertToFullBackendPath(message.content)" type="video/mp4" />
-          </video>
-        </span>
+        <div class="text" v-if="isTextMessageType(message.type)">{{ message.content }}</div>
+        <img
+          class="file"
+          v-else-if="isImageOfMessageFileType(message.content)"
+          :src="convertToFullBackendPath(message.content)"
+          @click="setPathForFullScreenImage(convertToFullBackendPath(message.content))" />
+        <video class="file" v-else controls>
+          <source :src="convertToFullBackendPath(message.content)" type="video/mp4" />
+        </video>
         <div class="time">{{ message.createdAt }}</div>
       </div>
     </div>
@@ -58,6 +57,9 @@ export default {
     },
     isTextMessageType(type) {
       return MESSAGE_TYPES.TEXT === type;
+    },
+    isFileMessageType(type) {
+      return MESSAGE_TYPES.FILE === type;
     },
     isImageOfMessageFileType(content) {
       const arrayContent = content.split('.');
@@ -108,7 +110,6 @@ export default {
     height: 100px;
 
     .message {
-      padding: 13px;
       margin: 7px 0;
       max-width: 80%;
 
@@ -118,6 +119,11 @@ export default {
 
       &.receiver {
         border-radius: 0 20px 20px 20px;
+        background-color: white;
+
+        .file {
+          border-radius: 0 20px 20px 20px;
+        }
       }
 
       &.giver {
@@ -129,32 +135,29 @@ export default {
         .time {
           color: white;
         }
-      }
 
-      &.file {
-        padding: 0;
-        cursor: pointer;
-
-        img,
-        video {
-          aspect-ratio: 2/1;
-          object-fit: cover;
-          max-height: 200px;
-          border-radius: 20px;
+        .file {
+          border-radius: 20px 0 20px 20px;
         }
       }
 
-      .time {
-        text-align: right;
-        font-size: 11px;
-        color: #5e5e5e;
-        margin-top: 5px;
-        display: none;
+      .file {
+        aspect-ratio: 2/1;
+        object-fit: cover;
+        max-height: 200px;
       }
 
       .text {
+        padding: 13px;
         font-size: 14px;
-        background-color: white;
+      }
+
+      .time {
+        padding: 0px 13px;
+        text-align: right;
+        font-size: 11px;
+        color: #5e5e5e;
+        display: none;
       }
     }
   }

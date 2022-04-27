@@ -25,11 +25,12 @@
       Say hi
     </div>
   </div>
+  <div @click='testSocket'> testtetesttesttesttesttesttestst</div>
   <message-show-image @disable-screen="disableFullScreenImage" :path="fullScreenImagePath" />
 </template>
 
 <script>
-//import { io } from 'socket.io-client';
+import io from 'socket.io-client';
 import { mapState } from 'vuex';
 import dayjs from 'dayjs';
 
@@ -43,8 +44,8 @@ export default {
   data() {
     return {
       fullScreenImagePath: null,
-      dayjs: dayjs
-      /* socket: io(' http://localhost:3000')*/
+      dayjs: dayjs,
+      socket : io('localhost:3000',{ transports : ['websocket'] })
     };
   },
   components: { MessageShowImage },
@@ -75,18 +76,19 @@ export default {
       //todo:!!!
       return helpers.convertToFullBackendPath(st);
     },
-    test() {
-      /*  this.socket.emit('SEND_MESSAGE', {
-        user: 'test',
-        message: 'asdsads'
-      });*/
+    testSocket(){
+      this.socket.emit('SEND_MESSAGE', {
+        user: 'test user',
+        message: 'test message'
+      });
     }
   },
   mounted() {
-    /*   this.socket.on('MESSAGE', data => {
-      console.log('socket geldi !!!');
+    this.socket.on('MESSAGE', (data) => {
+      console.log('veri geldi !!!!!');
       console.log(data);
-    });*/
+      // you can also do this.messages.push(data)
+    });
   },
   computed: {
     ...mapState('message', ['messages']),

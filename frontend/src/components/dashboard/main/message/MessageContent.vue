@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
 import { mapState } from 'vuex';
 import dayjs from 'dayjs';
 
@@ -45,7 +44,6 @@ export default {
     return {
       fullScreenImagePath: null,
       dayjs: dayjs,
-      socket : io('localhost:3000',{ transports : ['websocket'] })
     };
   },
   components: { MessageShowImage },
@@ -77,14 +75,14 @@ export default {
       return helpers.convertToFullBackendPath(st);
     },
     testSocket(){
-      this.socket.emit('SEND_MESSAGE', {
+      this.$socket.emit('SEND_MESSAGE', {
         user: 'test user',
         message: 'test message'
       });
     }
   },
-  mounted() {
-    this.socket.on('MESSAGE', (data) => {
+  created() {
+    this.$socket.on('MESSAGE', (data) => {
       console.log('veri geldi !!!!!');
       console.log(data);
       // you can also do this.messages.push(data)

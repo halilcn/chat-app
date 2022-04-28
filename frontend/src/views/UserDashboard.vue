@@ -29,6 +29,9 @@ export default {
     setTimeout(() => {
       this.isLoading = false;
     }, 1000);
+    this.$socket.emit('LOGIN', {
+      test: 'sadasdasd asdas'
+    });
   }
 };
 </script>

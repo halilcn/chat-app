@@ -53,11 +53,24 @@ export default {
         if (!this.message.content) return;
         if (this.message.type === MESSAGE_TYPES.FILE) await this.postFileForMessageFileType();
 
+        if (!Array.isArray(this.message)) this.message = [this.message];
         await this.postMessage(this.message);
 
-        this.clearMessage();
+        for (const message of this.message) {
+          /*
+          * authorId: "624c95d53e33d83629080ad5"
+content: "asda das asda dasa dsad sasd adas dsad asd asas "
+createdAt: "2022-04-22T07:57:06.456Z"
+readers: []
+type: "text"
+updatedAt: "2022-04-22T07:57:06.456Z"
+_id: "6262653f240ed528f8950e34"*/
 
-        this.$socket.emit(socketChannels.SEND_MESSAGE,{test:'okey !!!'})
+          //mesaj bilgileri ne ? fromId,created gibi ??
+          this.$socket.emit(socketChannels.SEND_MESSAGE, { test: 'okey !!!' });
+        }
+
+        this.clearMessage();
       });
     },
     async postFileForMessageFileType() {

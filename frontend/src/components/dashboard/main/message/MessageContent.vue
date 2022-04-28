@@ -11,13 +11,13 @@
         <img
           v-else-if="isImageOfMessageFileType(message.content)"
           class="file"
-          alt='message-image'
+          alt="message-image"
           :src="convertToFullBackendPath(message.content)"
           @click="setPathForFullScreenImage(convertToFullBackendPath(message.content))" />
         <video v-else class="file" controls>
           <source :src="convertToFullBackendPath(message.content)" type="video/mp4" />
         </video>
-        <div class="time">{{ dayjs(message.createdAt).format('DD MMM') }}</div>
+        <div class="time">{{ $dayjs(message.createdAt).format('DD MMM') }}</div>
       </div>
     </div>
     <div v-else class="no-message">
@@ -25,25 +25,22 @@
       Say hi
     </div>
   </div>
-  <div @click='testSocket'> testtetesttesttesttesttesttestst</div>
   <message-show-image @disable-screen="disableFullScreenImage" :path="fullScreenImagePath" />
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import dayjs from 'dayjs';
 
 import helpers from '@/helpers';
 import MessageShowImage from '@/components/dashboard/main/message/MessageImageFullScreen';
 import { MESSAGE_TYPES, FILE_IMAGE_TYPES } from '@/store/constants';
+import socketChannels from '@/store/socket-channels';
 
-//todo:message type !
 export default {
   name: 'MessageContent',
   data() {
     return {
-      fullScreenImagePath: null,
-      dayjs: dayjs,
+      fullScreenImagePath: null
     };
   },
   components: { MessageShowImage },
@@ -60,9 +57,6 @@ export default {
     isTextMessageType(type) {
       return MESSAGE_TYPES.TEXT === type;
     },
-    isFileMessageType(type) {
-      return MESSAGE_TYPES.FILE === type;
-    },
     isImageOfMessageFileType(content) {
       const arrayContent = content.split('.');
       const fileExtension = arrayContent[arrayContent.length - 1];
@@ -70,27 +64,19 @@ export default {
 
       return fileImageTypeExtensions.includes(fileExtension);
     },
-    convertToFullBackendPath(st) {
-      //todo:!!!
-      return helpers.convertToFullBackendPath(st);
-    },
-    testSocket(){
-      this.$socket.emit('SEND_MESSAGE', {
-        user: 'test user',
-        message: 'test message'
-      });
+    convertToFullBackendPath(path) {
+      return helpers.convertToFullBackendPath(path);
     }
-  },
-  created() {
-    this.$socket.on('MESSAGE', (data) => {
-      console.log('veri geldi !!!!!');
-      console.log(data);
-      // you can also do this.messages.push(data)
-    });
   },
   computed: {
     ...mapState('message', ['messages']),
     ...mapState('auth', ['user'])
+  },
+  created() {
+    this.$socket.on(socketChannels.MESSAGE, data => {
+      console.log('Message geldi !!');
+      console.log(data);
+    });
   }
 };
 </script>

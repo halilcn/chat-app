@@ -10,4 +10,4 @@ const app = server.listen(port, () => {
 });
 
 //Import socket.io server
-require('../src/socketServer')(app);
+require('./socket-server')(app);

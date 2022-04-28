@@ -27,6 +27,7 @@ import DiscordPicker from 'vue3-discordpicker';
 
 import handler from '@/shared/handler';
 import { MESSAGE_TYPES, FILE_VIDEO_TYPES, FILE_IMAGE_TYPES } from '@/store/constants';
+import socketChannels from '@/store/socket-channels';
 
 export default {
   name: 'SendMessageContent',
@@ -55,6 +56,8 @@ export default {
         await this.postMessage(this.message);
 
         this.clearMessage();
+
+        this.$socket.emit(socketChannels.SEND_MESSAGE,{test:'okey !!!'})
       });
     },
     async postFileForMessageFileType() {

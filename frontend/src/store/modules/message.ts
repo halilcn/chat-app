@@ -23,6 +23,9 @@ export default {
     setMessages(state: CustomObject, payload: Array<object>) {
       state.messages = payload;
     },
+    setMessage(state: CustomObject, payload: object) {
+      state.messages.push(payload);
+    },
     deleteUserFromUserList(state: CustomObject, payload: string) {
       state.userListMessages = state.userListMessages.filter((user: any) => user.friendId != payload);
     }

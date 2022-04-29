@@ -27,7 +27,7 @@ import DiscordPicker from 'vue3-discordpicker';
 
 import handler from '@/shared/handler';
 import { MESSAGE_TYPES, FILE_VIDEO_TYPES, FILE_IMAGE_TYPES } from '@/store/constants';
-import socketChannels from '@/store/socket-channels';
+import socketActions from '@/store/socket-actions';
 
 export default {
   name: 'SendMessageContent',
@@ -55,20 +55,7 @@ export default {
 
         if (!Array.isArray(this.message)) this.message = [this.message];
         await this.postMessage(this.message);
-
-        for (const message of this.message) {
-          /*
-          * authorId: "624c95d53e33d83629080ad5"
-content: "asda das asda dasa dsad sasd adas dsad asd asas "
-createdAt: "2022-04-22T07:57:06.456Z"
-readers: []
-type: "text"
-updatedAt: "2022-04-22T07:57:06.456Z"
-_id: "6262653f240ed528f8950e34"*/
-
-          //mesaj bilgileri ne ? fromId,created gibi ??
-          this.$socket.emit(socketChannels.SEND_MESSAGE, { test: 'okey !!!' });
-        }
+        socketActions.sendMessage(this.$socket, this.message);
 
         this.clearMessage();
       });

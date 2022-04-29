@@ -3,7 +3,7 @@
     <img class="profile-image" src="https://randomuser.me/api/portraits/men/40.jpg" />
     <div class="user-info">
       <div class="name">Halil Can</div>
-      <div class="last-active">active - bugün 12:40 - yazıyor</div>
+      <div class="last-active">active - bugün 12:40 - yazıyor {{ userIdsInWritingStatus }}</div>
     </div>
     <div class="actions">
       <i class="fa-solid fa-ellipsis-vertical icon item"></i>
@@ -12,8 +12,22 @@
 </template>
 
 <script>
+import socketChannels from '@/store/socket-channels';
+
 export default {
-  name: 'TopContent'
+  name: 'TopContent',
+  data() {
+    return {
+      userIdsInWritingStatus: []
+    };
+  },
+  created() {
+    this.$socket.on(socketChannels.USER_IN_WRITING_STATUS, payload => this.userIdsInWritingStatus.push(payload));
+    this.$socket.on(
+      socketChannels.USER_IN_NOT_WRITING_STATUS,
+      payload => (this.userIdsInWritingStatus = this.userIdsInWritingStatus.filter(userId => userId !== payload))
+    );
+  }
 };
 </script>
 

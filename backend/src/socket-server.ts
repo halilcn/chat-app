@@ -8,17 +8,12 @@ interface IUsers {
 
 module.exports = (app: Express) => {
   const io = require('socket.io')(app);
-  const users: IUsers[] = [];
+  let users: IUsers[] = [];
 
   io.on('connection', function (socket: Socket) {
-    socket.on('LOGIN', payload => {
-      users.push({ socketId: socket.id, userId: payload.userId });
-    });
+    socket.on('LOGIN', payload => users.push({ socketId: socket.id, userId: payload.userId }));
 
-    socket.on('disconnect', () => {
-      //tood:!
-      console.log(users.find((user: IUsers) => user.socketId == socket.id));
-    });
+    socket.on('disconnect', () => (users = users.filter((user: IUsers) => user.socketId != socket.id)));
 
     socket.on('JOIN_FRIEND_CHAT', friendRoomId => socket.join(friendRoomId));
 

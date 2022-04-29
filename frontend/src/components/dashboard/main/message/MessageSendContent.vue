@@ -56,7 +56,7 @@ export default {
 
         if (!Array.isArray(this.message)) this.message = [this.message];
         await this.postMessage(this.message);
-        socketActions.sendMessage(this.$socket, this.message);
+        socketActions.sendMessage(this.$socket, { messages: this.message, friendId: this.selectedChatFriendId });
 
         this.clearMessage();
       });

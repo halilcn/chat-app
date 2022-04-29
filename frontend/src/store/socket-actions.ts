@@ -4,7 +4,12 @@ import dayjs from 'dayjs';
 import socketChannels from '@/store/socket-channels';
 import authModule from '@/store/modules/auth';
 
-const sendMessage = (socket: Socket, messages: object[]): void => {
+interface ISendMessagePayload {
+  messages: object[];
+  friendId: string;
+}
+
+const sendMessage = (socket: Socket, { messages, friendId }: ISendMessagePayload) => {
   const authorId = authModule.state.user._id;
 
   for (const message of messages) {
@@ -15,7 +20,7 @@ const sendMessage = (socket: Socket, messages: object[]): void => {
       createdAt: dayjs()
     };
 
-    socket.emit(socketChannels.SEND_MESSAGE, messageArgs);
+    socket.emit(socketChannels.SEND_MESSAGE, { friendId, message: messageArgs });
   }
 };
 

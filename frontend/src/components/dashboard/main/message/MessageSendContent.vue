@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import DiscordPicker from 'vue3-discordpicker';
 
 import handler from '@/shared/handler';
@@ -36,7 +36,8 @@ export default {
       message: {
         type: '',
         content: ''
-      }
+      },
+      clearTimeoutForTyping: null
     };
   },
   components: {
@@ -85,8 +86,24 @@ export default {
       this.message.type = MESSAGE_TYPES.TEXT;
     },
     setTextTypeMessage(e) {
+      this.typing();
+
       this.message.content = e.target.value;
       this.selectTextMessageType();
+    },
+    typing() {
+      clearTimeout(this.clearTimeoutForTyping);
+      const payload = {
+        friendId: this.selectedChatFriendId,
+        userId: this.user._id
+      };
+
+      if (!this.clearTimeoutForTyping) socketActions.startTyping(this.$socket, payload);
+
+      this.clearTimeoutForTyping = setTimeout(() => {
+        socketActions.leavingTyping(this.$socket, payload);
+        this.clearTimeoutForTyping = null;
+      }, 1000);
     },
     uploadImage(e) {
       const messageFileContents = Object.values(e.target.files).filter(file =>
@@ -105,6 +122,10 @@ export default {
         this.clearMessage();
       }
     }
+  },
+  computed: {
+    ...mapState('message', ['selectedChatFriendId']),
+    ...mapState('auth', ['user'])
   }
 };
 </script>

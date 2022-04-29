@@ -3,7 +3,7 @@
     <img class="profile-image" src="https://randomuser.me/api/portraits/men/40.jpg" />
     <div class="user-info">
       <div class="name">Halil Can</div>
-      <div class="last-active">today 12:48</div>
+      <div class="last-active">active - bugün 12:40 - yazıyor</div>
     </div>
     <div class="actions">
       <i class="fa-solid fa-ellipsis-vertical icon item"></i>

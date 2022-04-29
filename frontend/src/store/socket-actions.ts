@@ -31,9 +31,19 @@ const leaveFriendChat = (socket: Socket, friendId: string) => {
   socket.emit(socketChannels.LEAVE_FRIEND_CHAT, friendId);
 };
 
+const startTyping = (socket: Socket, friendId: string) => {
+  socket.emit(socketChannels.START_TYPING, friendId);
+};
+
+const leavingTyping = (socket: Socket, friendId: string) => {
+  socket.emit(socketChannels.LEAVING_TYPING, friendId);
+};
+
 export default {
   sendMessage,
   login,
   joinFriendChat,
-  leaveFriendChat
+  leaveFriendChat,
+  startTyping,
+  leavingTyping
 };

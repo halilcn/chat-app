@@ -15,6 +15,7 @@ import LeftSide from '@/components/dashboard/side/LeftSideWrapper.vue';
 import MainContent from '@/components/dashboard/main/MainContentWrapper.vue';
 import LoadingDashboard from '@/components/dashboard/others/LoadingDashboard';
 import socketChannels from '@/store/socket-channels';
+import socketActions from '@/store/socket-actions';
 
 export default {
   name: 'UserDashboard',
@@ -36,7 +37,7 @@ export default {
       this.isLoading = false;
     }, 1000);
 
-    this.$socket.emit(socketChannels.LOGIN, { userId: this.user._id });
+    socketActions.login(this.$socket, this.user._id);
   }
 };
 </script>

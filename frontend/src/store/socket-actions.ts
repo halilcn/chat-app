@@ -19,6 +19,21 @@ const sendMessage = (socket: Socket, messages: object[]): void => {
   }
 };
 
+const login = (socket: Socket, userId: string) => {
+  socket.emit(socketChannels.LOGIN, { userId });
+};
+
+const joinFriendChat = (socket: Socket, friendId: string) => {
+  socket.emit(socketChannels.JOIN_FRIEND_CHAT, friendId);
+};
+
+const leaveFriendChat = (socket: Socket, friendId: string) => {
+  socket.emit(socketChannels.LEAVE_FRIEND_CHAT, friendId);
+};
+
 export default {
-  sendMessage
+  sendMessage,
+  login,
+  joinFriendChat,
+  leaveFriendChat
 };

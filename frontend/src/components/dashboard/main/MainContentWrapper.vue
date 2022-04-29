@@ -18,7 +18,7 @@ import TopContent from '@/components/dashboard/main/TopContent';
 import MessageContent from '@/components/dashboard/main/message/MessageContent';
 import SendMessageContent from '@/components/dashboard/main/message/MessageSendContent';
 import ChatNotSelected from '@/components/dashboard/main/ChatNotSelected';
-import socketChannels from '@/store/socket-channels';
+import socketActions from '@/store/socket-actions';
 
 export default {
   name: 'MainContent',
@@ -37,8 +37,9 @@ export default {
   watch: {
     selectedChatFriendId(newVal, oldVal) {
       this.getMessages();
-      if (oldVal) this.$socket.emit(socketChannels.LEAVE_FRIEND_CHAT, oldVal);
-      this.$socket.emit(socketChannels.JOIN_FRIEND_CHAT, newVal);
+
+      if (oldVal) socketActions.leaveFriendChat(this.$socket, oldVal);
+      socketActions.joinFriendChat(this.$socket, newVal);
     }
   }
 };

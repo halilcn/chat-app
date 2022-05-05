@@ -46,6 +46,9 @@ export default {
   },
   created() {
     this.getUserListMessages();
+    this.$socket.on('test',(data)=>{
+      console.log(data);
+    })
   },
   computed: {
     ...mapState('message', ['userListMessages', 'selectedChatFriendId'])

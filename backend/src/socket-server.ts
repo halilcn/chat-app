@@ -2,12 +2,13 @@ import { Express } from 'express';
 import { Socket } from 'socket.io';
 
 import socketChannels from './constants/socket-channels';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface IUsers {
   socketId: string;
-  userId: string;
+  id: string;
   isActive: boolean;
-  lastActiveDate?: string;
+  lastActiveDate?: Dayjs;
 }
 
 module.exports = (app: Express) => {
@@ -15,9 +16,23 @@ module.exports = (app: Express) => {
   let users: IUsers[] = [];
 
   io.on('connection', function (socket: Socket) {
-    socket.on(socketChannels.LOGIN, payload => users.push({ socketId: socket.id, userId: payload.userId, isActive: true }));
+    socket.on(socketChannels.LOGIN, payload => {
+      if (users.find((user: IUsers) => user.id == payload.userId)) users = users.filter((user: IUsers) => user.id != payload.userId);
+      users.push({ socketId: socket.id, id: payload.userId, isActive: true });
 
-    socket.on(socketChannels.DISCONNECT, () => (users = users.filter((user: IUsers) => user.socketId != socket.id)));
+      io.emit(socketChannels.ACTIVE_USERS, users);
+    });
+
+    socket.on(socketChannels.DISCONNECT, () => {
+      users.find((user: IUsers) => {
+        if (user.socketId == socket.id) {
+          user.isActive = false;
+          user.lastActiveDate = dayjs();
+        }
+      });
+
+      io.emit(socketChannels.ACTIVE_USERS, users);
+    });
 
     socket.on(socketChannels.JOIN_FRIEND_CHAT, friendRoomId => socket.join(friendRoomId));
 

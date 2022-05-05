@@ -1,6 +1,6 @@
 <template>
   <div class="top-content-container">
-    <img class="profile-image" alt="profile_image" :src="friendUser.image" />
+    <img class="profile-image" :src="friendUser.image" />
     <div class="user-info">
       <div class="name">{{ friendUser.nameSurname }}</div>
       <div v-if="isWriting" class="writing">writing...</div>

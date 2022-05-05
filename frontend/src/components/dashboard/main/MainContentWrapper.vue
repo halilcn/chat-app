@@ -1,13 +1,13 @@
 <template>
   <div class="main-content-wrapper-container">
-    <transition-group name="effect">
+    <transition name="effect" mode="out-in">
       <div v-if="selectedChatFriendId" :key="contentDynamicKeyToRender" class="main-content-container">
         <top-content class="content" />
         <message-content />
         <send-message-content />
       </div>
-      <chat-not-selected v-if="!selectedChatFriendId" class="main-content-container" />
-    </transition-group>
+      <chat-not-selected v-else key="chat-now-selected" class="main-content-container" />
+    </transition>
   </div>
 </template>
 
@@ -20,7 +20,6 @@ import SendMessageContent from '@/components/dashboard/main/message/MessageSendC
 import ChatNotSelected from '@/components/dashboard/main/ChatNotSelected';
 import socketActions from '@/store/socket-actions';
 
-//todo:efekt geçiş ?
 export default {
   name: 'MainContent',
   data() {
@@ -34,9 +33,6 @@ export default {
     MessageContent,
     SendMessageContent
   },
-  computed: {
-    ...mapState('message', ['selectedChatFriendId'])
-  },
   watch: {
     selectedChatFriendId(newVal, oldVal) {
       this.contentDynamicKeyToRender = Math.random();
@@ -44,6 +40,9 @@ export default {
       if (oldVal) socketActions.leaveFriendChat(this.$socket, oldVal);
       socketActions.joinFriendChat(this.$socket, newVal);
     }
+  },
+  computed: {
+    ...mapState('message', ['selectedChatFriendId'])
   }
 };
 </script>
@@ -67,11 +66,11 @@ export default {
   }
 
   .effect-enter-active {
-    animation: enter-active 0.4s;
+    animation: enter-active 0.3s;
   }
 
   .effect-leave-active {
-    animation: leave-active 0.4s;
+    animation: leave-active 0.3s;
   }
 
   @keyframes enter-active {

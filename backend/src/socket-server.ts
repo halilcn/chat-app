@@ -1,9 +1,13 @@
 import { Express } from 'express';
 import { Socket } from 'socket.io';
 
+import socketChannels from './constants/socket-channels';
+
 interface IUsers {
   socketId: string;
   userId: string;
+  isActive: boolean;
+  lastActiveDate?: string;
 }
 
 module.exports = (app: Express) => {
@@ -11,20 +15,18 @@ module.exports = (app: Express) => {
   let users: IUsers[] = [];
 
   io.on('connection', function (socket: Socket) {
-    socket.on('LOGIN', payload => users.push({ socketId: socket.id, userId: payload.userId }));
+    socket.on(socketChannels.LOGIN, payload => users.push({ socketId: socket.id, userId: payload.userId, isActive: true }));
 
-    socket.on('disconnect', () => (users = users.filter((user: IUsers) => user.socketId != socket.id)));
+    socket.on(socketChannels.DISCONNECT, () => (users = users.filter((user: IUsers) => user.socketId != socket.id)));
 
-    socket.on('JOIN_FRIEND_CHAT', friendRoomId => socket.join(friendRoomId));
+    socket.on(socketChannels.JOIN_FRIEND_CHAT, friendRoomId => socket.join(friendRoomId));
 
-    socket.on('LEAVE_FRIEND_CHAT', friendRoomId => socket.leave(friendRoomId));
+    socket.on(socketChannels.LEAVE_FRIEND_CHAT, friendRoomId => socket.leave(friendRoomId));
 
-    socket.on('LEAVE_FRIEND_CHAT', friendRoomId => socket.leave(friendRoomId));
+    socket.on(socketChannels.START_TYPING, payload => io.to(payload.friendId).emit('USER_IN_WRITING_STATUS', payload.userId));
 
-    socket.on('START_TYPING', payload => io.to(payload.friendId).emit('USER_IN_WRITING_STATUS', payload.userId));
+    socket.on(socketChannels.LEAVING_TYPING, payload => io.to(payload.friendId).emit('USER_IN_NOT_WRITING_STATUS', payload.userId));
 
-    socket.on('LEAVING_TYPING', payload => io.to(payload.friendId).emit('USER_IN_NOT_WRITING_STATUS', payload.userId));
-
-    socket.on('SEND_MESSAGE', payload => io.to(payload.friendId).emit('MESSAGE', payload.message));
+    socket.on(socketChannels.SEND_MESSAGE, payload => io.to(payload.friendId).emit('MESSAGE', payload.message));
   });
 };

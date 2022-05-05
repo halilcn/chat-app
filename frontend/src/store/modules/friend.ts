@@ -57,9 +57,8 @@ export default {
       commit('copyFriendsListToUserList');
     },
     async getFriend(_: any, payload: string) {
-      alert(payload);
-      const test = (await axios.get('/friends')).data;
-      return test;
+      const { data } = (await axios.get(`/friends/${payload}`)).data;
+      return data.user;
     },
     async postFriend(_: any, payload: string) {
       await axios.post('/friends', { recipient: payload });

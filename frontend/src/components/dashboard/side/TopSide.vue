@@ -1,7 +1,7 @@
 <template>
   <div class="top-side-container">
     <div @click="toggleUserSettings" class="user">
-      <img class="image" :src="user.image" />
+      <img class="image" :src="convertPath(user.image)" />
       <div class="name">{{ user.nameSurname }}</div>
     </div>
     <div class="actions">
@@ -13,12 +13,16 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import helpers from '@/helpers';
 
 export default {
   name: 'TopSide',
   methods: {
     ...mapMutations('userSetting', ['toggleUserSettings']),
-    ...mapMutations('friend', ['toggleFriends'])
+    ...mapMutations('friend', ['toggleFriends']),
+    convertPath(path) {
+      return helpers.convertToFullBackendPath(path);
+    }
   },
   computed: {
     ...mapState('auth', ['user'])

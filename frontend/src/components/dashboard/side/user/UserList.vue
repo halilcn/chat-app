@@ -8,7 +8,7 @@
         class="item not-readed"
         :class="{ selected: isSelectedUserChat(message.friendId) }">
         <div class="image-container">
-          <img alt="user_image" :src="message.user.image" />
+          <img alt="user_image" :src="convertPath(message.user.image)" />
           <div v-if="isActive(message.user._id)" class="active"><i class="fa-solid fa-circle"></i></div>
         </div>
         <div class="chat-info">
@@ -32,6 +32,7 @@
 <script>
 import { mapActions, mapState, mapMutations } from 'vuex';
 import socketChannels from '@/store/socket-channels';
+import helpers from '@/helpers';
 
 //todo:writing, last message, unread message ?
 export default {
@@ -55,6 +56,9 @@ export default {
     },
     isActive(userId) {
       return this.activeUserIds.includes(userId);
+    },
+    convertPath(path) {
+      return helpers.convertToFullBackendPath(path);
     }
   },
   created() {

@@ -1,6 +1,6 @@
 <template>
   <div class="top-content-container">
-    <img class="profile-image" :src="friendUser.image" />
+    <img class="profile-image" :src="convertPath(friendUser.image)" />
     <div class="user-info">
       <div class="name">{{ friendUser.nameSurname }}</div>
       <div v-if="isWriting" class="writing">writing...</div>
@@ -24,7 +24,6 @@ import socketChannels from '@/store/socket-channels';
 import helpers from '@/helpers';
 
 //todo: db'den last active verisinide döndür ?
-//todo: convert backend path işlemi yapcak mıyız ? Değişim yapılmalı mıdır ?
 //todo: socket'ten gelen last active tarihi ?
 //todo:socket'te user id, sende friend id ?
 export default {

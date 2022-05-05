@@ -33,6 +33,7 @@
 import { mapActions, mapState, mapMutations } from 'vuex';
 import socketChannels from '@/store/socket-channels';
 
+//todo:writing, last message, unread message ?
 export default {
   name: 'UserList',
   data() {

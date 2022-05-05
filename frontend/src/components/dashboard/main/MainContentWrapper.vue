@@ -1,7 +1,7 @@
 <template>
   <div class="main-content-wrapper-container">
     <transition-group name="effect">
-      <div v-if="selectedChatFriendId" class="main-content-container">
+      <div v-if="selectedChatFriendId" :key="contentDynamicKeyToRender" class="main-content-container">
         <top-content class="content" />
         <message-content />
         <send-message-content />
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState } from 'vuex';
 
 import TopContent from '@/components/dashboard/main/TopContent';
 import MessageContent from '@/components/dashboard/main/message/MessageContent';
@@ -20,23 +20,26 @@ import SendMessageContent from '@/components/dashboard/main/message/MessageSendC
 import ChatNotSelected from '@/components/dashboard/main/ChatNotSelected';
 import socketActions from '@/store/socket-actions';
 
+//todo:efekt geçiş ?
 export default {
   name: 'MainContent',
+  data() {
+    return {
+      contentDynamicKeyToRender: Math.random()
+    };
+  },
   components: {
     ChatNotSelected,
     TopContent,
     MessageContent,
     SendMessageContent
   },
-  methods: {
-    ...mapActions('message', ['getMessages'])
-  },
   computed: {
     ...mapState('message', ['selectedChatFriendId'])
   },
   watch: {
     selectedChatFriendId(newVal, oldVal) {
-      this.getMessages();
+      this.contentDynamicKeyToRender = Math.random();
 
       if (oldVal) socketActions.leaveFriendChat(this.$socket, oldVal);
       socketActions.joinFriendChat(this.$socket, newVal);

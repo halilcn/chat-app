@@ -14,7 +14,6 @@ import { mapState } from 'vuex';
 import LeftSide from '@/components/dashboard/side/LeftSideWrapper.vue';
 import MainContent from '@/components/dashboard/main/MainContentWrapper.vue';
 import LoadingDashboard from '@/components/dashboard/others/LoadingDashboard';
-import socketChannels from '@/store/socket-channels';
 import socketActions from '@/store/socket-actions';
 
 export default {

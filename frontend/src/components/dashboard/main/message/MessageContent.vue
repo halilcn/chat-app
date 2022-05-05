@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 
 import helpers from '@/helpers';
 import MessageShowImage from '@/components/dashboard/main/message/MessageImageFullScreen';
@@ -46,6 +46,7 @@ export default {
   components: { MessageShowImage },
   methods: {
     ...mapMutations('message', ['setMessage']),
+    ...mapActions('message', ['getMessages']),
     setPathForFullScreenImage(path) {
       this.fullScreenImagePath = path;
     },
@@ -74,6 +75,7 @@ export default {
     ...mapState('auth', ['user'])
   },
   created() {
+    this.getMessages();
     this.$socket.on(socketChannels.MESSAGE, message => this.setMessage(message));
   }
 };

@@ -32,6 +32,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+//todo:!!
+/*
+        .writing {
+          font-weight: 400;
+          font-size: 14px;
+          color: #32b632;
+        }*/
+
 .top-content-container {
   height: 90px;
   display: flex;

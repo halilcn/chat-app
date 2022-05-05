@@ -13,15 +13,23 @@
 
 <script>
 import socketChannels from '@/store/socket-channels';
+import { mapActions } from 'vuex';
 
+//todo: db'den last active verisinide döndür ?
 export default {
   name: 'TopContent',
   data() {
     return {
+      user: {},
       userIdsInWritingStatus: []
     };
   },
+  methods: {
+    ...mapActions('friend', ['getFriend'])
+  },
   created() {
+    console.log(this.getFriend('asda'));
+
     this.$socket.on(socketChannels.USER_IN_WRITING_STATUS, payload => this.userIdsInWritingStatus.push(payload));
     this.$socket.on(
       socketChannels.USER_IN_NOT_WRITING_STATUS,
@@ -32,7 +40,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 //todo:!!
 /*
         .writing {

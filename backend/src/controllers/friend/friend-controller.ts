@@ -23,6 +23,15 @@ const index = handler(async (req, res, next) => {
   next(response.success(friends));
 });
 
+const show = handler(async (req, res, next) => {
+  const friend = await FriendService.getOneById(req.params.friendId);
+  const userId = friend.requster === req.user._id ? friend.requster : friend.recipient;
+
+  const user = await UserService.getOne(userId);
+
+  next(response.success({ user }));
+});
+
 const store = handler(async (req, res, next) => {
   const friendId = req.validated.recipient as ObjectId;
   const userId = req.user._id as ObjectId;
@@ -54,5 +63,6 @@ export default {
   index,
   store,
   destroy,
-  search
+  search,
+  show
 };

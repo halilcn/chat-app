@@ -12,6 +12,10 @@ const getOne = async (userId: ObjectId, friendUserId: ObjectId): Promise<{ [key:
   ]);
 };
 
+const getOneById = async (friendId: string): Promise<{ [key: string]: any }> => {
+  return Friend.findOne({ _id: friendId }).lean();
+};
+
 const getAll = async (userId: ObjectId): Promise<Array<object>> => {
   return Friend.find()
     .or([{ requester: userId }, { recipient: userId }])
@@ -38,6 +42,7 @@ const deleteOne = async (userId: ObjectId, friendId: ObjectId): Promise<void> =>
 };
 
 export default {
+  getOneById,
   getOne,
   getAll,
   exists,

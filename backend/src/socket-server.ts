@@ -6,7 +6,7 @@ import dayjs, { Dayjs } from 'dayjs';
 
 interface IUsers {
   socketId: string;
-  id: string;
+  _id: string;
   isActive: boolean;
   lastActiveDate?: Dayjs;
 }
@@ -17,8 +17,8 @@ module.exports = (app: Express) => {
 
   io.on('connection', function (socket: Socket) {
     socket.on(socketChannels.LOGIN, payload => {
-      if (users.find((user: IUsers) => user.id == payload.userId)) users = users.filter((user: IUsers) => user.id != payload.userId);
-      users.push({ socketId: socket.id, id: payload.userId, isActive: true });
+      if (users.find((user: IUsers) => user._id == payload.userId)) users = users.filter((user: IUsers) => user._id != payload.userId);
+      users.push({ socketId: socket.id, _id: payload.userId, isActive: true });
 
       io.emit(socketChannels.ACTIVE_USERS, users);
     });

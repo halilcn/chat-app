@@ -7,7 +7,10 @@
         @click="selectUserChat(message.friendId)"
         class="item not-readed"
         :class="{ selected: isSelectedUserChat(message.friendId) }">
-        <img class="image" :src="message.user.image" />
+        <div class="image-container">
+          <img alt="user_image" :src="message.user.image" />
+          <div v-if="isActive(message.user._id)" class="active"><i class="fa-solid fa-circle"></i></div>
+        </div>
         <div class="chat-info">
           <div class="name">{{ message.user.nameSurname }}</div>
           <div class="last-message">
@@ -28,9 +31,15 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from 'vuex';
+import socketChannels from '@/store/socket-channels';
 
 export default {
   name: 'UserList',
+  data() {
+    return {
+      activeUserIds: []
+    };
+  },
   methods: {
     ...mapActions('message', ['getUserListMessages']),
     ...mapMutations('message', ['setSelectedChatFriendId']),
@@ -42,16 +51,21 @@ export default {
     },
     isSelectedUserChat(friendId) {
       return this.selectedChatFriendId === friendId;
+    },
+    isActive(userId) {
+      return this.activeUserIds.includes(userId);
     }
   },
   created() {
     this.getUserListMessages();
-    this.$socket.on('test',(data)=>{
-      console.log(data);
-    })
+    this.$socket.on(
+      socketChannels.ACTIVE_USERS,
+      activeUsers => (this.activeUserIds = activeUsers.filter(user => user.isActive).map(user => user._id))
+    );
   },
   computed: {
-    ...mapState('message', ['userListMessages', 'selectedChatFriendId'])
+    ...mapState('message', ['userListMessages', 'selectedChatFriendId']),
+    ...mapState('friend', ['friendsList'])
   }
 };
 </script>
@@ -89,14 +103,30 @@ export default {
         }
       }
 
-      .image {
-        width: 50px;
-        height: 50px;
-        border-radius: 100%;
+      .image-container {
+        position: relative;
+
+        img {
+          width: 50px;
+          height: 50px;
+          border-radius: 100%;
+        }
+
+        .active {
+          color: #32b632;
+          font-size: 10px;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+
+          i {
+            border: 3px solid #ffffff;
+            border-radius: 100%;
+          }
+        }
       }
 
       .chat-info {
-        width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -114,6 +144,7 @@ export default {
       }
 
       .other-info {
+        margin-left: auto;
         display: flex;
         flex-direction: column;
         justify-content: space-between;

@@ -14,6 +14,8 @@
       <i class="fa-solid fa-ellipsis-vertical icon item"></i>
     </div>
   </div>
+
+  {{ friendSocketUser }}
 </template>
 
 <script>
@@ -25,7 +27,7 @@ import helpers from '@/helpers';
 
 //todo: db'den last active verisinide döndür ?
 //todo: socket'ten gelen last active tarihi ?
-//todo:socket'te user id, sende friend id ?
+//todo: active users state'e set etmke ??
 export default {
   name: 'TopContent',
   data() {
@@ -56,7 +58,7 @@ export default {
     );
     this.$socket.on(
       socketChannels.ACTIVE_USERS,
-      activeUsers => (this.friendSocketUser = activeUsers.find(user => user._id === 'user id gelecek !'))
+      activeUsers => (this.friendSocketUser = activeUsers.find(user => user._id === this.friendUser._id))
     );
   },
   computed: {
@@ -66,8 +68,7 @@ export default {
       return this.userIdsInWritingStatus.filter(userId => userId !== this.user._id).length > 0;
     },
     isActive() {
-      console.log(this.friendSocketUser);
-      return false;
+      return this.friendSocketUser.isActive;
     }
   }
 };

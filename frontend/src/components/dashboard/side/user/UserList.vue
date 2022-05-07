@@ -61,16 +61,17 @@ export default {
       return helpers.convertToFullBackendPath(path);
     }
   },
-  created() {
-    this.getUserListMessages();
-    this.$socket.on(
-      socketChannels.ACTIVE_USERS,
-      activeUsers => (this.activeUserIds = activeUsers.filter(user => user.isActive).map(user => user._id))
-    );
+  watch: {
+    activeUsers() {
+      this.activeUserIds = this.activeUsers.filter(user => user.isActive).map(user => user._id);
+    }
   },
   computed: {
     ...mapState('message', ['userListMessages', 'selectedChatFriendId']),
-    ...mapState('friend', ['friendsList'])
+    ...mapState('friend', ['friendsList', 'activeUsers'])
+  },
+  created() {
+    this.getUserListMessages();
   }
 };
 </script>

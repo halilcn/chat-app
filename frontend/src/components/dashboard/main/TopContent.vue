@@ -28,7 +28,6 @@ import helpers from '@/helpers';
 
 //todo: db'den last active verisinide döndür ?
 //todo: socket'ten gelen last active tarihi ?
-//todo: active users state'e set etmke ??
 export default {
   name: 'TopContent',
   data() {
@@ -45,7 +44,6 @@ export default {
   },
   methods: {
     ...mapActions('friend', ['getFriend']),
-    ...mapMutations('friend', ['setActiveUsers']),
     async getFriendAction() {
       await handler(async () => {
         this.friendUser = await this.getFriend(this.selectedChatFriendId);
@@ -78,7 +76,6 @@ export default {
       socketChannels.USER_IN_NOT_WRITING_STATUS,
       payload => (this.userIdsInWritingStatus = this.userIdsInWritingStatus.filter(userId => userId !== payload))
     );
-    this.$socket.on(socketChannels.ACTIVE_USERS, activeUsers => this.setActiveUsers(activeUsers));
   }
 };
 </script>

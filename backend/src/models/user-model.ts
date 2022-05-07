@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import dayjs from 'dayjs';
 
 const User = new Schema(
   {
@@ -21,6 +22,11 @@ const User = new Schema(
     password: {
       type: String,
       required: true
+    },
+    lastActive: {
+      type: Date,
+      required: false,
+      default: dayjs()
     },
     tokens: [
       {

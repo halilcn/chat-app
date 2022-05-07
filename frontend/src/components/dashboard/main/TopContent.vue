@@ -2,21 +2,22 @@
   <div class="top-content-container">
     <img class="profile-image" :src="convertPath(friendUser.image)" />
     <div class="user-info">
-      <div class="name">{{ friendUser.nameSurname }}</div>
+      <div class="name">{{}}</div>
       <div v-if="isWriting" class="writing">writing...</div>
       <div v-else-if="isActive" class="active">
         <i class="fa-solid fa-circle"></i>
         active
       </div>
-      <div v-else class="last-active-date">bugün 12:40</div>
+      <div v-else-if="Object.keys(friendSocketUser).length > 0" class="last-active-date">{{ friendSocketUser.lastActiveDate }}</div>
+      <div v-else class="last-active-date">bugün 12:40 (db date ?)</div>
     </div>
     <div class="actions">
       <i class="fa-solid fa-ellipsis-vertical icon item"></i>
     </div>
   </div>
 
-  {{ friendSocketUser }}
-  {{ activeUsers }}
+  {{ activeUsers }} ------------
+  {{ friendUser }}
 </template>
 
 <script>
@@ -26,8 +27,8 @@ import handler from '@/shared/handler';
 import socketChannels from '@/store/socket-channels';
 import helpers from '@/helpers';
 
-//todo: db'den last active verisinide döndür ?
-//todo: socket'ten gelen last active tarihi ?
+//todo: db'den last active verisinide döndür ? İlgil socket'lerde last active tarihini update et ?
+
 export default {
   name: 'TopContent',
   data() {

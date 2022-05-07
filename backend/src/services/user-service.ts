@@ -24,11 +24,13 @@ const search = async (userId: ObjectId, search: string): Promise<Array<object>> 
 };
 
 const getOne = async (userId: ObjectId): Promise<object> => {
-  return User.findOne({ _id: userId }).select('_id username image nameSurname').lean();
+  return User.findOne({ _id: userId }).select('_id username image nameSurname lastActive').lean();
 };
 
 const getMany = async (userIds: Array<ObjectId>): Promise<Array<any>> => {
-  return User.find({ _id: {$in:userIds} }).select('_id username image nameSurname').lean();
+  return User.find({ _id: { $in: userIds } })
+    .select('_id username image nameSurname')
+    .lean();
 };
 
 export default {

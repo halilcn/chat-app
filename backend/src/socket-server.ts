@@ -3,6 +3,8 @@ import { Socket } from 'socket.io';
 
 import socketChannels from './constants/socket-channels';
 import dayjs, { Dayjs } from 'dayjs';
+import UserSettingService from '@services/user-setting-service';
+import { ObjectId } from 'mongoose';
 
 interface IUsers {
   socketId: string;
@@ -23,15 +25,21 @@ module.exports = (app: Express) => {
       io.emit(socketChannels.ACTIVE_USERS, users);
     });
 
-    socket.on(socketChannels.DISCONNECT, () => {
+    socket.on(socketChannels.DISCONNECT, async () => {
+      const now = dayjs();
+      let userId = null;
+
       users.find((user: IUsers) => {
         if (user.socketId == socket.id) {
+          userId = user._id;
           user.isActive = false;
-          user.lastActiveDate = dayjs();
+          user.lastActiveDate = now;
         }
       });
 
       io.emit(socketChannels.ACTIVE_USERS, users);
+
+      await UserSettingService.update(userId as unknown as ObjectId, { lastActive: dayjs() });
     });
 
     socket.on(socketChannels.JOIN_FRIEND_CHAT, friendRoomId => socket.join(friendRoomId));

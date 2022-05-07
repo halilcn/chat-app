@@ -9,7 +9,8 @@ export default {
   state: {
     enableFriends: false,
     friendsList: [],
-    userList: []
+    userList: [],
+    activeUsers: []
   },
   mutations: {
     toggleFriends(state: CustomObject) {
@@ -48,6 +49,9 @@ export default {
     },
     removeFriend(state: CustomObject, payload: string) {
       state.friendsList = state.friendsList.filter((friend: any) => friend.friendId != payload);
+    },
+    setActiveUsers(state: CustomObject, payload: Array<object>) {
+      state.activeUsers = payload;
     }
   },
   actions: {

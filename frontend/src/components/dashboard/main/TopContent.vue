@@ -16,10 +16,11 @@
   </div>
 
   {{ friendSocketUser }}
+  {{ activeUsers }}
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 
 import handler from '@/shared/handler';
 import socketChannels from '@/store/socket-channels';
@@ -37,39 +38,47 @@ export default {
       friendSocketUser: {}
     };
   },
+  watch: {
+    activeUsers() {
+      this.findUserFromActiveUsers();
+    }
+  },
   methods: {
     ...mapActions('friend', ['getFriend']),
-    getFriendAction() {
-      handler(async () => {
+    ...mapMutations('friend', ['setActiveUsers']),
+    async getFriendAction() {
+      await handler(async () => {
         this.friendUser = await this.getFriend(this.selectedChatFriendId);
       });
     },
     convertPath(path) {
       return helpers.convertToFullBackendPath(path);
+    },
+    findUserFromActiveUsers() {
+      this.friendSocketUser = this.activeUsers.find(user => user._id === this.friendUser._id);
     }
-  },
-  created() {
-    this.getFriendAction();
-
-    this.$socket.on(socketChannels.USER_IN_WRITING_STATUS, payload => this.userIdsInWritingStatus.push(payload));
-    this.$socket.on(
-      socketChannels.USER_IN_NOT_WRITING_STATUS,
-      payload => (this.userIdsInWritingStatus = this.userIdsInWritingStatus.filter(userId => userId !== payload))
-    );
-    this.$socket.on(
-      socketChannels.ACTIVE_USERS,
-      activeUsers => (this.friendSocketUser = activeUsers.find(user => user._id === this.friendUser._id))
-    );
   },
   computed: {
     ...mapState('message', ['selectedChatFriendId']),
     ...mapState('auth', ['user']),
+    ...mapState('friend', ['activeUsers']),
     isWriting() {
       return this.userIdsInWritingStatus.filter(userId => userId !== this.user._id).length > 0;
     },
     isActive() {
       return this.friendSocketUser.isActive;
     }
+  },
+  async created() {
+    await this.getFriendAction();
+    this.findUserFromActiveUsers();
+
+    this.$socket.on(socketChannels.USER_IN_WRITING_STATUS, payload => this.userIdsInWritingStatus.push(payload));
+    this.$socket.on(
+      socketChannels.USER_IN_NOT_WRITING_STATUS,
+      payload => (this.userIdsInWritingStatus = this.userIdsInWritingStatus.filter(userId => userId !== payload))
+    );
+    this.$socket.on(socketChannels.ACTIVE_USERS, activeUsers => this.setActiveUsers(activeUsers));
   }
 };
 </script>

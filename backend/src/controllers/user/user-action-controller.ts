@@ -28,7 +28,16 @@ const login = handler(async (req, res, next) => {
   next(response.created({ token }));
 });
 
+const logout = handler(async (req, res, next) => {
+  const { _id } = req.user;
+
+  await UserService.deleteToken(_id, req.currentToken);
+
+  next(response.success());
+});
+
 export default {
   register,
-  login
+  login,
+  logout
 };

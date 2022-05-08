@@ -41,6 +41,10 @@ export default {
       commit('setUser', { ...user, token });
       window.location.reload();
     },
+    async postLogout({ commit }: { commit: Commit }): Promise<void> {
+      await axios.post('/user-action/logout');
+      commit('removeUser');
+    },
     async getUserInfo(_: any, payload: string): Promise<object> {
       const { data } = (await axios.get('/user-settings/', { headers: { Authorization: payload } })).data;
 

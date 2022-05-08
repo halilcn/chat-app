@@ -16,7 +16,7 @@
         <div class="save-button" :class="{ disable: isLoading || v$.userSettings.$invalid }" @click="postUserSettingsAction">Save</div>
         <div v-if="isSuccess" class="success-alert">Updated information</div>
       </div>
-      <div class="sign-out-btn">sign out</div>
+      <div class="sign-out-btn" @click="postLogoutAction">sign out</div>
     </div>
   </left-side-with-animation>
 </template>
@@ -66,6 +66,13 @@ export default {
   methods: {
     ...mapMutations('userSetting', ['toggleUserSettings']),
     ...mapActions('userSetting', ['postUserSettings']),
+    ...mapActions('auth', ['postLogout']),
+    postLogoutAction() {
+      handler(async () => {
+        await this.postLogout();
+        await this.$router.push({ name: 'Login' });
+      });
+    },
     setDefaultConfigAfterFirstCreate() {
       const { image, nameSurname } = this.user;
       this.userSettings = { image, nameSurname };

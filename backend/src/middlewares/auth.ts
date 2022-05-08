@@ -18,6 +18,9 @@ const auth = handler(async (req, res, next) => {
     req.user = (await User.findById(decodedUser.user_id)) as object;
     req.currentToken = reqToken;
 
+    const hasToken = req.user.tokens.any((userToken: any) => userToken.token == reqToken);
+    if (!hasToken) new AuthenticationError();
+
     next();
   } catch (err) {
     throw new AuthenticationError();

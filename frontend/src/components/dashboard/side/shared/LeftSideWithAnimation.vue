@@ -42,6 +42,8 @@ export default {
   top: 0;
   transition: 0.2s;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 
   .top {
     display: flex;
@@ -65,6 +67,7 @@ export default {
 
   .content {
     margin-top: 30px;
+    height: 100%;
   }
 }
 

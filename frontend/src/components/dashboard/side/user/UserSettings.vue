@@ -25,6 +25,7 @@ import { required } from '@vuelidate/validators';
 
 import LeftSideWithAnimation from '@/components/dashboard/side/shared/LeftSideWithAnimation';
 import handler from '@/shared/handler';
+import helpers from '@/helpers';
 
 export default {
   name: 'UserSettings',
@@ -88,7 +89,7 @@ export default {
     ...mapState('auth', ['user']),
     ...mapState('userSetting', ['enableUserSettings']),
     userImage() {
-      return this.temporaryUserImageUrl ? this.temporaryUserImageUrl : this.user.image;
+      return this.temporaryUserImageUrl ? this.temporaryUserImageUrl : helpers.convertToFullBackendPath(this.user.image);
     }
   }
 };

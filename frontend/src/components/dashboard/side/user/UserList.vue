@@ -59,11 +59,14 @@ export default {
     },
     convertPath(path) {
       return helpers.convertToFullBackendPath(path);
+    },
+    findActiveUserIds() {
+      this.activeUserIds = this.activeUsers.filter(user => user.isActive).map(user => user._id);
     }
   },
   watch: {
     activeUsers() {
-      this.activeUserIds = this.activeUsers.filter(user => user.isActive).map(user => user._id);
+      this.findActiveUserIds();
     }
   },
   computed: {
@@ -72,6 +75,7 @@ export default {
   },
   created() {
     this.getUserListMessages();
+    this.findActiveUserIds();
   }
 };
 </script>

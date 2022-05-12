@@ -45,6 +45,10 @@ export default {
       await axios.post(`/friends/${state.selectedChatFriendId}/messages`, { messages: payload });
     }
   },
-  getters: {},
+  getters: {
+    messageLength(state: CustomObject) {
+      return state.messages.length;
+    }
+  },
   namespaced: true
 };

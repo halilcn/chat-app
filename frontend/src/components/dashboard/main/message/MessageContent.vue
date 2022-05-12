@@ -20,10 +20,6 @@
         <div class="time">{{ $dayjs(message.createdAt).format('DD MMM') }}</div>
       </div>
     </div>
-    <div v-else class="no-message">
-      <i class="fa-solid fa-hand"></i>
-      Say hi
-    </div>
   </div>
   <message-show-image @disable-screen="disableFullScreenImage" :path="fullScreenImagePath" />
 </template>
@@ -151,17 +147,6 @@ export default {
         display: none;
       }
     }
-  }
-
-  .no-message {
-    cursor: pointer;
-    margin: auto 30px 30px 30px;
-    align-self: flex-start;
-    background-color: $blue-very-light-dark;
-    color: $blue-dark;
-    padding: 12px 30px;
-    border-radius: 100px;
-    font-size: 14px;
   }
 }
 </style>

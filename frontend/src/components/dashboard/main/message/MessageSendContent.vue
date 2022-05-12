@@ -18,11 +18,16 @@
         <i class="fa-solid fa-paper-plane"></i>
       </div>
     </div>
+    {{ messageLength }}
+    <div v-if="messageLength === 0" @click="sendFirstMessage" class="no-message">
+      <i class="fa-solid fa-hand"></i>
+      Say hi
+    </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapGetters } from 'vuex';
 import DiscordPicker from 'vue3-discordpicker';
 
 import handler from '@/shared/handler';
@@ -49,8 +54,8 @@ export default {
     selectEmoji(emoji) {
       this.message.content += emoji;
     },
-    sendMessage() {
-      handler(async () => {
+    async sendMessage() {
+      await handler(async () => {
         if (!this.message.content) return;
         if (this.message.type === MESSAGE_TYPES.FILE) await this.postFileForMessageFileType();
 
@@ -121,17 +126,23 @@ export default {
       if (this.message.content.length === 0) {
         this.clearMessage();
       }
+    },
+    async sendFirstMessage() {
+      this.setTextTypeMessage({ target: { value: 'Hi!' } });
+      await this.sendMessage();
     }
   },
   computed: {
     ...mapState('message', ['selectedChatFriendId']),
-    ...mapState('auth', ['user'])
+    ...mapState('auth', ['user']),
+    ...mapGetters('message', ['messageLength'])
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .send-message-content-container {
+  position: relative;
   margin: 10px 20px 10px 20px;
   background-color: white;
   padding: 10px 20px;
@@ -217,6 +228,22 @@ export default {
       &.icons {
         margin-bottom: 1rem;
       }
+    }
+  }
+
+  .no-message {
+    position: absolute;
+    cursor: pointer;
+    background-color: $blue-very-light-dark;
+    color: $blue-dark;
+    padding: 12px 30px;
+    border-radius: 100px;
+    font-size: 14px;
+    left: 0;
+    bottom: 120px;
+
+    &:hover {
+      background-color: #d6d8dc;
     }
   }
 }

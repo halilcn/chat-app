@@ -6,7 +6,7 @@
     <div v-if="userList.length > 0" class="user-list">
       <div v-for="(friendUser, key) in userList" :key="key" :class="{ 'friend-item-wrapper': friendUser.isFriend }">
         <div @click="selectUserChat(friendUser.friendId)" :class="[friendUser.isFriend ? 'friend' : 'not-friend']" class="item">
-          <img class="profile-image" :src="friendUser.user.image" />
+          <img class="profile-image" :src="convertPath(friendUser.user.image)" />
           <div class="username">{{ friendUser.user.username }}</div>
           <div v-if="!friendUser.isFriend" @click="postFriendAction(friendUser.user._id)" class="add-btn">add</div>
         </div>
@@ -24,6 +24,7 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 
 import LeftSideWithAnimation from '@/components/dashboard/side/shared/LeftSideWithAnimation';
 import handler from '@/shared/handler';
+import helpers from '@/helpers';
 
 export default {
   name: 'UserFriends',
@@ -77,6 +78,9 @@ export default {
     },
     selectUserChat(friendId) {
       this.setSelectedChatFriendId(friendId);
+    },
+    convertPath(path) {
+      return helpers.convertToFullBackendPath(path);
     }
   },
   computed: {

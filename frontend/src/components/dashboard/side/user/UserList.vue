@@ -34,7 +34,7 @@ import { mapActions, mapState, mapMutations } from 'vuex';
 import socketChannels from '@/store/socket-channels';
 import helpers from '@/helpers';
 
-//todo:writing, last message, unread message ?
+//todo: last message, unread message ?
 export default {
   name: 'UserList',
   data() {

@@ -4,7 +4,7 @@
       <div
         v-for="(message, index) in userListMessages"
         :key="index"
-        @click="selectUserChat(message.friendId)"
+        @click="selectUserChat(message)"
         class="item not-readed"
         :class="{ selected: isSelectedUserChat(message.friendId) }">
         <div class="image-container">
@@ -45,12 +45,13 @@ export default {
   },
   methods: {
     ...mapActions('message', ['getUserListMessages']),
-    ...mapMutations('message', ['setSelectedChatFriendId']),
+    ...mapMutations('message', ['setSelectedChatFriendId', 'setSelectedUserId']),
     userHasUnreadMessages(count) {
       return count > 0;
     },
-    selectUserChat(friendId) {
-      this.setSelectedChatFriendId(friendId);
+    selectUserChat(message) {
+      this.setSelectedChatFriendId(message.friendId);
+      this.setSelectedUserId(message.user._id);
     },
     isSelectedUserChat(friendId) {
       return this.selectedChatFriendId === friendId;

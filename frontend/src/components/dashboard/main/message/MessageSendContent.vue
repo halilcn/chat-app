@@ -67,7 +67,11 @@ export default {
 
         if (!Array.isArray(this.message)) this.message = [this.message];
         await this.postMessage(this.message);
-        socketActions.sendMessage(this.$socket, { messages: this.message, friendId: this.selectedChatFriendId });
+        socketActions.sendMessage(this.$socket, {
+          toUserId: this.selectedUserId,
+          messages: this.message,
+          friendId: this.selectedChatFriendId
+        });
 
         this.clearMessage();
       });
@@ -139,7 +143,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('message', ['selectedChatFriendId']),
+    ...mapState('message', ['selectedChatFriendId', 'selectedUserId']),
     ...mapState('auth', ['user']),
     ...mapGetters('message', ['messageLength'])
   }

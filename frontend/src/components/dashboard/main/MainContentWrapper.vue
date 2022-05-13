@@ -14,7 +14,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import TopContent from '@/components/dashboard/main/TopContent';
+import TopContent from '@/components/dashboard/main/message/TopContent';
 import MessageContent from '@/components/dashboard/main/message/MessageContent';
 import SendMessageContent from '@/components/dashboard/main/message/MessageSendContent';
 import ChatNotSelected from '@/components/dashboard/main/ChatNotSelected';
@@ -43,6 +43,12 @@ export default {
   },
   computed: {
     ...mapState('message', ['selectedChatFriendId'])
+  },
+  created() {
+    this.$socket.on('LAST_MESSAGE_FROM_USER', message => {
+      console.log('last message');
+      console.log(message);
+    });
   }
 };
 </script>

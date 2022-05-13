@@ -5,16 +5,22 @@ import socketChannels from '@/store/socket-channels';
 import authModule from '@/store/modules/auth';
 
 interface ISendMessagePayload {
+  toUserId: string;
   messages: object[];
   friendId: string;
 }
 
-const sendMessage = (socket: Socket, { messages, friendId }: ISendMessagePayload) => {
+const login = (socket: Socket, userId: string) => {
+  socket.emit(socketChannels.LOGIN, { userId });
+};
+
+const sendMessage = (socket: Socket, { toUserId, messages, friendId }: ISendMessagePayload) => {
   const authorId = authModule.state.user._id;
 
   for (const message of messages) {
     const messageArgs = {
       ...message,
+      toUserId,
       authorId,
       readers: [authorId],
       createdAt: dayjs()
@@ -22,10 +28,6 @@ const sendMessage = (socket: Socket, { messages, friendId }: ISendMessagePayload
 
     socket.emit(socketChannels.SEND_MESSAGE, { friendId, message: messageArgs });
   }
-};
-
-const login = (socket: Socket, userId: string) => {
-  socket.emit(socketChannels.LOGIN, { userId });
 };
 
 const joinFriendChat = (socket: Socket, friendId: string) => {

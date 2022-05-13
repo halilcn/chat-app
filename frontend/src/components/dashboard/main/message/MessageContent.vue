@@ -72,7 +72,10 @@ export default {
   },
   created() {
     this.getMessages();
-    this.$socket.on(socketChannels.MESSAGE, message => this.setMessage(message));
+    this.$socket.on(socketChannels.MESSAGE, message => {
+      this.setMessage(message);
+      console.log(message); //todo: chat container gezdikçe, o kadar mesaj fazla atıyor.
+    });
   }
 };
 </script>

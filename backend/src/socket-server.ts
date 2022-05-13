@@ -6,7 +6,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import UserSettingService from '@services/user-setting-service';
 import { ObjectId } from 'mongoose';
 
-interface IUsers {
+interface IUser {
   socketId: string;
   _id: string;
   isActive: boolean;
@@ -15,11 +15,11 @@ interface IUsers {
 
 module.exports = (app: Express) => {
   const io = require('socket.io')(app);
-  let users: IUsers[] = [];
+  let users: IUser[] = [];
 
   io.on('connection', function (socket: Socket) {
     socket.on(socketChannels.LOGIN, payload => {
-      if (users.find((user: IUsers) => user._id == payload.userId)) users = users.filter((user: IUsers) => user._id != payload.userId);
+      if (users.find((user: IUser) => user._id == payload.userId)) users = users.filter((user: IUser) => user._id != payload.userId);
       users.push({ socketId: socket.id, _id: payload.userId, isActive: true });
 
       io.emit(socketChannels.ACTIVE_USERS, users);
@@ -29,7 +29,7 @@ module.exports = (app: Express) => {
       const now = dayjs();
       let userId = null;
 
-      users.find((user: IUsers) => {
+      users.find((user: IUser) => {
         if (user.socketId == socket.id) {
           userId = user._id;
           user.isActive = false;
@@ -46,10 +46,17 @@ module.exports = (app: Express) => {
 
     socket.on(socketChannels.LEAVE_FRIEND_CHAT, friendRoomId => socket.leave(friendRoomId));
 
-    socket.on(socketChannels.START_TYPING, payload => io.to(payload.friendId).emit('USER_IN_WRITING_STATUS', payload.userId));
+    socket.on(socketChannels.START_TYPING, payload => io.to(payload.friendId).emit(socketChannels.USER_IN_WRITING_STATUS, payload.userId));
 
-    socket.on(socketChannels.LEAVING_TYPING, payload => io.to(payload.friendId).emit('USER_IN_NOT_WRITING_STATUS', payload.userId));
+    socket.on(socketChannels.LEAVING_TYPING, payload =>
+      io.to(payload.friendId).emit(socketChannels.USER_IN_NOT_WRITING_STATUS, payload.userId)
+    );
 
-    socket.on(socketChannels.SEND_MESSAGE, payload => io.to(payload.friendId).emit('MESSAGE', payload.message));
+    socket.on(socketChannels.SEND_MESSAGE, payload => {
+      const socketUser = users.find((user: IUser) => user._id == payload.message.toUserId);
+      if (socketUser) io.to(socketUser.socketId).emit(socketChannels.LAST_MESSAGE_FROM_USER, payload.message);
+
+      io.to(payload.friendId).emit(socketChannels.MESSAGE, payload.message);
+    });
   });
 };

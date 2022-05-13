@@ -24,6 +24,10 @@ export default {
     setUserListMessages(state: CustomObject, payload: Array<object>) {
       state.userListMessages = payload;
     },
+    updateUserListMessage(state: CustomObject, payload: CustomObject) {
+      const index = state.userListMessages.findIndex((userMessage: CustomObject) => (userMessage.user._id = payload.message.user._id));
+      state.userListMessages[index] = payload.message;
+    },
     setMessages(state: CustomObject, payload: Array<object>) {
       state.messages = payload;
     },

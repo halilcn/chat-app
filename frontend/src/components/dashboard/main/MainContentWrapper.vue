@@ -1,5 +1,6 @@
 <template>
   <div class="main-content-wrapper-container">
+    {{ userListMessages }}
     <transition name="effect" mode="out-in">
       <div v-if="selectedChatFriendId" :key="contentDynamicKeyToRender" class="main-content-container">
         <top-content class="content" />
@@ -12,7 +13,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 import TopContent from '@/components/dashboard/main/message/TopContent';
 import MessageContent from '@/components/dashboard/main/message/MessageContent';
@@ -41,13 +42,23 @@ export default {
       socketActions.joinFriendChat(this.$socket, newVal);
     }
   },
+  methods: {
+    ...mapMutations('message', ['updateUserListMessage'])
+  },
   computed: {
-    ...mapState('message', ['selectedChatFriendId'])
+    ...mapState('message', ['selectedChatFriendId', 'userListMessages'])
   },
   created() {
     this.$socket.on('LAST_MESSAGE_FROM_USER', message => {
-      console.log('last message');
-      console.log(message);
+      //todo: daha önce mesaj atılmadıysa ? refresh et ? user bilgilerini çek ?
+      const userLastMessage = this.userListMessages.find(userMessage => userMessage.user._id === message.authorId);
+      userLastMessage.lastMessage.content = message.content;
+
+      if (userLastMessage.friendId !== this.selectedChatFriendId) {
+        userLastMessage.unReadMessagesCount++;
+      }
+
+      this.updateUserListMessage({ userId: message.authorId, message: userLastMessage });
     });
   }
 };

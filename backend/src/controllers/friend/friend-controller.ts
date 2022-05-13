@@ -25,7 +25,7 @@ const index = handler(async (req, res, next) => {
 
 const show = handler(async (req, res, next) => {
   const friend = await FriendService.getOneById(req.params.friendId);
-  const userId = friend.requster === req.user._id ? friend.requster : friend.recipient;
+  const userId = String(friend.requester) === String(req.user._id) ? friend.recipient : friend.requester;
 
   const user = await UserService.getOne(userId);
 

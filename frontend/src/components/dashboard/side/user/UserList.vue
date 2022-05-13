@@ -35,6 +35,7 @@ import socketChannels from '@/store/socket-channels';
 import helpers from '@/helpers';
 
 //todo: last message, unread message ?
+//todo: sohbet yoksa sen oluştur.
 export default {
   name: 'UserList',
   data() {

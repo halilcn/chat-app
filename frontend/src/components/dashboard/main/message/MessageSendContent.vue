@@ -4,7 +4,14 @@
       <div v-if="isMessageFileType(message.type)" class="files">
         <div v-for="(file, index) in message.content" :key="index" @click="deleteFile(index)" class="file">{{ file.name }}</div>
       </div>
-      <input v-else @keyup="setTextTypeMessage" :value="message.content" class="message" type="text" placeholder="Your message..." />
+      <input
+        v-else
+        v-on:keyup.enter="sendMessage"
+        @keyup="setTextTypeMessage"
+        :value="message.content"
+        class="message"
+        type="text"
+        placeholder="Your message..." />
     </div>
     <div class="actions">
       <discord-picker v-if="!isMessageFileType(message.type)" class="item icons" @emoji="selectEmoji" />
@@ -18,7 +25,6 @@
         <i class="fa-solid fa-paper-plane"></i>
       </div>
     </div>
-    {{ messageLength }}
     <div v-if="messageLength === 0" @click="sendFirstMessage" class="no-message">
       <i class="fa-solid fa-hand"></i>
       Say hi

@@ -1,6 +1,5 @@
 <template>
   <div class="main-content-wrapper-container">
-    {{ userListMessages }}
     <transition name="effect" mode="out-in">
       <div v-if="selectedChatFriendId" :key="contentDynamicKeyToRender" class="main-content-container">
         <top-content class="content" />
@@ -13,13 +12,14 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 
 import TopContent from '@/components/dashboard/main/message/TopContent';
 import MessageContent from '@/components/dashboard/main/message/MessageContent';
 import SendMessageContent from '@/components/dashboard/main/message/MessageSendContent';
 import ChatNotSelected from '@/components/dashboard/main/ChatNotSelected';
 import socketActions from '@/store/socket-actions';
+import socketChannels from '@/store/socket-channels';
 
 export default {
   name: 'MainContent',
@@ -43,20 +43,20 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('message', ['updateUserListMessage'])
+    ...mapMutations('message', ['updateUserListMessage']),
+    ...mapActions('message', ['getUserListMessages'])
   },
   computed: {
     ...mapState('message', ['selectedChatFriendId', 'userListMessages'])
   },
   created() {
-    this.$socket.on('LAST_MESSAGE_FROM_USER', message => {
-      //todo: daha önce mesaj atılmadıysa ? refresh et ? user bilgilerini çek ?
+    this.$socket.on(socketChannels.LAST_MESSAGE_FROM_USER, async message => {
       const userLastMessage = this.userListMessages.find(userMessage => userMessage.user._id === message.authorId);
+      if (!userLastMessage) await this.getUserListMessages();
+
       userLastMessage.lastMessage.content = message.content;
 
-      if (userLastMessage.friendId !== this.selectedChatFriendId) {
-        userLastMessage.unReadMessagesCount++;
-      }
+      if (userLastMessage.friendId !== this.selectedChatFriendId) userLastMessage.unReadMessagesCount++;
 
       this.updateUserListMessage({ userId: message.authorId, message: userLastMessage });
     });

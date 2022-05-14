@@ -5,7 +5,7 @@
     </div>
     <div v-if="userList.length > 0" class="user-list">
       <div v-for="(friendUser, key) in userList" :key="key" :class="{ 'friend-item-wrapper': friendUser.isFriend }">
-        <div @click="selectUserChat(friendUser.friendId)" :class="[friendUser.isFriend ? 'friend' : 'not-friend']" class="item">
+        <div @click="selectUserChat(friendUser)" :class="[friendUser.isFriend ? 'friend' : 'not-friend']" class="item">
           <img class="profile-image" :src="convertPath(friendUser.user.image)" />
           <div class="username">{{ friendUser.user.username }}</div>
           <div v-if="!friendUser.isFriend" @click="postFriendAction(friendUser.user._id)" class="add-btn">add</div>
@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     ...mapMutations('friend', ['toggleFriends', 'copyFriendsListToUserList']),
-    ...mapMutations('message', ['setSelectedChatFriendId', 'deleteUserFromUserList']),
+    ...mapMutations('message', ['setSelectedChatFriendId', 'deleteUserFromUserList', 'setSelectedUserId']),
     ...mapActions('friend', ['getFriends', 'postFriend', 'searchFriend', 'deleteFriend']),
     getFriendsAction() {
       handler(async () => {
@@ -76,8 +76,9 @@ export default {
         this.deleteUserFromUserList(friendId);
       });
     },
-    selectUserChat(friendId) {
-      this.setSelectedChatFriendId(friendId);
+    selectUserChat(friendUser) {
+      this.setSelectedUserId(friendUser.user._id);
+      this.setSelectedChatFriendId(friendUser.friendId);
     },
     convertPath(path) {
       return helpers.convertToFullBackendPath(path);

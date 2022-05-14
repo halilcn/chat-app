@@ -6,6 +6,7 @@
       </div>
       <input
         v-else
+        ref="messageInput"
         v-on:keyup.enter="sendMessage"
         @keyup="setTextTypeMessage"
         :value="message.content"
@@ -146,6 +147,13 @@ export default {
     ...mapState('message', ['selectedChatFriendId', 'selectedUserId']),
     ...mapState('auth', ['user']),
     ...mapGetters('message', ['messageLength'])
+  },
+  created() {
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.$refs.messageInput.focus();
+      }, 100);
+    });
   }
 };
 </script>

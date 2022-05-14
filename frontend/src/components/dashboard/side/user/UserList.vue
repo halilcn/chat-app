@@ -31,11 +31,11 @@
 
 <script>
 import { mapActions, mapState, mapMutations } from 'vuex';
-import socketChannels from '@/store/socket-channels';
 import helpers from '@/helpers';
 
-//todo: last message, unread message ?
-//todo: sohbet yoksa sen oluştur.
+//todo: unread message ?
+//todo: mesaj gönderince sol side en son mesaj kısmı değişmesi ?
+
 export default {
   name: 'UserList',
   data() {

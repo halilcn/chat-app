@@ -52,10 +52,13 @@ export default {
   created() {
     this.$socket.on(socketChannels.LAST_MESSAGE_FROM_USER, async message => {
       const userLastMessage = this.userListMessages.find(userMessage => userMessage.user._id === message.authorId);
-      if (!userLastMessage) await this.getUserListMessages();
+
+      if (!userLastMessage) {
+        await this.getUserListMessages();
+        return;
+      }
 
       userLastMessage.lastMessage.content = message.content;
-
       if (userLastMessage.friendId !== this.selectedChatFriendId) userLastMessage.unReadMessagesCount++;
 
       this.updateUserListMessage({ userId: message.authorId, message: userLastMessage });

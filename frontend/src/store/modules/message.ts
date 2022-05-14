@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 import { Commit, Dispatch } from 'vuex';
+import lookup from 'socket.io-client/build/esm-debug';
+import store from '@/store';
 
 interface CustomObject {
   [key: string]: any;
@@ -25,7 +27,7 @@ export default {
       state.userListMessages = payload;
     },
     updateUserListMessage(state: CustomObject, payload: CustomObject) {
-      const index = state.userListMessages.findIndex((userMessage: CustomObject) => (userMessage.user._id = payload.message.user._id));
+      const index = state.userListMessages.indexOf((userMessage: CustomObject) => (userMessage.user._id = payload.message.user._id));
       state.userListMessages[index] = payload.message;
     },
     setMessages(state: CustomObject, payload: Array<object>) {

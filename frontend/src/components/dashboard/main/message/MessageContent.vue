@@ -1,12 +1,14 @@
 <template>
   <div class="message-content-container">
-    <div v-if="messages.length > 0" class="message-list">
+    <div v-if="messages.length > 0" class="message-list" ref="scrollToMe">
       <div
         v-for="(message, index) in messages"
         :key="index"
         tabindex="1"
         class="message"
         :class="[isYourMessage(message.authorId) ? 'giver' : 'receiver']">
+        {{ message.readers }}
+        {{ message._id }}
         <div class="text" v-if="isTextMessageType(message.type)">{{ message.content }}</div>
         <img
           v-else-if="isImageOfMessageFileType(message.content)"
@@ -25,6 +27,7 @@
 </template>
 
 <script>
+//todo: ekranda scrool yaptıkça, ekranda gördüğü okunmamış mesajların id'lerini post edecek. Ne zaman post edecek?
 import { mapState, mapMutations, mapActions } from 'vuex';
 
 import helpers from '@/helpers';
@@ -64,6 +67,17 @@ export default {
     },
     convertToFullBackendPath(path) {
       return helpers.convertToFullBackendPath(path);
+    },
+    //todo:
+    scrollToElement() {
+      const el = this.$refs.scrollToMe;
+
+
+      if (el) {
+        alert()
+        // Use el.scrollIntoView() to instantly scroll to the element
+        el.scrollIntoView({behavior: 'smooth'});
+      }
     }
   },
   computed: {
@@ -73,6 +87,9 @@ export default {
   created() {
     this.getMessages();
     this.$socket.on(socketChannels.MESSAGE, message => this.setMessage(message));
+
+    //todo:
+    this.scrollToElement();
   },
   unmounted() {
     this.$socket.off(socketChannels.MESSAGE);

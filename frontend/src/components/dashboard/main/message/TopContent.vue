@@ -51,6 +51,7 @@ export default {
       return helpers.convertToFullBackendPath(path);
     },
     findUserFromActiveUsers() {
+      //todo: socket'ten active users'lar geç geldiği için undefined dönüyor ?
       this.friendSocketUser = this.activeUsers.find(user => user._id === this.friendUser._id);
     },
     formatConverter(date) {

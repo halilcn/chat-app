@@ -34,7 +34,6 @@ import { mapActions, mapState, mapMutations } from 'vuex';
 import helpers from '@/helpers';
 
 //todo: unread message ?
-//todo: mesaj gönderince sol side en son mesaj kısmı değişmesi ?
 
 export default {
   name: 'UserList',

@@ -1,14 +1,13 @@
 <template>
   <div class="message-content-container">
-    <div v-if="messages.length > 0" class="message-list" ref="scrollToMe">
+    <div v-if="messages.length > 0" class="message-list" ref="headRef">
       <div
+        @scroll="test"
         v-for="(message, index) in messages"
         :key="index"
         tabindex="1"
         class="message"
         :class="[isYourMessage(message.authorId) ? 'giver' : 'receiver']">
-        {{ message.readers }}
-        {{ message._id }}
         <div class="text" v-if="isTextMessageType(message.type)">{{ message.content }}</div>
         <img
           v-else-if="isImageOfMessageFileType(message.content)"
@@ -45,7 +44,7 @@ export default {
   components: { MessageShowImage },
   methods: {
     ...mapMutations('message', ['setMessage']),
-    ...mapActions('message', ['getMessages']),
+    ...mapActions('message', ['getMessages', 'postReadMessage']),
     setPathForFullScreenImage(path) {
       this.fullScreenImagePath = path;
     },
@@ -68,28 +67,23 @@ export default {
     convertToFullBackendPath(path) {
       return helpers.convertToFullBackendPath(path);
     },
-    //todo:
-    scrollToElement() {
-      const el = this.$refs.scrollToMe;
+    postReadMessageAction() {
+      const unreadMessageIds = this.messages
+        .filter(message => !message.readers.includes(this.user._id) && message.authorId !== this.user._id)
+        .map(message => message._id);
 
-
-      if (el) {
-        alert()
-        // Use el.scrollIntoView() to instantly scroll to the element
-        el.scrollIntoView({behavior: 'smooth'});
-      }
+      this.postReadMessage(unreadMessageIds);
     }
   },
   computed: {
     ...mapState('message', ['messages']),
     ...mapState('auth', ['user'])
   },
-  created() {
-    this.getMessages();
+  async created() {
+    await this.getMessages();
     this.$socket.on(socketChannels.MESSAGE, message => this.setMessage(message));
 
-    //todo:
-    this.scrollToElement();
+    this.postReadMessageAction();
   },
   unmounted() {
     this.$socket.off(socketChannels.MESSAGE);

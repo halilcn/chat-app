@@ -53,6 +53,9 @@ export default {
     },
     async postMessage({ state }: { state: CustomObject }, payload: object[]) {
       await axios.post(`/friends/${state.selectedChatFriendId}/messages`, { messages: payload });
+    },
+    async postReadMessage({ state }: { state: CustomObject }, payload: string[]) {
+      await axios.post(`/friends/${state.selectedChatFriendId}/messages/read`, {messageIds:payload});
     }
   },
   getters: {

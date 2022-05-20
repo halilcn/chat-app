@@ -22,11 +22,8 @@ const addOne = async (friendId: ObjectId, messageInfos: object): Promise<void> =
 const updateAsReadMessages = async (friendId: ObjectId, userId: ObjectId, messageIds: string[]): Promise<void> => {
   const messageModel = await Message.findOne({ friendId });
 
-  console.log('---');
-  console.log(messageIds);
-
   messageModel.messages.map((message: any) => {
-    if (messageIds.includes(message._id)) message.readers.push(userId);
+    if (messageIds.includes(String(message._id))) message.readers.push(userId);
 
     return message;
   });

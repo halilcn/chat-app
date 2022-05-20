@@ -43,7 +43,7 @@ export default {
   },
   components: { MessageShowImage },
   methods: {
-    ...mapMutations('message', ['setMessage']),
+    ...mapMutations('message', ['setMessage', 'clearUnReadMessagesCountOnUserList']),
     ...mapActions('message', ['getMessages', 'postReadMessage']),
     setPathForFullScreenImage(path) {
       this.fullScreenImagePath = path;
@@ -72,11 +72,15 @@ export default {
         .filter(message => !message.readers.includes(this.user._id) && message.authorId !== this.user._id)
         .map(message => message._id);
 
-      this.postReadMessage(unreadMessageIds);
+      if (unreadMessageIds.length > 0) {
+        this.postReadMessage(unreadMessageIds);
+        this.clearUnReadMessagesCountOnUserList(this.selectedChatFriendId);
+      }
     }
   },
   computed: {
     ...mapState('message', ['messages']),
+    ...mapState('message', ['selectedChatFriendId']),
     ...mapState('auth', ['user'])
   },
   async created() {

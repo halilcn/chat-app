@@ -38,6 +38,12 @@ export default {
     },
     deleteUserFromUserList(state: CustomObject, payload: string) {
       state.userListMessages = state.userListMessages.filter((user: any) => user.friendId != payload);
+    },
+    clearUnReadMessagesCountOnUserList(state: CustomObject, friendId: string) {
+      //todo:güncellemiyor
+      state.userListMessages = state.userListMessages.map((user: any) => {
+        if (user.friendId == friendId) user.unReadMessagesCount = 0;
+      });
     }
   },
   actions: {
@@ -55,7 +61,7 @@ export default {
       await axios.post(`/friends/${state.selectedChatFriendId}/messages`, { messages: payload });
     },
     async postReadMessage({ state }: { state: CustomObject }, payload: string[]) {
-      await axios.post(`/friends/${state.selectedChatFriendId}/messages/read`, {messageIds:payload});
+      await axios.post(`/friends/${state.selectedChatFriendId}/messages/read`, { messageIds: payload });
     }
   },
   getters: {

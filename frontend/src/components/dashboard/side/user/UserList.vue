@@ -5,8 +5,8 @@
         v-for="(message, index) in userListMessages"
         :key="index"
         @click="selectUserChat(message)"
-        class="item not-readed"
-        :class="{ selected: isSelectedUserChat(message.friendId) }">
+        class="item"
+        :class="{ selected: isSelectedUserChat(message.friendId), 'not-readed': message.unReadMessagesCount > 0 }">
         <div class="image-container">
           <img alt="user_image" :src="convertPath(message.user.image)" />
           <div v-if="isActive(message.user._id)" class="active"><i class="fa-solid fa-circle"></i></div>

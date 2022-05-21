@@ -38,7 +38,7 @@ export default {
       friendUser: {},
       userIdsInWritingStatus: [],
       friendSocketUser: {},
-      isShowingSettingDropdown: true
+      isShowingSettingDropdown: false
     };
   },
   watch: {
@@ -65,14 +65,12 @@ export default {
       return helpers.convertToFullBackendPath(path);
     },
     findUserFromActiveUsers() {
-      //todo: socket'ten active users'lar geç geldiği için undefined dönüyor ?
-      this.friendSocketUser = this.activeUsers.find(user => user._id === this.friendUser._id);
+      if (this.activeUsers) this.friendSocketUser = this.activeUsers.find(user => user._id === this.friendUser._id);
     },
     formatConverter(date) {
       return this.$dayjs(date).fromNow();
     },
     toggleIsShowingSettingDropdown() {
-      //todo:!
       this.isShowingSettingDropdown = !this.isShowingSettingDropdown;
     }
   },

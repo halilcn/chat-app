@@ -26,7 +26,7 @@ const index = handler(async (req, res, next) => {
     if (messages.length === 0) continue;
 
     for (const message of messages) {
-      if (message.readers.includes(userId)) break;
+      if (message.readers.filter((readerUserId: string) => String(readerUserId) == String(userId)).length > 0) break;
       unReadMessagesCount++;
     }
 

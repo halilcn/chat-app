@@ -40,9 +40,9 @@ export default {
       state.userListMessages = state.userListMessages.filter((user: any) => user.friendId != payload);
     },
     clearUnReadMessagesCountOnUserList(state: CustomObject, friendId: string) {
-      //todo:güncellemiyor
-      state.userListMessages = state.userListMessages.map((user: any) => {
+      state.userListMessages = state.userListMessages = state.userListMessages.map((user: any) => {
         if (user.friendId == friendId) user.unReadMessagesCount = 0;
+        return user;
       });
     }
   },

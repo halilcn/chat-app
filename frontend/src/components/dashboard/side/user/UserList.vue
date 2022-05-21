@@ -6,7 +6,7 @@
         :key="index"
         @click="selectUserChat(message)"
         class="item"
-        :class="{ selected: isSelectedUserChat(message.friendId), 'not-readed': message.unReadMessagesCount > 0 }">
+        :class="{ selected: isSelectedUserChat(message.friendId), 'not-readed': userHasUnreadMessages(message.unReadMessagesCount) }">
         <div class="image-container">
           <img alt="user_image" :src="convertPath(message.user.image)" />
           <div v-if="isActive(message.user._id)" class="active"><i class="fa-solid fa-circle"></i></div>
@@ -32,8 +32,6 @@
 <script>
 import { mapActions, mapState, mapMutations } from 'vuex';
 import helpers from '@/helpers';
-
-//todo: unread message ?
 
 export default {
   name: 'UserList',

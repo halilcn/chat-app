@@ -26,12 +26,24 @@ export default {
     setUserListMessages(state: CustomObject, payload: Array<object>) {
       state.userListMessages = payload;
     },
+    clearLastMessageOnUserListMessages(state: CustomObject, friendId: string) {
+      state.userListMessages = state.userListMessages.map((user: any) => {
+        if (user.friendId == friendId) {
+          user.unReadMessagesCount = 0;
+          user.lastMessage.content = '';
+        }
+        return user;
+      });
+    },
     updateUserListMessage(state: CustomObject, payload: CustomObject) {
       const index = state.userListMessages.indexOf((userMessage: CustomObject) => (userMessage.user._id = payload.message.user._id));
       state.userListMessages[index] = payload.message;
     },
     setMessages(state: CustomObject, payload: Array<object>) {
       state.messages = payload;
+    },
+    clearMessages(state: CustomObject) {
+      state.messages = [];
     },
     setMessage(state: CustomObject, payload: object) {
       state.messages.push(payload);
@@ -62,6 +74,11 @@ export default {
     },
     async postReadMessage({ state }: { state: CustomObject }, payload: string[]) {
       await axios.post(`/friends/${state.selectedChatFriendId}/messages/read`, { messageIds: payload });
+    },
+    async deleteAllMessages({ state, commit }: { state: CustomObject; commit: Commit }) {
+      await axios.delete(`/friends/${state.selectedChatFriendId}/messages`);
+
+      commit('clearMessages');
     }
   },
   getters: {

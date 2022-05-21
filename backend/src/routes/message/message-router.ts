@@ -11,6 +11,7 @@ const router = Router({ mergeParams: true });
 
 router.get('/', auth, friendMessagePermission, messageController.index);
 router.post('/', auth, friendMessagePermission, messageStoreValidation, messageController.store);
+router.delete('/', auth, friendMessagePermission, messageController.destroy);
 router.post('/read', auth, friendMessagePermission, messageReadStoreValidation, messageReadController.store);
 
 export default router;

@@ -31,9 +31,18 @@ const updateAsReadMessages = async (friendId: ObjectId, userId: ObjectId, messag
   await messageModel.save();
 };
 
+const deleteAllMessages = async (friendId: ObjectId): Promise<void> => {
+  const messageModel = await Message.findOne({ friendId });
+
+  messageModel.messages = [];
+
+  await messageModel.save();
+};
+
 export default {
   getAll,
   addOneEmpty,
   addOne,
-  updateAsReadMessages
+  updateAsReadMessages,
+  deleteAllMessages
 };

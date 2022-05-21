@@ -26,7 +26,6 @@
 </template>
 
 <script>
-//todo: ekranda scrool yaptıkça, ekranda gördüğü okunmamış mesajların id'lerini post edecek. Ne zaman post edecek?
 import { mapState, mapMutations, mapActions } from 'vuex';
 
 import helpers from '@/helpers';
@@ -34,6 +33,8 @@ import MessageShowImage from '@/components/dashboard/main/message/MessageImageFu
 import { MESSAGE_TYPES, FILE_IMAGE_TYPES } from '@/store/constants';
 import socketChannels from '@/store/socket-channels';
 
+//todo: unread message'a ekranı scroll et.
+//todo: say hello diyine sol tarafa kullanıcı eklenmiyor ?.
 export default {
   name: 'MessageContent',
   data() {

@@ -14,13 +14,18 @@
       <div v-else class="last-active-date">{{ formatConverter(friendUser.lastActive) }}</div>
     </div>
     <div class="actions">
-      <i class="fa-solid fa-ellipsis-vertical icon item"></i>
+      <div class="settings">
+        <i @click="toggleIsShowingSettingDropdown" class="fa-solid fa-ellipsis-vertical icon item"></i>
+        <div v-if="isShowingSettingDropdown" class="dropdown">
+          <div @click="deleteAllMessagesAction" class="link">delete all messages</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 
 import handler from '@/shared/handler';
 import socketChannels from '@/store/socket-channels';
@@ -32,7 +37,8 @@ export default {
     return {
       friendUser: {},
       userIdsInWritingStatus: [],
-      friendSocketUser: {}
+      friendSocketUser: {},
+      isShowingSettingDropdown: true
     };
   },
   watch: {
@@ -42,9 +48,17 @@ export default {
   },
   methods: {
     ...mapActions('friend', ['getFriend']),
+    ...mapActions('message', ['deleteAllMessages']),
+    ...mapMutations('message', ['clearLastMessageOnUserListMessages']),
     async getFriendAction() {
       await handler(async () => {
         this.friendUser = await this.getFriend(this.selectedChatFriendId);
+      });
+    },
+    deleteAllMessagesAction() {
+      handler(async () => {
+        await this.deleteAllMessages();
+        this.clearLastMessageOnUserListMessages(this.selectedChatFriendId);
       });
     },
     convertPath(path) {
@@ -56,6 +70,10 @@ export default {
     },
     formatConverter(date) {
       return this.$dayjs(date).fromNow();
+    },
+    toggleIsShowingSettingDropdown() {
+      //todo:!
+      this.isShowingSettingDropdown = !this.isShowingSettingDropdown;
     }
   },
   computed: {
@@ -134,6 +152,28 @@ export default {
     .item {
       &.fa-ellipsis-vertical {
         padding: 11px 18px 12px 18px;
+      }
+    }
+
+    .settings {
+      position: relative;
+
+      .dropdown {
+        @include center-md-box-shadow;
+        position: absolute;
+        background-color: white;
+        border-radius: 10px;
+        right: 0;
+        top: 45px;
+        width: 180px;
+        z-index: 10;
+
+        .link {
+          padding: 10px 15px;
+          font-size: 13px;
+          color: #4e4e4e;
+          cursor: pointer;
+        }
       }
     }
   }

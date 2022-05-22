@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     ...mapActions('file', ['postFile']),
-    ...mapActions('message', ['postMessage']),
+    ...mapActions('message', ['postMessage', 'getUserListMessages']),
     selectEmoji(emoji) {
       this.message.content += emoji;
     },
@@ -141,6 +141,7 @@ export default {
     async sendFirstMessage() {
       this.setTextTypeMessage({ target: { value: 'Hi!' } });
       await this.sendMessage();
+      await this.getUserListMessages();
     }
   },
   computed: {

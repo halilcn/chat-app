@@ -58,5 +58,13 @@ module.exports = (app: Express) => {
 
       io.to(payload.friendId).emit(socketChannels.MESSAGE, payload.message);
     });
+
+    socket.on(socketChannels.DELETE_MESSAGE, payload => {
+      const socketFriend = users.find((user: IUser) => user._id == payload.friendUserId);
+      const socketUser = users.find((user: IUser) => user._id == payload.userId);
+
+      if (socketFriend) io.to(socketFriend.socketId).emit(socketChannels.DELETE_ALL_MESSAGES_BY_USER, payload);
+      if (socketUser) io.to(socketUser.socketId).emit(socketChannels.DELETE_ALL_MESSAGES_BY_USER, payload);
+    });
   });
 };

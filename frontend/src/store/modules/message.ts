@@ -26,15 +26,6 @@ export default {
     setUserListMessages(state: CustomObject, payload: Array<object>) {
       state.userListMessages = payload;
     },
-    clearLastMessageOnUserListMessages(state: CustomObject, friendId: string) {
-      state.userListMessages = state.userListMessages.map((user: any) => {
-        if (user.friendId == friendId) {
-          user.unReadMessagesCount = 0;
-          user.lastMessage.content = '';
-        }
-        return user;
-      });
-    },
     updateUserListMessage(state: CustomObject, payload: CustomObject) {
       const index = state.userListMessages.indexOf((userMessage: CustomObject) => (userMessage.user._id = payload.message.user._id));
       state.userListMessages[index] = payload.message;

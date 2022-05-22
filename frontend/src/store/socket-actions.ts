@@ -46,11 +46,16 @@ const leavingTyping = (socket: Socket, friendId: string) => {
   socket.emit(socketChannels.LEAVING_TYPING, friendId);
 };
 
+const deleteMessage = (socket: Socket, payload: string) => {
+  socket.emit(socketChannels.DELETE_MESSAGE, payload);
+};
+
 export default {
   sendMessage,
   login,
   joinFriendChat,
   leaveFriendChat,
   startTyping,
-  leavingTyping
+  leavingTyping,
+  deleteMessage
 };

@@ -30,6 +30,7 @@ import { mapActions, mapMutations, mapState } from 'vuex';
 import handler from '@/shared/handler';
 import socketChannels from '@/store/socket-channels';
 import helpers from '@/helpers';
+import socketActions from '@/store/socket-actions';
 
 export default {
   name: 'TopContent',
@@ -49,7 +50,6 @@ export default {
   methods: {
     ...mapActions('friend', ['getFriend']),
     ...mapActions('message', ['deleteAllMessages']),
-    ...mapMutations('message', ['clearLastMessageOnUserListMessages']),
     async getFriendAction() {
       await handler(async () => {
         this.friendUser = await this.getFriend(this.selectedChatFriendId);
@@ -58,7 +58,7 @@ export default {
     deleteAllMessagesAction() {
       handler(async () => {
         await this.deleteAllMessages();
-        this.clearLastMessageOnUserListMessages(this.selectedChatFriendId);
+        socketActions.deleteMessage(this.$socket, { friendUserId: this.selectedUserId, userId: this.user._id });
       });
     },
     convertPath(path) {
@@ -75,7 +75,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('message', ['selectedChatFriendId']),
+    ...mapState('message', ['selectedChatFriendId', 'selectedUserId']),
     ...mapState('auth', ['user']),
     ...mapState('friend', ['activeUsers']),
     isWriting() {

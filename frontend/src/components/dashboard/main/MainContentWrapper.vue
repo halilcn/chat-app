@@ -63,6 +63,8 @@ export default {
 
       this.updateUserListMessage({ userId: message.authorId, message: userLastMessage });
     });
+
+    this.$socket.on(socketChannels.DELETE_ALL_MESSAGES_BY_USER, () => this.getUserListMessages());
   }
 };
 </script>

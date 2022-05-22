@@ -1,8 +1,8 @@
 <template>
   <div class="top-content-container">
-    <img class="profile-image" :src="convertPath(friendUser.image)" />
+    <img class="profile-image" :src="convertPath(friendUser?.image)" />
     <div class="user-info">
-      <div class="name">{{ friendUser.nameSurname }}</div>
+      <div class="name">{{ friendUser?.nameSurname }}</div>
       <div v-if="isWriting" class="writing">writing...</div>
       <div v-else-if="isActive" class="active">
         <i class="fa-solid fa-circle"></i>
@@ -11,7 +11,7 @@
       <div v-else-if="Object.keys(friendSocketUser).length > 0" class="last-active-date">
         {{ formatConverter(friendSocketUser.lastActiveDate) }}
       </div>
-      <div v-else class="last-active-date">{{ formatConverter(friendUser.lastActive) }}</div>
+      <div v-else class="last-active-date">{{ formatConverter(friendUser?.lastActive) }}</div>
     </div>
     <div class="actions">
       <div class="settings">
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 import handler from '@/shared/handler';
 import socketChannels from '@/store/socket-channels';
@@ -82,7 +82,7 @@ export default {
       return this.userIdsInWritingStatus.filter(userId => userId !== this.user._id).length > 0;
     },
     isActive() {
-      return this.friendSocketUser.isActive;
+      return this.friendSocketUser?.isActive;
     }
   },
   async created() {

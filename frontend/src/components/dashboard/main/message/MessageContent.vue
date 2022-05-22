@@ -34,7 +34,6 @@ import { MESSAGE_TYPES, FILE_IMAGE_TYPES } from '@/store/constants';
 import socketChannels from '@/store/socket-channels';
 
 //todo: unread message'a ekranı scroll et.
-//todo: isActive unedfined hatası !
 export default {
   name: 'MessageContent',
   data() {

@@ -5,6 +5,7 @@
         @scroll="test"
         v-for="(message, index) in messages"
         :key="index"
+        :id="index == firstUnreadMessageIndex ? 'unreadMessageStartLine' : ''"
         tabindex="1"
         class="message"
         :class="[isYourMessage(message.authorId) ? 'giver' : 'receiver']">
@@ -20,13 +21,13 @@
         </video>
         <div class="time">{{ $dayjs(message.createdAt).format('DD MMM') }}</div>
       </div>
-      ???
+
       <div id="lastMessageLine" class="last-message-line"></div>
-      <div id="unreadMessageStartLine" class="unread-message-start-line">
+      <!-- <div id="unreadMessageStartLine" class="unread-message-start-line">
         <div class="line"></div>
         <div class="date">20 Mayıs 20:55</div>
         <div class="line"></div>
-      </div>
+      </div> -->
     </div>
   </div>
   <message-show-image @disable-screen="disableFullScreenImage" :path="fullScreenImagePath" />
@@ -45,8 +46,19 @@ export default {
   name: 'MessageContent',
   data() {
     return {
-      fullScreenImagePath: null
+      fullScreenImagePath: null,
+      firstUnreadMessageIndex: null
     };
+  },
+  watch: {
+    messages(newVal) {
+      for (let [index, message] of Object.entries(newVal)) {
+        if (this.isUnreadMessage(message.readers)) {
+          this.firstUnreadMessageIndex = index;
+          break;
+        }
+      }
+    }
   },
   components: { MessageShowImage },
   methods: {
@@ -70,6 +82,9 @@ export default {
       const fileImageTypeExtensions = FILE_IMAGE_TYPES.map(file => file.split('/')[1]);
 
       return fileImageTypeExtensions.includes(fileExtension);
+    },
+    isUnreadMessage(readers) {
+      return !readers.includes(this.user._id);
     },
     convertToFullBackendPath(path) {
       return helpers.convertToFullBackendPath(path);
@@ -101,8 +116,8 @@ export default {
 
     this.postReadMessageAction();
 
-    // this.scrollToUnreadMessage();
-    this.scrollToLastMessage();
+    this.scrollToUnreadMessage();
+    //this.scrollToLastMessage();
   },
   unmounted() {
     this.$socket.off(socketChannels.MESSAGE);

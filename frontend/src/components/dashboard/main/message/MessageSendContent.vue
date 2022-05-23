@@ -60,6 +60,7 @@ export default {
     ...mapActions('message', ['postMessage', 'getUserListMessages']),
     selectEmoji(emoji) {
       this.message.content += emoji;
+      this.selectTextMessageType();
     },
     async sendMessage() {
       await handler(async () => {

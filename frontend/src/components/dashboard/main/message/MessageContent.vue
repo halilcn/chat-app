@@ -79,8 +79,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('message', ['messages']),
-    ...mapState('message', ['selectedChatFriendId']),
+    ...mapState('message', ['messages', 'selectedChatFriendId']),
     ...mapState('auth', ['user'])
   },
   async created() {

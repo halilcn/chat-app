@@ -2,10 +2,9 @@
   <div class="message-content-container">
     <div v-if="messages.length > 0" class="message-list" id="messageList">
       <div
-        @scroll="test"
         v-for="(message, index) in messages"
         :key="index"
-        :id="index == firstUnreadMessageIndex ? 'unreadMessageStartLine' : ''"
+        :id="messageId(index)"
         tabindex="1"
         class="message"
         :class="[isYourMessage(message.authorId) ? 'giver' : 'receiver']">
@@ -21,13 +20,6 @@
         </video>
         <div class="time">{{ $dayjs(message.createdAt).format('DD MMM') }}</div>
       </div>
-
-      <div id="lastMessageLine" class="last-message-line"></div>
-      <!-- <div id="unreadMessageStartLine" class="unread-message-start-line">
-        <div class="line"></div>
-        <div class="date">20 Mayıs 20:55</div>
-        <div class="line"></div>
-      </div> -->
     </div>
   </div>
   <message-show-image @disable-screen="disableFullScreenImage" :path="fullScreenImagePath" />
@@ -41,7 +33,6 @@ import MessageShowImage from '@/components/dashboard/main/message/MessageImageFu
 import { MESSAGE_TYPES, FILE_IMAGE_TYPES } from '@/store/constants';
 import socketChannels from '@/store/socket-channels';
 
-//todo: unread message'a ekranı scroll et.
 export default {
   name: 'MessageContent',
   data() {
@@ -99,11 +90,14 @@ export default {
         this.clearUnReadMessagesCountOnUserList(this.selectedChatFriendId);
       }
     },
+    messageId(index) {
+      if (index == this.firstUnreadMessageIndex) return 'unreadMessageStartLine';
+    },
     scrollToUnreadMessage() {
       document.getElementById('messageList').scrollTop = document.getElementById('unreadMessageStartLine').offsetTop;
     },
     scrollToLastMessage() {
-      document.getElementById('messageList').scrollTop = document.getElementById('lastMessageLine').offsetTop;
+      document.getElementById('messageList').scrollTop = document.getElementById('messageList').scrollHeight;
     }
   },
   computed: {
@@ -112,12 +106,21 @@ export default {
   },
   async created() {
     await this.getMessages();
-    this.$socket.on(socketChannels.MESSAGE, message => this.setMessage(message));
+    this.$socket.on(socketChannels.MESSAGE, message => {
+      this.setMessage(message);
+      setTimeout(() => {
+        this.scrollToLastMessage();
+      }, 10);
+    });
 
     this.postReadMessageAction();
 
-    this.scrollToUnreadMessage();
-    //this.scrollToLastMessage();
+    if (this.firstUnreadMessageIndex) {
+      this.scrollToUnreadMessage();
+      return;
+    }
+
+    this.scrollToLastMessage();
   },
   unmounted() {
     this.$socket.off(socketChannels.MESSAGE);
@@ -193,27 +196,6 @@ export default {
         font-style: italic;
         color: #5e5e5e;
         display: none;
-      }
-    }
-
-    .unread-message-start-line {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-
-      .date {
-        width: 400px;
-        font-weight: 300;
-        font-size: 14px;
-        text-align: center;
-        color: #636363;
-      }
-
-      .line {
-        width: 100%;
-        height: 1px;
-        background-color: #c4c5ff;
       }
     }
   }

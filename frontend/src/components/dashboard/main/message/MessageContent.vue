@@ -1,6 +1,6 @@
 <template>
   <div class="message-content-container">
-    <div v-if="messages.length > 0" class="message-list" ref="headRef">
+    <div v-if="messages.length > 0" class="message-list" id="messageList">
       <div
         @scroll="test"
         v-for="(message, index) in messages"
@@ -19,6 +19,13 @@
           <source :src="convertToFullBackendPath(message.content)" type="video/mp4" />
         </video>
         <div class="time">{{ $dayjs(message.createdAt).format('DD MMM') }}</div>
+      </div>
+      ???
+      <div id="lastMessageLine" class="last-message-line"></div>
+      <div id="unreadMessageStartLine" class="unread-message-start-line">
+        <div class="line"></div>
+        <div class="date">20 Mayıs 20:55</div>
+        <div class="line"></div>
       </div>
     </div>
   </div>
@@ -76,6 +83,12 @@ export default {
         this.postReadMessage(unreadMessageIds);
         this.clearUnReadMessagesCountOnUserList(this.selectedChatFriendId);
       }
+    },
+    scrollToUnreadMessage() {
+      document.getElementById('messageList').scrollTop = document.getElementById('unreadMessageStartLine').offsetTop;
+    },
+    scrollToLastMessage() {
+      document.getElementById('messageList').scrollTop = document.getElementById('lastMessageLine').offsetTop;
     }
   },
   computed: {
@@ -87,6 +100,9 @@ export default {
     this.$socket.on(socketChannels.MESSAGE, message => this.setMessage(message));
 
     this.postReadMessageAction();
+
+    // this.scrollToUnreadMessage();
+    this.scrollToLastMessage();
   },
   unmounted() {
     this.$socket.off(socketChannels.MESSAGE);
@@ -162,6 +178,27 @@ export default {
         font-style: italic;
         color: #5e5e5e;
         display: none;
+      }
+    }
+
+    .unread-message-start-line {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+
+      .date {
+        width: 400px;
+        font-weight: 300;
+        font-size: 14px;
+        text-align: center;
+        color: #636363;
+      }
+
+      .line {
+        width: 100%;
+        height: 1px;
+        background-color: #c4c5ff;
       }
     }
   }

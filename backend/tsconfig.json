@@ -76,7 +76,7 @@
     },
     "useUnknownInCatchVariables": false
   },
-  "include": ["src/**/*.ts", "spec/**/*.ts"],
+  "include": ["src/**/*.ts", "__tests__/**/*.ts"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   }

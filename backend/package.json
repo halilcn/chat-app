@@ -6,11 +6,11 @@
     "lint": "eslint . --ext .ts",
     "start": "node -r module-alias/register ./dist --env=production",
     "start:dev": "nodemon src/index.ts",
-    "test": "jest"
+    "test": "cross-env APP_ENVIRONMENT=test jest"
   },
   "_moduleAliases": {
-    "@models": "dist/models",
-    "@middlewares": "src/middlewares",
+    "@models": "dist/models/models",
+    "@middlewares": "dist/middlewares",
     "@shared": "dist/shared",
     "@routes": "dist/routes",
     "@controllers": "dist/controllers",
@@ -52,9 +52,10 @@
     "@types/jsonfile": "^6.1.0",
     "@types/morgan": "^1.9.3",
     "@types/node": "^17.0.21",
-    "@types/supertest": "^2.0.11",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.11.0",
     "find": "^0.3.0",
     "fs-extra": "^10.0.1",

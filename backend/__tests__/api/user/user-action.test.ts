@@ -7,6 +7,6 @@ import server from '../../../src/server';
 
 describe('Sample Test', () => {
   it('should test that true === true', async () => {
-    request(server).post('api/v1/user-action/register').expect(200);
+    await request(server).post('/api/v1/user-action/register').expect(422);
   });
 });

@@ -1,6 +1,6 @@
 import axios from 'axios';
-
 import { Commit, Dispatch } from 'vuex';
+
 import File from '@/store/modules/file';
 
 interface CustomObject {

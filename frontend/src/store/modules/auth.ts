@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import { Commit, Dispatch } from 'vuex';
 
 const LOCAL_STORAGE_USER = 'user';

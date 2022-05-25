@@ -1,8 +1,5 @@
 import axios from 'axios';
-
-import { Commit, Dispatch } from 'vuex';
-import lookup from 'socket.io-client/build/esm-debug';
-import store from '@/store';
+import { Commit } from 'vuex';
 
 interface CustomObject {
   [key: string]: any;

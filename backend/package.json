@@ -6,7 +6,7 @@
     "lint": "eslint . --ext .ts",
     "start": "node -r module-alias/register ./dist --env=production",
     "start:dev": "nodemon src/index.ts",
-    "test": "cross-env APP_ENVIRONMENT=test jest"
+    "test": "cross-env APP_ENVIRONMENT=test MONGO_DB_URI=mongodb://localhost:27017/chat-app-test jest"
   },
   "_moduleAliases": {
     "@models": "dist/models/models",
@@ -43,6 +43,7 @@
     "socket.io": "^4.4.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.1.0",
     "@types/command-line-args": "^5.2.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",

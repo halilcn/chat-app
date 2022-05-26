@@ -6,7 +6,7 @@
     "lint": "eslint . --ext .ts",
     "start": "node -r module-alias/register ./dist --env=production",
     "start:dev": "nodemon src/index.ts",
-    "test": "cross-env APP_ENVIRONMENT=test MONGO_DB_URI=mongodb://localhost:27017/chat-app-test jest"
+    "test": "cross-env APP_ENVIRONMENT=test MONGO_DB_URI=mongodb://localhost:27017/chat-app-test JWT_TOKEN_KEY=TEST_TOKEN jest"
   },
   "_moduleAliases": {
     "@models": "dist/models/models",

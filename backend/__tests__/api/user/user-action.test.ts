@@ -8,6 +8,7 @@ import clearDb from '../../utils/clear-db';
 import User from '@models/user-model';
 
 describe('User Action', () => {
+  //todo: hepsinde olmalı mı yoksa sonda mı ?
   beforeEach(async () => {
     await clearDb();
   });

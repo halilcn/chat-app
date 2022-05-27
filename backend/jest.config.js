@@ -8,5 +8,6 @@ module.exports = {
   testMatch: ['<rootDir>/__tests__/**/*.test.ts'],
   clearMocks: true,
   coveragePathIgnorePatterns: ['/node_modules/'],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' })
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
+  testTimeout: 15000
 };

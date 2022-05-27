@@ -7,11 +7,11 @@ import server from '../../../src/server';
 import clearDb from '../../utils/clear-db';
 import User from '@models/user-model';
 
-beforeEach(async () => {
-  await clearDb();
-});
-
 describe('User Action', () => {
+  beforeEach(async () => {
+    await clearDb();
+  });
+
   it('should return 201 - /register', async () => {
     const user = {
       username: faker.internet.userName(),

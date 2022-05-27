@@ -15,7 +15,6 @@ const handler: IHandler = processFunction => async (req, res, next) => {
   try {
     await processFunction(req, res, next);
   } catch (err) {
-    console.log(err); //todo:silinecek
     err instanceof CustomError ? next(response.error(err.message, err.code)) : next(response.error());
   }
 };

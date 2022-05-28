@@ -4,11 +4,10 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import server from '../../../src/server';
-import clearDb from '../../utils/clear-db';
+import clearDb from '../../test-utils/clear-db';
 import User from '@models/user-model';
 
 describe('User Action', () => {
-  //todo: hepsinde olmalı mı yoksa sonda mı ?
   beforeEach(async () => {
     await clearDb();
   });
@@ -41,7 +40,6 @@ describe('User Action', () => {
       nameSurname: faker.name.firstName(),
       password: faker.internet.password()
     };
-
     const createdUser = await User.create({ ...user, password: await bcrypt.hash(user.password, 10) });
     const token = jwt.sign({ user_id: createdUser._id }, process.env.JWT_TOKEN_KEY as string);
 

@@ -7,7 +7,7 @@ import { faker } from '@faker-js/faker';
 import jwt from 'jsonwebtoken';
 import User from '@models/user-model';
 import bcrypt from 'bcrypt';
-import connectDb from '../utils/connect-db';
+import connectDb from '../test-utils/connect-db';
 
 describe('Auth Middleware', () => {
   let mockRequest: Partial<Request> = {};

@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 
 export default async () => {
-  const collections = await mongoose.connection.db?.collections();
+  const collections = await mongoose.connection.collections;
   if (!collections) return;
-  for (const connection of collections) {
-    await connection.deleteMany({});
-  }
+  await Promise.all(
+    Object.values(collections).map(async collection => {
+      await collection.deleteMany({});
+    })
+  );
 };

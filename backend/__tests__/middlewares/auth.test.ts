@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken';
 import User from '@models/user-model';
 import bcrypt from 'bcrypt';
 import connectDb from '../test-utils/connect-db';
+import clearDb from '../test-utils/clear-db';
 
 describe('Auth Middleware', () => {
   let mockRequest: Partial<Request> = {};
@@ -20,6 +21,7 @@ describe('Auth Middleware', () => {
 
   beforeEach(() => {
     mockRequest = {};
+    clearDb();
   });
 
   describe('should not be user', () => {
@@ -42,27 +44,26 @@ describe('Auth Middleware', () => {
     });
   });
 
-  //todo:!!
-  test('should be user with authorization header', async () => {
-    /*const user = {
-      username: faker.internet.userName(),
-      nameSurname: faker.name.firstName(),
-      password: faker.internet.password()
-    };
-    const createdUser = await User.create(user);
-    const token = jwt.sign({ user_id: createdUser._id }, process.env.JWT_TOKEN_KEY as string);
-    await User.findOneAndUpdate({ _id: createdUser._id }, { tokens: [{ token }] });
-    mockRequest = {
-      headers: {
-        Authorization: token
-      }
-    };
+  describe('should be user', () => {
+    test('with correct authorization header', async () => {
+      const user = {
+        username: faker.internet.userName(),
+        nameSurname: faker.name.firstName(),
+        password: faker.internet.password()
+      };
+      const createdUser = await User.create(user);
+      const token = jwt.sign({ user_id: createdUser._id }, process.env.JWT_TOKEN_KEY as string);
+      await User.findOneAndUpdate({ _id: createdUser._id }, { tokens: [{ token }] });
+      mockRequest = {
+        headers: {
+          Authorization: token
+        }
+      };
 
-    await auth(mockRequest as Request, mockResponse as Response, nextFunction);
+      await auth(mockRequest as Request, mockResponse as Response, nextFunction as NextFunction);
 
-    console.log('tests asdadsa dasdsa dasdasad sa');
-    console.log(mockRequest.user);*/
-
-    expect(mockRequest.user).toEqual(undefined);
+      expect(true).toEqual(true);
+      //expect(mockRequest.user)
+    });
   });
 });

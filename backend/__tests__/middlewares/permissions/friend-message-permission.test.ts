@@ -1,1 +1,5 @@
-describe('Friend Message Permission Middleware', () => {});
+describe('Friend Message Permission Middleware', () => {
+  test('test', () => {
+    expect(true).toEqual(true);
+  });
+});

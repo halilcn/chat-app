@@ -1,12 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-
-import auth from '@middlewares/auth';
-import { AuthenticationError } from '@shared/errors';
-import CustomError from '@shared/errors/custom-error';
 import { faker } from '@faker-js/faker';
 import jwt from 'jsonwebtoken';
+
+import auth from '@middlewares/auth';
 import User from '@models/user-model';
-import bcrypt from 'bcrypt';
 import connectDb from '../test-utils/connect-db';
 import clearDb from '../test-utils/clear-db';
 
@@ -28,7 +25,7 @@ describe('Auth Middleware', () => {
     test('without authorization header', async () => {
       await auth(mockRequest as Request, mockResponse as Response, nextFunction as NextFunction);
 
-      expect(mockRequest.user).toEqual(undefined);
+      expect(mockRequest.user).not.toBeDefined();
     });
 
     test('with wrong authorization header', async () => {
@@ -40,7 +37,7 @@ describe('Auth Middleware', () => {
 
       await auth(mockRequest as Request, mockResponse as Response, nextFunction as NextFunction);
 
-      expect(mockRequest.user).toEqual(undefined);
+      expect(mockRequest.user).not.toBeDefined();
     });
   });
 
@@ -62,8 +59,7 @@ describe('Auth Middleware', () => {
 
       await auth(mockRequest as Request, mockResponse as Response, nextFunction as NextFunction);
 
-      expect(true).toEqual(true);
-      //expect(mockRequest.user)
+      expect(mockRequest.user).toBeDefined();
     });
   });
 });

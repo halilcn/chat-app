@@ -11,7 +11,7 @@ interface IDecodedUser {
 
 const auth = handler(async (req, res, next) => {
   try {
-    const reqToken = req.headers.authorization as string;
+    const reqToken = (req.headers.Authorization ? req.headers.Authorization : req.header('authorization')) as string;
 
     const decodedUser = jwt.verify(reqToken, process.env.JWT_TOKEN_KEY as string) as IDecodedUser;
 

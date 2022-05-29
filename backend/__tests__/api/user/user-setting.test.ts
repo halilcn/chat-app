@@ -5,8 +5,13 @@ import request from 'supertest';
 
 import User from '@models/user-model';
 import server from '../../../src/server';
+import clearDb from '../../test-utils/clear-db';
 
 describe('User Settings', () => {
+  beforeEach(async () => {
+    await clearDb();
+  });
+
   describe('GET - /v1/user-settings', () => {
     test('should return 200 with correct user object', async () => {
       const user = {

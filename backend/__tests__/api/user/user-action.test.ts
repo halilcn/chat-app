@@ -12,7 +12,7 @@ describe('User Action', () => {
     await clearDb();
   });
 
-  describe('v1/user-actions/register', () => {
+  describe('POST - v1/user-actions/register', () => {
     it('should return 201 with correct user object', async () => {
       const user = {
         username: faker.internet.userName(),
@@ -30,7 +30,7 @@ describe('User Action', () => {
     });
   });
 
-  describe('v1/user-actions/login', () => {
+  describe('POST - v1/user-actions/login', () => {
     it('should return 201 with correct user object', async () => {
       const user = {
         username: faker.internet.userName(),
@@ -50,7 +50,7 @@ describe('User Action', () => {
     });
   });
 
-  describe('v1/user-actions/logout', () => {
+  describe('POST - v1/user-actions/logout', () => {
     it('should return 200 with correct user object', async () => {
       const user = {
         username: faker.internet.userName(),

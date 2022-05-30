@@ -119,4 +119,52 @@ describe('Friend', () => {
       await request(server).post('/api/v1/friends').set('Authorization', token).expect(422);
     });
   });
+
+  describe('GET - /v1/friends/:friendId', () => {
+    it('should return 200', async function () {
+      const user = {
+        username: faker.internet.userName() + '-test-user',
+        nameSurname: faker.name.firstName(),
+        password: faker.internet.password()
+      };
+      const friendUser = {
+        username: faker.internet.userName() + '-test-friend',
+        nameSurname: faker.name.firstName(),
+        password: faker.internet.password()
+      };
+      const createdUser = await User.create({ ...user, password: await bcrypt.hash(user.password, 10) });
+      const createdFriendUser = await User.create(friendUser);
+
+      const token = jwt.sign({ user_id: createdUser._id }, process.env.JWT_TOKEN_KEY as string);
+      await User.findOneAndUpdate({ _id: createdUser._id }, { tokens: [{ token }] });
+
+      const friend = await Friend.create({ requester: createdUser._id, recipient: createdFriendUser._id });
+
+      await request(server).get(`/api/v1/friends/${friend._id}`).set('Authorization', token).expect(200);
+    });
+
+    it('should be defined user in response', async function () {
+      const user = {
+        username: faker.internet.userName() + '-test-user',
+        nameSurname: faker.name.firstName(),
+        password: faker.internet.password()
+      };
+      const friendUser = {
+        username: faker.internet.userName() + '-test-friend',
+        nameSurname: faker.name.firstName(),
+        password: faker.internet.password()
+      };
+      const createdUser = await User.create({ ...user, password: await bcrypt.hash(user.password, 10) });
+      const createdFriendUser = await User.create(friendUser);
+
+      const token = jwt.sign({ user_id: createdUser._id }, process.env.JWT_TOKEN_KEY as string);
+      await User.findOneAndUpdate({ _id: createdUser._id }, { tokens: [{ token }] });
+
+      const friend = await Friend.create({ requester: createdUser._id, recipient: createdFriendUser._id });
+
+      const res = await request(server).get(`/api/v1/friends/${friend._id}`).set('Authorization', token).expect(200);
+
+      expect(res.body.data.user).toBeDefined();
+    });
+  });
 });

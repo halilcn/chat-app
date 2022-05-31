@@ -14,7 +14,7 @@ describe('Friend', () => {
   });
 
   describe('GET - /v1/friends', () => {
-    it('should return 200', async function () {
+    it('should return 200 with correct user token', async function () {
       const user = {
         username: faker.internet.userName() + '-test-user',
         nameSurname: faker.name.firstName(),
@@ -36,7 +36,7 @@ describe('Friend', () => {
       await request(server).get('/api/v1/friends').set('Authorization', token).expect(200);
     });
 
-    it('should be 1 length of friends ', async function () {
+    it('length of friends should be 1 ', async function () {
       const user = {
         username: faker.internet.userName() + '-test-user',
         nameSurname: faker.name.firstName(),
@@ -64,7 +64,7 @@ describe('Friend', () => {
 
   //todo: gerçekten kaydetmiş mi
   describe('POST - /v1/friends', () => {
-    it('should return 201', async function () {
+    it('should return 201 with correct friend user id', async function () {
       const user = {
         username: faker.internet.userName() + '-test-user',
         nameSurname: faker.name.firstName(),
@@ -84,7 +84,7 @@ describe('Friend', () => {
       await request(server).post('/api/v1/friends').set('Authorization', token).send({ recipient: createdFriendUser._id }).expect(201);
     });
 
-    it('should return 409', async function () {
+    it('should return 409 with same friend user id', async function () {
       const user = {
         username: faker.internet.userName() + '-test-user',
         nameSurname: faker.name.firstName(),
@@ -106,7 +106,7 @@ describe('Friend', () => {
       await request(server).post('/api/v1/friends').set('Authorization', token).send({ recipient: createdFriendUser._id }).expect(409);
     });
 
-    it('should return 422', async function () {
+    it('should return 422 without friend user id', async function () {
       const user = {
         username: faker.internet.userName(),
         nameSurname: faker.name.firstName(),

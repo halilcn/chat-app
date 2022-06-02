@@ -77,6 +77,8 @@ describe('Message', () => {
   });
 
   describe('POST - /v1/friends/:friendId/messages', () => {
+    //todo:gerçekten eklenmiş mi?
+
     it('should return 201', async () => {
       //todo: message post route'da hata mı var ?
 
@@ -163,6 +165,64 @@ describe('Message', () => {
         .set('Authorization', token)
         .send({ messages })
         .expect(422);
+    });
+  });
+
+  describe('DELETE - /v1/friends/:friendId/messages', () => {
+    it('should return 200', async () => {
+      const user = {
+        username: faker.internet.userName() + '-test-user',
+        nameSurname: faker.name.firstName(),
+        password: faker.internet.password()
+      };
+      const friendUser = {
+        username: faker.internet.userName() + '-test-friend',
+        nameSurname: faker.name.firstName(),
+        password: faker.internet.password()
+      };
+      const createdUser = await User.create({ ...user, password: await bcrypt.hash(user.password, 10) });
+      const createdFriendUser = await User.create(friendUser);
+
+      const token = jwt.sign({ user_id: createdUser._id }, process.env.JWT_TOKEN_KEY as string);
+      await User.findOneAndUpdate({ _id: createdUser._id }, { tokens: [{ token }] });
+
+      const createdFriend = await Friend.create({ requester: createdUser._id, recipient: createdFriendUser._id });
+      await Message.create({
+        friendId: createdFriend._id,
+        messages: [{ authorId: createdUser._id, type: 'text', content: 'test message', readers: [createdUser._id] }]
+      });
+
+      await request(server).delete(`/api/v1/friends/${createdFriend._id}/messages`).set('Authorization', token).expect(200);
+    });
+
+    it('length of messages should be 0 after request to delete messages', async () => {
+      const user = {
+        username: faker.internet.userName() + '-test-user',
+        nameSurname: faker.name.firstName(),
+        password: faker.internet.password()
+      };
+      const friendUser = {
+        username: faker.internet.userName() + '-test-friend',
+        nameSurname: faker.name.firstName(),
+        password: faker.internet.password()
+      };
+      const createdUser = await User.create({ ...user, password: await bcrypt.hash(user.password, 10) });
+      const createdFriendUser = await User.create(friendUser);
+
+      const token = jwt.sign({ user_id: createdUser._id }, process.env.JWT_TOKEN_KEY as string);
+      await User.findOneAndUpdate({ _id: createdUser._id }, { tokens: [{ token }] });
+
+      const createdFriend = await Friend.create({ requester: createdUser._id, recipient: createdFriendUser._id });
+      await Message.create({
+        friendId: createdFriend._id,
+        messages: [{ authorId: createdUser._id, type: 'text', content: 'test message', readers: [createdUser._id] }]
+      });
+
+      await request(server).delete(`/api/v1/friends/${createdFriend._id}/messages`).set('Authorization', token);
+
+      const userMessages = (await Message.findOne({ friendId: createdFriend._id }).lean()) as any;
+
+      expect(userMessages.messages.length).toEqual(0);
     });
   });
 });

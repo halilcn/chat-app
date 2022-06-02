@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker';
-import User from '@models/user-model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import Friend from '@models/friend-model';
 import request from 'supertest';
-import server from '../../../src/server';
+
+import User from '@models/user-model';
+import Friend from '@models/friend-model';
 import Message from '@models/message-model';
+import server from '../../../src/server';
 import clearDb from '../../test-utils/clear-db';
 import connectDb from '../../test-utils/connect-db';
 
@@ -45,7 +46,7 @@ describe('Message', () => {
       await request(server).get(`/api/v1/friends/${createdFriend._id}/messages`).set('Authorization', token).expect(200);
     });
 
-    it('respo', async () => {
+    it('should be be messages on body of response after request get', async () => {
       const user = {
         username: faker.internet.userName() + '-test-user',
         nameSurname: faker.name.firstName(),
@@ -68,7 +69,9 @@ describe('Message', () => {
         messages: [{ authorId: createdUser._id, type: 'text', content: 'test message', readers: [createdUser._id] }]
       });
 
-      await request(server).get(`/api/v1/friends/${createdFriend._id}/messages`).set('Authorization', token).expect(200);
+      const res = await request(server).get(`/api/v1/friends/${createdFriend._id}/messages`).set('Authorization', token).expect(200);
+
+      expect(res.body.data.messages).toBeDefined();
     });
   });
 });

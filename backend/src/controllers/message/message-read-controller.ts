@@ -7,7 +7,7 @@ import response from '@shared/response';
 const store = handler(async (req, res, next) => {
   await MessageService.updateAsReadMessages(req.params.friendId as unknown as ObjectId, req.user._id, req.validated.messageIds);
 
-  next(response.success());
+  next(response.created());
 });
 
 export default {

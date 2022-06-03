@@ -7,13 +7,16 @@ const schema = joi.object().keys({
   messages: joi
     .array()
     .items(
-      joi.object().keys({
-        content: joi.string().required(),
-        type: joi
-          .string()
-          .required()
-          .valid(...Object.values(MESSAGE_TYPES))
-      })
+      joi
+        .object()
+        .keys({
+          content: joi.string().required(),
+          type: joi
+            .string()
+            .valid(...Object.values(MESSAGE_TYPES))
+            .required()
+        })
+        .required()
     )
     .required()
 });

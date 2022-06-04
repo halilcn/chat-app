@@ -7,17 +7,10 @@ import User from '@models/user-model';
 import Friend from '@models/friend-model';
 import Message from '@models/message-model';
 import server from '../../../src/server';
-import clearDb from '../../test-utils/clear-db';
-import connectDb from '../../test-utils/connect-db';
+import setup from '../../test-utils/setup';
 
 describe('User Message', () => {
-  beforeAll(async () => {
-    await connectDb();
-  });
-
-  beforeEach(async () => {
-    await clearDb();
-  });
+  setup();
 
   describe('GET - /v1/user-messages', () => {
     it('should return 200', async () => {

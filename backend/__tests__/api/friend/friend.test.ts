@@ -6,12 +6,10 @@ import request from 'supertest';
 import User from '@models/user-model';
 import Friend from '@models/friend-model';
 import server from '../../../src/server';
-import clearDb from '../../test-utils/clear-db';
+import setup from '../../test-utils/setup';
 
 describe('Friend', () => {
-  beforeEach(async () => {
-    await clearDb();
-  });
+  setup();
 
   describe('GET - /v1/friends', () => {
     it('should return 200 with correct user token', async function () {

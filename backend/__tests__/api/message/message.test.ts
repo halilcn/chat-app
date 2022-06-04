@@ -258,8 +258,6 @@ describe('Message', () => {
   });
 
   describe('POST - /v1/friends/:friendId/messages/read', () => {
-    //todo: gerçekten read etmiş mi ?
-
     it('should return 201', async () => {
       const user = {
         username: faker.internet.userName() + '-test-user',
@@ -283,7 +281,7 @@ describe('Message', () => {
         messages: [{ authorId: createdFriendUser._id, type: 'text', content: 'test message', readers: [createdFriendUser._id] }]
       });
 
-      const messageIds = [createdMessage._id];
+      const messageIds = createdMessage.messages.map((message: any) => message._id);
 
       await request(server)
         .post(`/api/v1/friends/${createdFriend._id}/messages/read`)
@@ -340,17 +338,13 @@ describe('Message', () => {
         friendId: createdFriend._id,
         messages: [{ authorId: createdFriendUser._id, type: 'text', content: 'test message', readers: [createdFriendUser._id] }]
       });
-      const messageIds = [createdMessage._id];
+      const messageIds = createdMessage.messages.map((message: any) => message._id);
 
       await request(server).post(`/api/v1/friends/${createdFriend._id}/messages/read`).set('Authorization', token).send({ messageIds });
 
       const { messages } = await Message.findOne({ friendId: createdFriend._id }).lean();
 
-      console.log(createdUser._id);
-      console.log(messages);
-
-      console.log(messages[0].readers); // todo: user'ın kendi id'si olmalıdır
-      //todo: readers controllerde problem var !
+      expect(messages[0].readers.some((userId: any) => String(userId) === String(createdUser._id))).toEqual(true);
     });
   });
 });

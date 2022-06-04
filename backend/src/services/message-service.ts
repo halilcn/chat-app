@@ -23,7 +23,7 @@ const updateAsReadMessages = async (friendId: ObjectId, userId: ObjectId, messag
   const messageModel = await Message.findOne({ friendId });
 
   messageModel.messages.map((message: any) => {
-    if (messageIds.includes(String(message._id))) message.readers.push(userId);
+    if (messageIds.some((id: any) => String(id) === String(message._id))) message.readers.push(userId);
 
     return message;
   });

@@ -60,7 +60,7 @@ describe('User Action', () => {
 
       await User.findOneAndUpdate({ _id: createdUser._id }, { tokens: [{ token }] });
 
-      //  await request(server).post('/api/v1/user-action/logout').set('Authorization', token).expect(200);
+      await request(server).post('/api/v1/user-action/logout').set('Authorization', token).expect(200);
     });
   });
 });

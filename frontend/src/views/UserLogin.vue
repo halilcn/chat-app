@@ -4,13 +4,13 @@
       <div class="title">Login</div>
       <div class="content">
         <div class="item">
-          <input v-model="user.username" type="text" placeholder="username" />
+          <input data-testid='username' v-model="user.username" type="text" placeholder="username" />
         </div>
         <div class="item">
-          <input v-model="user.password" type="password" placeholder="password" />
+          <input data-testid='password' v-model="user.password" type="password" placeholder="password" />
         </div>
         <div v-if="usernameOrPasswordWrong" class="error">Username or password wrong.</div>
-        <div class="action-button" :class="{ disable: isLoading || v$.user.$invalid }" @click="postLoginAction">login</div>
+        <div data-testid='loginButton' class="action-button" :class="{ disable: isLoading || v$.user.$invalid }" @click="postLoginAction">login</div>
         <router-link :to="{ name: 'Register' }" class="link"> register </router-link>
       </div>
     </div>

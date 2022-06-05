@@ -12,6 +12,6 @@ const app = createApp(App);
 dayjs.extend(relativeTime);
 
 app.config.globalProperties.$dayjs = dayjs;
-app.config.globalProperties.$socket = io(process.env.VUE_APP_BACKEND_URL, { transports: ['websocket'] });
+app.config.globalProperties.$socket = io(process.env.VUE_APP_BACKEND_URL as string, { transports: ['websocket'] });
 
 app.use(store).use(router).mount('#app');

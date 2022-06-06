@@ -4,16 +4,16 @@
       <div class="title">Register</div>
       <div class="content">
         <div class="item">
-          <input v-model="user.nameSurname" type="text" placeholder="name surname" />
+          <input data-testid='nameSurname' v-model="user.nameSurname" type="text" placeholder="name surname" />
         </div>
         <div class="item">
-          <input v-model="user.username" type="text" placeholder="username" />
+          <input data-testid='username' v-model="user.username" type="text" placeholder="username" />
         </div>
         <div class="item">
-          <input v-model="user.password" type="password" placeholder="password" />
+          <input data-testid='password' v-model="user.password" type="password" placeholder="password" />
         </div>
         <div v-if="false" class="error">yanlı alsdsakd aslda da</div>
-        <div @click="postRegisterAction" class="action-button" :class="{ disable: isLoading || v$.user.$invalid }">register</div>
+        <div data-testid='registerButton' @click="postRegisterAction" class="action-button" :class="{ disable: isLoading || v$.user.$invalid }">register</div>
         <router-link :to="{ name: 'Login' }" class="link"> login </router-link>
       </div>
     </div>

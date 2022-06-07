@@ -1,46 +1,34 @@
 import * as cypress from 'cypress';
-
-//import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
+import userRegisterElement from '../../../elements/user-register-element';
 
 describe('UserRegister', () => {
-  //todo:unit ve e2e dosyaların aynı satırda olması
-  //todo: tek render ile devam etme
   //todo: login olduysa store check etme
   //todo: validate olayları
   //todo: button click olayları
-  //todo: data-testid için function ?
-  //todo: data id her dosya export etse ?
   //todo: test'lerde local'de her zaman backend çalışmalı mı ?
+  //todo: api'ye post gidiyor ?
 
-  const nameSurnameElement = '[data-testid=nameSurname]';
-  const usernameElement = '[data-testid=username]';
-  const passwordElement = '[data-testid=password]';
-  const registerButtonElement = '[data-testid=registerButton]';
+  const nameSurname = 'a'; // faker.name.firstName();
+  const username = 'b'; //faker.internet.userName();
+  const password = 'c'; //faker.internet.password();
 
-  beforeEach(() => {
+  before(() => {
     cy.visit('/register');
   });
 
   it('form elements should be correct ', () => {
-    const nameSurname = 'a'; //faker.name.firstName();
-    const username = 'b'; //faker.internet.userName();
-    const password = 'c'; //faker.internet.password();
-
-    cy.get(nameSurnameElement).type(nameSurname).should('have.value', nameSurname);
-    cy.get(usernameElement).type(username).should('have.value', username);
-    cy.get(passwordElement).type(password).should('have.value', password);
-    cy.get(registerButtonElement).should('exist');
+    cy.get(userRegisterElement.nameSurname).type(nameSurname).should('have.value', nameSurname);
+    cy.get(userRegisterElement.username).type(username).should('have.value', username);
+    cy.get(userRegisterElement.password).type(password).should('have.value', password);
+    cy.get(userRegisterElement.registerButton).should('exist');
   });
 
-  it('localstorage should has user token', () => {
-    const nameSurname = 'a'; //faker.name.firstName();
-    const username = 'b'; //faker.internet.userName();
-    const password = 'c'; //faker.internet.password();
+  it('button should click', () => {
+    cy.get(userRegisterElement.registerButton).click();
+  });
 
-    cy.get(nameSurnameElement).type(nameSurname).get(usernameElement).type(username).get(passwordElement).type(password);
-
-    cy.get(registerButtonElement).click(); //todo: api'ye post gidiyor ?
-
-    expect(localStorage.getItem('user')).to.not.undefined; //todo: localStorage bakılcak mı?
+  it('localstorage should has user', () => {
+    cy.getLocalStorage('user').should('equal', 'true');
   });
 });

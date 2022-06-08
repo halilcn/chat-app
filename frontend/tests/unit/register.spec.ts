@@ -15,6 +15,6 @@ describe('Register', function () {
     const wrapper = mount(displayGreeting);
 
     expect(true).true;
-    expect(wrapper.find(userRegisterElement.nameSurnameElement).exists()).false;
+    expect(wrapper.find(userRegisterElement.nameSurname).exists()).false;
   });
 });

@@ -1,27 +1,35 @@
-import { shallowMount } from '@vue/test-utils';
-import { mount } from '@vue/test-utils';
+import { shallowMount, VueWrapper } from '@vue/test-utils';
+import { faker } from '@faker-js/faker';
 
 import UserRegister from '@/views/UserRegister.vue';
-
 import userRegisterElement from '../../elements/user-register-element';
 
-const displayGreeting = {
-  template: '<div>Hello, {{ name }}</div>',
-  data: () => ({ name: 'George' })
-};
-
-//todo: vue dosyalarıı import olmuyor ?
+//todo: loading disable olma test ?
 
 describe('UserRegister', function () {
-  it('deneme testi', function () {
-    const wrapper = mount(displayGreeting);
+  let wrapper: VueWrapper;
 
-    expect(wrapper.find(userRegisterElement.nameSurname).exists()).toEqual(false);
+  const renderComponent = () => {
+    wrapper = shallowMount(UserRegister);
+  };
+
+  it('button should be has the disable class when values of all items are empty', function () {
+    renderComponent();
+
+    wrapper.find(userRegisterElement.nameSurname).setValue('');
+    wrapper.find(userRegisterElement.username).setValue('');
+    wrapper.find(userRegisterElement.password).setValue('');
+
+    expect(wrapper.find(userRegisterElement.registerButton).classes('disable')).toEqual(true);
   });
 
-  it('deneme testi 2', function () {
-    const wrapper = shallowMount(UserRegister);
+  it('button should be has not the disable class when values of all items are fill', async () => {
+    renderComponent();
 
-    expect(wrapper.find(userRegisterElement.username).exists()).toEqual(true);
+    await wrapper.find(userRegisterElement.nameSurname).setValue(faker.name.firstName());
+    await wrapper.find(userRegisterElement.username).setValue(faker.internet.userName());
+    await wrapper.find(userRegisterElement.password).setValue(faker.internet.password());
+
+    expect(wrapper.find(userRegisterElement.registerButton).classes('disable')).toEqual(false);
   });
 });

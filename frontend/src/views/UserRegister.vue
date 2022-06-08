@@ -12,7 +12,6 @@
         <div class="item">
           <input data-testid="password" v-model="user.password" type="password" placeholder="password" />
         </div>
-        <div v-if="false" class="error">yanlı alsdsakd aslda da</div>
         <div
           data-testid="registerButton"
           @click="postRegisterAction"

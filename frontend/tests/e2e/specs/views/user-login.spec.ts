@@ -1,38 +1,32 @@
-import * as cypress from 'cypress';
-
-//import faker from '@faker-js/faker';
+import userLoginElement from '../../../elements/user-login-element';
 
 describe('UserLogin', () => {
-  //todo:unit ve e2e dosyaların aynı satırda olması
-  //todo: tek render ile devam etme
-  //todo: login olduysa store check etme
-  //todo: validate olayları
-  //todo: button click olayları
+  //todo: !
 
-  /* it('should be render', () => {
+  const username = 'halil'; //faker.internet.userName();
+  const password = 'halil'; //faker.internet.password();
+
+  before(() => {
     cy.visit('/login');
-  });*/
-
-  it('form check ', () => {
-    const username = '[data-testid=username]';
-    const password = '[data-testid=password]';
-
-    cy.visit('/login');
-
-    cy.get(username).type('test-fake').should('have.value', 'test-fake');
-    cy.get(password).type('test-fake').should('have.value', 'test-fake');
   });
 
-  it('login check ', () => {
-    const username = '[data-testid=username]';
-    const password = '[data-testid=password]';
-    const loginButton = '[data-testid=loginButton]';
+  it('form elements should be correct', () => {
+    cy.get(userLoginElement.username).type(username).should('have.value', username);
+    cy.get(userLoginElement.password).type(password).should('have.value', password);
+    cy.get(userLoginElement.loginButton).should('exist');
+  });
 
-    cy.visit('/login');
+  it('button should click', () => {
+    cy.get(userLoginElement.loginButton).click();
+  });
 
-    cy.get(username).type('test-fake').should('have.value', 'test-fake');
-    cy.get(password).type('test-fake').should('have.value', 'test-fake');
+  it('localstorage should has user', () => {
+    setTimeout(() => {
+      cy.getLocalStorage('user').should('equal', 'true');
+    }, 1000);
+  });
 
-    cy.get(loginButton).click()
+  it('url should redirect to dashboard', () => {
+    cy.url().should('contain', '/dashboard');
   });
 });

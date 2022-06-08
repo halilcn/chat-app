@@ -14,7 +14,6 @@ describe('Register', function () {
   it('deneme testi', function () {
     const wrapper = mount(displayGreeting);
 
-    expect(true).true;
-    expect(wrapper.find(userRegisterElement.nameSurname).exists()).false;
+    expect(wrapper.find(userRegisterElement.nameSurname).exists()).toEqual(false);
   });
 });

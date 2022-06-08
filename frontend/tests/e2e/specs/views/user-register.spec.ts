@@ -1,5 +1,3 @@
-import * as cypress from 'cypress';
-
 import userRegisterElement from '../../../elements/user-register-element';
 
 describe('UserRegister', () => {

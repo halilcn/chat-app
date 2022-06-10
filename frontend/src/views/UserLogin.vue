@@ -9,7 +9,7 @@
         <div class="item">
           <input data-testid="password" v-model="user.password" type="password" placeholder="password" />
         </div>
-        <div v-if="usernameOrPasswordWrong" class="error">Username or password wrong.</div>
+        <div data-testid="wrongError" v-if="usernameOrPasswordWrong" class="error">Username or password wrong.</div>
         <div data-testid="loginButton" class="action-button" :class="{ disable: isLoading || v$.user.$invalid }" @click="postLoginAction">
           login
         </div>
@@ -47,8 +47,8 @@ export default {
   },
   methods: {
     ...mapActions('auth', ['postLogin']),
-    postLoginAction() {
-      handler(
+    async postLoginAction() {
+      await handler(
         async () => {
           this.isLoading = true;
           await this.postLogin(this.user);

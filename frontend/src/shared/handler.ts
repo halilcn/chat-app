@@ -14,6 +14,7 @@ const handler: IHandler = async (
     await handle();
   } catch (err: unknown | AxiosError) {
     if (axios.isAxiosError(err) && err?.response && (await customCatch(err))) return;
+    console.log(err);
     alert('Upss... Something went wrong');
   }
 };

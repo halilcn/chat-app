@@ -1,6 +1,8 @@
+import returnElementWithPrefix from '../test-utils/returnElementWithPrefix';
+
 export default {
-  nameSurname: '[data-testid=nameSurname]',
-  username: '[data-testid=username]',
-  password: '[data-testid=password]',
-  registerButton: '[data-testid=registerButton]'
+  nameSurname: returnElementWithPrefix('nameSurname'),
+  username: returnElementWithPrefix('username'),
+  password: returnElementWithPrefix('password'),
+  registerButton: returnElementWithPrefix('registerButton')
 };

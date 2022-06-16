@@ -5,8 +5,6 @@ import UserRegister from '@/views/UserRegister.vue';
 import userRegisterElement from '../../../elements/user-register-element';
 import renderComponent from '../../test-utils/render-component';
 
-//todo: input hatalar ?
-
 describe('UserRegister', () => {
   let wrapper: VueWrapper;
 

@@ -16,7 +16,6 @@
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
     "dayjs": "^1.11.0",
-    "faker": "^6.6.6",
     "font-awesome": "^4.7.0",
     "socket.io-client": "^4.4.1",
     "vue": "^3.2.13",
@@ -25,7 +24,7 @@
     "vuex": "^4.0.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.1.0",
+    "@faker-js/faker": "^6.3.0",
     "@types/jest": "^28.1.1",
     "@types/sinon": "^10.0.11",
     "@typescript-eslint/eslint-plugin": "^5.4.0",

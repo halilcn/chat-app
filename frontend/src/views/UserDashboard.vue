@@ -2,8 +2,8 @@
   <transition-group name="effect">
     <loading-dashboard v-if="isLoading" key="loading" />
     <div v-if="!isLoading" key="dashboard" class="dashboard-container">
-      <left-side />
-      <main-content />
+      <left-side data-testid="leftSide" />
+      <main-content data-testid="mainContent" />
     </div>
   </transition-group>
 </template>

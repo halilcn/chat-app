@@ -1,6 +1,7 @@
-import userLoginElement from '../../../elements/user-login-element';
-
 import { faker } from '@faker-js/faker';
+
+import userLoginElement from '../../../elements/user-login-element';
+import testConfig from '../../../test-utils/test-config';
 
 describe('UserLogin', () => {
   const username = faker.internet.userName();
@@ -8,7 +9,7 @@ describe('UserLogin', () => {
   const nameSurname = faker.name.firstName();
 
   before(() => {
-    cy.request('POST', `${Cypress.env('apiUrlV1') + 'user-action/register'}`, {
+    cy.request('POST', `${testConfig.API_URL_V1 + 'user-action/register'}`, {
       username,
       nameSurname,
       password

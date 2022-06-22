@@ -1,40 +1,39 @@
 import { VueWrapper } from '@vue/test-utils';
-import io from 'socket.io-client';
 
 import UserDashboard from '@/views/UserDashboard.vue';
 import userDashboardElement from '../../../elements/user-dashboard-element';
 import renderComponent from '../../test-utils/render-component';
 import wait from '../../../test-utils/wait';
-import testConfig from '../../../test-utils/test-config';
 import store from '@/store';
+import fakeUser from '../../test-utils/fakeUser';
+import fakeSocket from '../../test-utils/fakeSocket';
 
 describe('UserDashboard', function () {
   let wrapper: VueWrapper;
 
-  const refreshComponent = () => {
-    //todo:register olup, login olacak. ardıdan vuex'e göndereceğiz
-    console.log(testConfig.API_URL_V1);
+  const refreshComponent = async () => {
+    const { user } = await fakeUser();
 
-    store.commit('auth/setUser', { _id: 'test' });
+    store.commit('auth/setUser', user);
 
     wrapper = renderComponent(UserDashboard, {
       global: {
         plugins: [store],
         mocks: {
-          $socket: io(testConfig.API_URL, { transports: ['websocket'] })
+          $socket: fakeSocket()
         }
       }
     });
   };
 
   it('should be loading when first render', async () => {
-    refreshComponent();
+    await refreshComponent();
 
     expect(wrapper.find(userDashboardElement.loading).exists()).toBeTruthy();
   });
 
   it('should be left side and main content after render component', async () => {
-    refreshComponent();
+    await refreshComponent();
 
     await wait(2000);
 

@@ -4,9 +4,9 @@ import store from '@/store';
 
 export default (component: any, options: object = {}): VueWrapper => {
   return shallowMount(component, {
-    ...options,
     global: {
       plugins: [store]
-    }
+    },
+    ...options
   });
 };

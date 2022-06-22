@@ -1,6 +1,6 @@
 <template>
   <transition-group name="effect">
-    <loading-dashboard v-if="isLoading" key="loading" />
+    <loading-dashboard data-testid="loading" v-if="isLoading" key="loading" />
     <div v-if="!isLoading" key="dashboard" class="dashboard-container">
       <left-side data-testid="leftSide" />
       <main-content data-testid="mainContent" />

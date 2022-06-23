@@ -1,9 +1,9 @@
 <template>
   <div class="left-side-container">
-    <user-settings />
-    <user-friends />
-    <top-side class="content" />
-    <user-list class="content" />
+    <user-settings data-testid="userSettings"/>
+    <user-friends data-testid="userFriends"/>
+    <top-side data-testid="topSide" class="content" />
+    <user-list data-testid="userList" class="content" />
   </div>
 </template>
 

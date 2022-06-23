@@ -1,11 +1,11 @@
 <template>
   <div class="top-side-container">
-    <div @click="toggleUserSettings" class="user">
+    <div data-testid="userSettingsButton" @click="toggleUserSettings" class="user">
       <img class="image" :src="convertPath(user.image)" />
-      <div class="name">{{ user.nameSurname }}</div>
+      <div data-testid="name" class="name">{{ user.nameSurname }}</div>
     </div>
     <div class="actions">
-      <i @click="toggleFriends" class="fa-solid fa-user-group item icon"></i>
+      <i data-testid="friendsButton" @click="toggleFriends" class="fa-solid fa-user-group item icon"></i>
       <i class="fa-solid fa-magnifying-glass item icon"></i>
     </div>
   </div>

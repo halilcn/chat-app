@@ -1,7 +1,7 @@
 import { VueWrapper } from '@vue/test-utils';
 
 import LoadingDashboard from '@/components/dashboard/others/LoadingDashboard.vue';
-import renderComponent from '../../test-utils/render-component';
+import renderComponent from '../../../../test-utils/render-component';
 
 describe('UserDashboard', function () {
   let wrapper: VueWrapper;

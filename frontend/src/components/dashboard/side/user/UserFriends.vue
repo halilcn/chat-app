@@ -1,7 +1,12 @@
 <template>
-  <left-side-with-animation class="user-friends-container" title="Friends" :toggle="toggleFriends" :enable="enableFriends">
+  <left-side-with-animation
+    data-testid="leftSide"
+    class="user-friends-container"
+    title="Friends"
+    :toggle="toggleFriends"
+    :enable="enableFriends">
     <div class="search">
-      <input v-model="searchUsername" placeholder="Search..." type="text" />
+      <input data-testid="searchUsername" v-model="searchUsername" placeholder="Search..." type="text" />
     </div>
     <div v-if="userList.length > 0" class="user-list">
       <div v-for="(friendUser, key) in userList" :key="key" :class="{ 'friend-item-wrapper': friendUser.isFriend }">

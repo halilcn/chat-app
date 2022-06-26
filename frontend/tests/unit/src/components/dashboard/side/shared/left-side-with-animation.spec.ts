@@ -5,8 +5,8 @@ import LeftSideWithAnimation from '@/components/dashboard/side/shared/LeftSideWi
 import fakeUser, { IUser } from '../../../../../test-utils/fake-user';
 import renderComponent from '../../../../../test-utils/render-component';
 import fakeSocket from '../../../../../test-utils/fake-socket';
-import leftSideWithAnimation from '../../../../../../elements/left-side-with-animation-element';
-import leftSideWithAnimationElement from '../../../../../../elements/left-side-with-animation-element';
+import leftSideWithAnimation from '../../../../../../elements/left-side-with-animation-elements';
+import leftSideWithAnimationElement from '../../../../../../elements/left-side-with-animation-elements';
 
 describe('LeftSideWithAnimation', function () {
   let wrapper: VueWrapper;

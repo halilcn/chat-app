@@ -23,7 +23,7 @@ export default async () => {
 
   return {
     token: loggedInUser.data.token,
-    user,
+    user: user.data.user,
     registerUser
   };
 };

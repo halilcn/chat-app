@@ -5,8 +5,8 @@ import userDashboardElement from '../../../elements/user-dashboard-element';
 import renderComponent from '../../test-utils/render-component';
 import wait from '../../../test-utils/wait';
 import store from '@/store';
-import fakeUser from '../../test-utils/fakeUser';
-import fakeSocket from '../../test-utils/fakeSocket';
+import fakeUser from '../../test-utils/fake-user';
+import fakeSocket from '../../test-utils/fake-socket';
 
 describe('UserDashboard', function () {
   let wrapper: VueWrapper;

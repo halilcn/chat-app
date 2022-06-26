@@ -1,11 +1,11 @@
 <template>
   <transition name="slide">
-    <div v-if="enable" class="left-side-animation-container">
+    <div data-testid="leftSideContainer" v-if="enable" class="left-side-animation-container">
       <div class="top">
-        <i @click="toggle" class="fa-solid fa-angle-left icon"></i>
-        <div class="title">{{ title }}</div>
+        <i data-testid="leftSideToggleButton" @click="toggle" class="fa-solid fa-angle-left icon"></i>
+        <div data-testid="title" class="title">{{ title }}</div>
       </div>
-      <div class="content">
+      <div data-testid="content" class="content">
         <slot />
       </div>
     </div>

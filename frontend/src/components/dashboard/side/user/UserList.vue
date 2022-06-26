@@ -1,7 +1,8 @@
 <template>
   <div class="user-list-container">
-    <div v-if="userListMessages.length > 0" class="list">
+    <div data-testid="userList" v-if="userListMessages.length > 0" class="list">
       <div
+        data-testid="userListItem"
         v-for="(message, index) in userListMessages"
         :key="index"
         @click="selectUserChat(message)"
@@ -19,7 +20,7 @@
         </div>
         <div class="other-info">
           <div class="time">{{ this.$dayjs(message.lastMessage.createdAt).format('hh:mm') }}</div>
-          <div v-if="userHasUnreadMessages(message.unReadMessagesCount)" class="total-unread-message">
+          <div data-testid="totalUnreadMessage" v-if="userHasUnreadMessages(message.unReadMessagesCount)" class="total-unread-message">
             {{ message.unReadMessagesCount }}
           </div>
         </div>

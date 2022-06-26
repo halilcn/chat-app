@@ -3,8 +3,21 @@ import { faker } from '@faker-js/faker';
 
 import testConfig from '../../test-utils/test-config';
 
+export interface IUser {
+  _id: string;
+  username: string;
+  nameSurname: string;
+  image: string;
+}
+
+export interface IRegisterUser {
+  username: string;
+  nameSurname: string;
+  password: string;
+}
+
 export default async () => {
-  const registerUser = {
+  const registerUser: IRegisterUser = {
     username: faker.internet.userName(),
     nameSurname: faker.name.firstName(),
     password: faker.internet.password()
@@ -23,7 +36,7 @@ export default async () => {
 
   return {
     token: loggedInUser.data.token,
-    user: user.data.user,
+    user: user.data.user as IUser,
     registerUser
   };
 };

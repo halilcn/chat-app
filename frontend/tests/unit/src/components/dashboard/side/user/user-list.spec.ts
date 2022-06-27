@@ -1,6 +1,7 @@
 import { VueWrapper } from '@vue/test-utils';
 import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
+import axios from 'axios';
 
 import store from '@/store';
 import UserList from '@/components/dashboard/side/user/UserList.vue';
@@ -17,6 +18,7 @@ describe('UserList', function () {
     const createdFakeUser = await fakeUser();
     user = createdFakeUser.user;
 
+    axios.defaults.headers.common['Authorization'] = user.token;
     store.commit('auth/setUser', user);
 
     wrapper = renderComponent(UserList, {
@@ -34,37 +36,6 @@ describe('UserList', function () {
     await refreshComponent();
 
     expect(wrapper).toBeTruthy();
-  });
-
-  describe('user list element', () => {
-    it('should be enable when user list on store has a message', async () => {
-      const userListMessages = [
-        {
-          user: {
-            _id: faker.datatype.uuid(),
-            image: faker.image.imageUrl(),
-            nameSurname: faker.name.firstName()
-          },
-          lastMessage: {
-            content: faker.lorem.text(),
-            createdAt: faker.date.past()
-          },
-          unReadMessagesCount: 0
-        }
-      ];
-
-      store.commit('message/setUserListMessages', userListMessages);
-
-      await refreshComponent();
-
-      expect(wrapper.find(userListElements.userList).exists()).toBeTruthy();
-    });
-
-    it('should not be enable when user list on store has not any messages', async () => {
-      await refreshComponent();
-
-      expect(wrapper.find(userListElements.userList).exists()).not.toBeTruthy();
-    });
   });
 
   describe('length of list item', () => {

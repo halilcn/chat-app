@@ -8,6 +8,7 @@ export interface IUser {
   username: string;
   nameSurname: string;
   image: string;
+  token: string;
 }
 
 export interface IRegisterUser {
@@ -35,8 +36,7 @@ export default async () => {
   const user = (await axios.get(`${testConfig.API_URL_V1}user-settings`, { headers: { Authorization: loggedInUser.data.token } })).data;
 
   return {
-    token: loggedInUser.data.token,
-    user: user.data.user as IUser,
+    user: { ...user.data.user, token: loggedInUser.data.token },
     registerUser
   };
 };

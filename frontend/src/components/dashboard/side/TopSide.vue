@@ -21,6 +21,8 @@ export default {
     ...mapMutations('userSetting', ['toggleUserSettings']),
     ...mapMutations('friend', ['toggleFriends']),
     convertPath(path) {
+      if (helpers.isRemoteServerUrl(path)) return path;
+
       return helpers.convertToFullBackendPath(path);
     }
   },

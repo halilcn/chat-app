@@ -58,6 +58,8 @@ export default {
       return this.activeUserIds.includes(userId);
     },
     convertPath(path) {
+      if (helpers.isRemoteServerUrl(path)) return path;
+
       return helpers.convertToFullBackendPath(path);
     },
     findActiveUserIds() {

@@ -99,7 +99,12 @@ export default {
     ...mapState('auth', ['user']),
     ...mapState('userSetting', ['enableUserSettings']),
     userImage() {
-      return this.temporaryUserImageUrl ? this.temporaryUserImageUrl : helpers.convertToFullBackendPath(this.user.image);
+      const imagePath = this.user.image;
+
+      if (this.temporaryUserImageUrl) return this.temporaryUserImageUrl;
+      if (helpers.isRemoteServerUrl(imagePath)) return imagePath;
+
+      return helpers.convertToFullBackendPath(imagePath);
     }
   }
 };

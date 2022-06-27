@@ -61,7 +61,9 @@ export default {
         socketActions.deleteMessage(this.$socket, { friendUserId: this.selectedUserId, userId: this.user._id });
       });
     },
-    convertPath(path) {
+    convertPath(path = '') {
+      if (helpers.isRemoteServerUrl(path)) return path;
+
       return helpers.convertToFullBackendPath(path);
     },
     findUserFromActiveUsers() {

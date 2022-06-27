@@ -86,6 +86,8 @@ export default {
       this.setSelectedChatFriendId(friendUser.friendId);
     },
     convertPath(path) {
+      if (helpers.isRemoteServerUrl(path)) return path;
+
       return helpers.convertToFullBackendPath(path);
     }
   },

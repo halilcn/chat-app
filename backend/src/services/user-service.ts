@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
+import { ObjectId } from 'mongoose';
 
 import User from '@models/user-model';
-import { ObjectId } from 'mongoose';
 
 const createUser = async (user: object): Promise<void> => {
   await User.create(user);

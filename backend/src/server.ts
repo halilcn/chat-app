@@ -11,7 +11,7 @@ const app = express();
 app.use('/public', express.static('public'));
 
 //Middlewares
-require('@middlewares/index.ts')(app);
+require('@middlewares/server-middleware.ts')(app);
 
 //Routes
 app.use('/api', routes);

@@ -1,6 +1,6 @@
 {
-  "name": "backend",
-  "version": "0.0.0",
+  "name": "chat-app-backend",
+  "version": "1.0.0",
   "scripts": {
     "build": "./node_modules/.bin/ts-node build.ts",
     "lint": "eslint . --ext .ts",
@@ -17,11 +17,6 @@
     "@validations": "dist/validations"
   },
   "dependencies": {
-    "@jest/types": "^28.1.0",
-    "@types/bcrypt": "^5.0.0",
-    "@types/jest": "^27.5.1",
-    "@types/jsonwebtoken": "^8.5.8",
-    "@types/multer": "^1.4.7",
     "bcrypt": "^5.0.1",
     "command-line-args": "^5.2.1",
     "cookie-parser": "^1.4.6",
@@ -54,6 +49,11 @@
     "@types/morgan": "^1.9.3",
     "@types/node": "^17.0.21",
     "@types/supertest": "^2.0.12",
+    "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/multer": "^1.4.7",
+    "@jest/types": "^28.1.0",
+    "@types/jest": "^27.5.1",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "cross-env": "^7.0.3",

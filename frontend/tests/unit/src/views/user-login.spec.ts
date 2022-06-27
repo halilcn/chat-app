@@ -4,11 +4,12 @@ import { faker } from '@faker-js/faker';
 import UserLogin from '@/views/UserLogin.vue';
 import userLoginElement from '../../../elements/user-login-element';
 import renderComponent from '../../test-utils/render-component';
+import wait from '../../../test-utils/wait';
 
 describe('UserLogin', function () {
   let wrapper: VueWrapper;
 
-  const refreshComponent =  () => {
+  const refreshComponent = () => {
     wrapper = renderComponent(UserLogin);
   };
 
@@ -38,9 +39,8 @@ describe('UserLogin', function () {
 
     await wrapper.find(userLoginElement.loginButton).trigger('click');
 
-    //todo:setTimeout ?
-    setTimeout(() => {
-      expect(wrapper.find(userLoginElement.wrongError).exists()).toEqual(true);
-    }, 1000);
+    await wait(1500);
+
+    expect(wrapper.find(userLoginElement.wrongError).exists()).toEqual(true);
   });
 });

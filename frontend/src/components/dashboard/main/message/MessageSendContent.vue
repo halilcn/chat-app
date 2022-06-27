@@ -61,6 +61,8 @@ export default {
     selectEmoji(emoji) {
       this.message.content += emoji;
       this.selectTextMessageType();
+
+      this.$refs.messageInput.focus();
     },
     async sendMessage() {
       await handler(async () => {

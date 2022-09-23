@@ -1,10 +1,10 @@
 import { Express } from 'express';
 import { Socket } from 'socket.io';
+import { ObjectId } from 'mongoose';
+import dayjs, { Dayjs } from 'dayjs';
 
 import socketChannels from './constants/socket-channels';
-import dayjs, { Dayjs } from 'dayjs';
 import UserSettingService from '@services/user-setting-service';
-import { ObjectId } from 'mongoose';
 
 interface IUser {
   socketId: string;

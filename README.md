@@ -11,6 +11,6 @@ Everyone can add as a friend each other, send a text message and an image.
 
 ## Image
 
-<div align="center">
+<div>
 <img src="./images/chat.png" align="center" alt="Chat Image">
 </div>
